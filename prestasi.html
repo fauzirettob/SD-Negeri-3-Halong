@@ -807,7 +807,7 @@
         if (!a._admin && b._admin) return 1;
         var yd = parseInt(b.date || 0) - parseInt(a.date || 0);
         if (yd !== 0) return yd;
-        return (b._sortKey || 0) - (a._sortKey || 0);
+        return (a._sortKey || 0) - (b._sortKey || 0);
       });
 
       // Stats (hitung semua data)
