@@ -656,7 +656,7 @@
   <script src="script.js"></script>
   <script>
     // ==========================================
-    // KONFIGURASI & DATA
+    // KONFIGURASI
     // ==========================================
     var STORAGE_KEY = 'sdN3Halong_prestasi_admin';
     var CATEGORY_COLORS = {
@@ -665,331 +665,221 @@
       'Non-Akademik': { icon: 'fa-palette', gradient: 'linear-gradient(135deg,#4facfe,#00f2fe)', medal: '🎨' },
       Penghargaan: { icon: 'fa-award', gradient: 'linear-gradient(135deg,#43e97b,#38f9d7)', medal: '🏆' }
     };
-    
-    // Data statis cadangan (27 item) — dipakai jika fetch JSON gagal
-    var FALLBACK_DATA = [
-      { id: 1, title: "Juara 1 Olimpiade Sains Tingkat Kota", image: "img/IMG-20260706-WA0096.jpg", category: "Akademik", date: "2026", description: "Siswa SD Negeri 3 Halong meraih juara 1 Olimpiade Sains tingkat Kota Banjarmasin" },
-      { id: 2, title: "Juara 2 Sepak Bola Antar Sekolah", image: "img/IMG-20260706-WA0097.jpg", category: "Olahraga", date: "2026", description: "Tim sepak bola SD Negeri 3 Halong meraih juara 2 dalam turnamen antar sekolah se-Kota Banjarmasin" },
-      { id: 3, title: "Juara 1 Pidato Bahasa Indonesia", image: "img/IMG-20260706-WA0098.jpg", category: "Non-Akademik", date: "2025", description: "Siswa SD Negeri 3 Halong meraih juara 1 lomba pidato Bahasa Indonesia tingkat kabupaten" },
-      { id: 4, title: "Penghargaan Sekolah Adiwiyata", image: "img/IMG-20260706-WA0099.jpg", category: "Penghargaan", date: "2025", description: "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Adiwiyata" },
-      { id: 5, title: "Juara 3 Lomba Mewarnai Tingkat Provinsi", image: "img/IMG-20260706-WA0100.jpg", category: "Non-Akademik", date: "2025", description: "Siswa kelas 1 meraih juara 3 lomba mewarnai tingkat Provinsi" },
-      { id: 6, title: "Medali Emas OSN Matematika", image: "img/IMG-20260706-WA0101.jpg", category: "Akademik", date: "2024", description: "Meraih medali emas OSN Matematika tingkat kota" },
-      { id: 7, title: "Juara 3 Lomba Kaligrafi Tingkat Kota", image: "img/IMG-20260706-WA0102.jpg", category: "Non-Akademik", date: "2024", description: "Siswi meraih juara 3 lomba kaligrafi tingkat Kota Banjarmasin" },
-      { id: 8, title: "Penghargaan Sekolah Sehat Tingkat Provinsi", image: "img/IMG-20260706-WA0103.jpg", category: "Penghargaan", date: "2024", description: "SD Negeri 3 Halong menerima penghargaan Sekolah Sehat tingkat Provinsi" },
-      { id: 9, title: "Juara 1 Lomba Baca Puisi Tingkat Kota", image: "img/IMG-20260706-WA0104.jpg", category: "Non-Akademik", date: "2024", description: "Siswi meraih juara 1 lomba baca puisi tingkat Kota Banjarmasin" },
-      { id: 10, title: "Juara 2 Cerdas Cermat Tingkat Kecamatan", image: "img/IMG-20260706-WA0105.jpg", category: "Akademik", date: "2024", description: "Tim cerdas cermat meraih juara 2 tingkat Kecamatan Halong" },
-      { id: 11, title: "Juara 3 Lomba Menggambar Tingkat Provinsi", image: "img/IMG-20260706-WA0106.jpg", category: "Non-Akademik", date: "2023", description: "Siswa meraih juara 3 lomba menggambar tingkat Provinsi" },
-      { id: 12, title: "Penghargaan Sekolah Ramah Anak", image: "img/IMG-20260706-WA0107.jpg", category: "Penghargaan", date: "2023", description: "SD Negeri 3 Halong menerima penghargaan Sekolah Ramah Anak" },
-      { id: 13, title: "Juara 1 Lomba Tari Tradisional Tingkat Kota", image: "img/IMG-20260706-WA0108.jpg", category: "Non-Akademik", date: "2026", description: "Siswi meraih juara 1 lomba tari tradisional tingkat Kota Banjarmasin" },
-      { id: 14, title: "Juara 2 Pramuka Tingkat Kecamatan", image: "img/IMG-20260706-WA0109.jpg", category: "Non-Akademik", date: "2026", description: "Regu Pramuka meraih juara 2 lomba pramuka" },
-      { id: 15, title: "Juara Harapan 1 Olimpiade IPA Tingkat Provinsi", image: "img/IMG-20260706-WA0110.jpg", category: "Akademik", date: "2026", description: "Meraih juara harapan 1 Olimpiade IPA tingkat Provinsi" },
-      { id: 16, title: "Penghargaan Sekolah Inklusi Terbaik", image: "img/IMG-20260706-WA0111.jpg", category: "Penghargaan", date: "2026", description: "SD Negeri 3 Halong sebagai Sekolah Inklusi Terbaik" },
-      { id: 17, title: "Juara 1 Lomba Cipta Puisi Tingkat Provinsi", image: "img/IMG-20260706-WA0112.jpg", category: "Non-Akademik", date: "2026", description: "Siswi meraih juara 1 cipta puisi tingkat Provinsi" },
-      { id: 18, title: "Juara 2 Tenis Meja Tingkat Kota", image: "img/IMG-20260706-WA0113.jpg", category: "Olahraga", date: "2026", description: "Siswa meraih juara 2 tenis meja O2SN" },
-      { id: 19, title: "Juara Harapan 1 Olimpiade Matematika", image: "img/IMG-20260706-WA0114.jpg", category: "Akademik", date: "2025", description: "Meraih juara harapan 1 Olimpiade Matematika tingkat Provinsi" },
-      { id: 20, title: "Penghargaan Sekolah Adiwiyata Mandiri", image: "img/IMG-20260706-WA0115.jpg", category: "Penghargaan", date: "2025", description: "Penghargaan Adiwiyata Mandiri dari Kementerian LH" },
-      { id: 21, title: "Juara 1 Lomba MTQ Tingkat Kecamatan", image: "img/IMG-20260706-WA0120.jpg", category: "Non-Akademik", date: "2026", description: "Meraih juara 1 MTQ tingkat Kecamatan" },
-      { id: 22, title: "Juara 3 Bulu Tangkis Tingkat Kota", image: "img/IMG-20260706-WA0121.jpg", category: "Olahraga", date: "2026", description: "Meraih juara 3 bulu tangkis O2SN" },
-      { id: 23, title: "Juara 2 Pidato Bahasa Inggris", image: "img/IMG-20260706-WA0122.jpg", category: "Non-Akademik", date: "2025", description: "Meraih juara 2 pidato Bahasa Inggris" },
-      { id: 24, title: "Penghargaan Sekolah Bebas Narkoba", image: "img/IMG-20260706-WA0123.jpg", category: "Penghargaan", date: "2025", description: "Penghargaan Sekolah Bebas Narkoba" },
-      { id: 25, title: "Juara 1 Lomba PBB Tingkat Kota", image: "img/IMG-20260706-WA0124.jpg", category: "Non-Akademik", date: "2026", description: "Regu PBB meraih juara 1 PBB tingkat Kota" },
-      { id: 26, title: "Juara Harapan 1 Karya Ilmiah Remaja", image: "img/IMG-20260706-WA0125.jpg", category: "Akademik", date: "2026", description: "Meraih juara harapan 1 KIR tingkat Provinsi" },
-      { id: 27, title: "Juara 2 Fashion Show Tingkat Kota", image: "img/IMG-20260706-WA0126.jpg", category: "Non-Akademik", date: "2026", description: "Meraih juara 2 fashion show pakaian adat" }
+    var currentFilter = 'all';
+
+    // ==========================================
+    // DATA STATIS (27 item - inline, NO async fetch)
+    //   ✓ Dibaca sinkron dari array — dijamin muncul
+    // ==========================================
+    var STATIC_DATA = [
+      { id:1,  title:"Juara 1 Olimpiade Sains Tingkat Kota",           image:"img/IMG-20260706-WA0096.jpg",  category:"Akademik",     date:"2026", description:"Siswa SD Negeri 3 Halong meraih juara 1 Olimpiade Sains tingkat Kota Banjarmasin" },
+      { id:2,  title:"Juara 2 Sepak Bola Antar Sekolah",               image:"img/IMG-20260706-WA0097.jpg",  category:"Olahraga",    date:"2026", description:"Tim sepak bola SD Negeri 3 Halong meraih juara 2 dalam turnamen antar sekolah se-Kota Banjarmasin" },
+      { id:3,  title:"Juara 1 Pidato Bahasa Indonesia",               image:"img/IMG-20260706-WA0098.jpg",  category:"Non-Akademik",date:"2025", description:"Siswa SD Negeri 3 Halong meraih juara 1 lomba pidato Bahasa Indonesia tingkat kabupaten" },
+      { id:4,  title:"Penghargaan Sekolah Adiwiyata",                  image:"img/IMG-20260706-WA0099.jpg",  category:"Penghargaan", date:"2025", description:"SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Adiwiyata" },
+      { id:5,  title:"Juara 3 Lomba Mewarnai Tingkat Provinsi",        image:"img/IMG-20260706-WA0100.jpg",  category:"Non-Akademik",date:"2025", description:"Siswa kelas 1 meraih juara 3 lomba mewarnai tingkat Provinsi" },
+      { id:6,  title:"Medali Emas OSN Matematika",                     image:"img/IMG-20260706-WA0101.jpg",  category:"Akademik",     date:"2024", description:"Meraih medali emas OSN Matematika tingkat kota" },
+      { id:7,  title:"Juara 3 Lomba Kaligrafi Tingkat Kota",           image:"img/IMG-20260706-WA0102.jpg",  category:"Non-Akademik",date:"2024", description:"Siswi meraih juara 3 lomba kaligrafi tingkat Kota Banjarmasin" },
+      { id:8,  title:"Penghargaan Sekolah Sehat Tingkat Provinsi",     image:"img/IMG-20260706-WA0103.jpg",  category:"Penghargaan", date:"2024", description:"SD Negeri 3 Halong menerima penghargaan Sekolah Sehat tingkat Provinsi" },
+      { id:9,  title:"Juara 1 Lomba Baca Puisi Tingkat Kota",          image:"img/IMG-20260706-WA0104.jpg",  category:"Non-Akademik",date:"2024", description:"Siswi meraih juara 1 lomba baca puisi tingkat Kota Banjarmasin" },
+      { id:10, title:"Juara 2 Cerdas Cermat Tingkat Kecamatan",        image:"img/IMG-20260706-WA0105.jpg",  category:"Akademik",     date:"2024", description:"Tim cerdas cermat meraih juara 2 tingkat Kecamatan Halong" },
+      { id:11, title:"Juara 3 Lomba Menggambar Tingkat Provinsi",      image:"img/IMG-20260706-WA0106.jpg",  category:"Non-Akademik",date:"2023", description:"Siswa meraih juara 3 lomba menggambar tingkat Provinsi" },
+      { id:12, title:"Penghargaan Sekolah Ramah Anak",                 image:"img/IMG-20260706-WA0107.jpg",  category:"Penghargaan", date:"2023", description:"SD Negeri 3 Halong menerima penghargaan Sekolah Ramah Anak" },
+      { id:13, title:"Juara 1 Lomba Tari Tradisional Tingkat Kota",    image:"img/IMG-20260706-WA0108.jpg",  category:"Non-Akademik",date:"2026", description:"Siswi meraih juara 1 lomba tari tradisional tingkat Kota Banjarmasin" },
+      { id:14, title:"Juara 2 Pramuka Tingkat Kecamatan",             image:"img/IMG-20260706-WA0109.jpg",  category:"Non-Akademik",date:"2026", description:"Regu Pramuka meraih juara 2 lomba pramuka" },
+      { id:15, title:"Juara Harapan 1 Olimpiade IPA Tingkat Provinsi", image:"img/IMG-20260706-WA0110.jpg", category:"Akademik",     date:"2026", description:"Meraih juara harapan 1 Olimpiade IPA tingkat Provinsi" },
+      { id:16, title:"Penghargaan Sekolah Inklusi Terbaik",            image:"img/IMG-20260706-WA0111.jpg", category:"Penghargaan", date:"2026", description:"SD Negeri 3 Halong sebagai Sekolah Inklusi Terbaik" },
+      { id:17, title:"Juara 1 Lomba Cipta Puisi Tingkat Provinsi",    image:"img/IMG-20260706-WA0112.jpg", category:"Non-Akademik",date:"2026", description:"Siswi meraih juara 1 cipta puisi tingkat Provinsi" },
+      { id:18, title:"Juara 2 Tenis Meja Tingkat Kota",                image:"img/IMG-20260706-WA0113.jpg", category:"Olahraga",    date:"2026", description:"Siswa meraih juara 2 tenis meja O2SN" },
+      { id:19, title:"Juara Harapan 1 Olimpiade Matematika",           image:"img/IMG-20260706-WA0114.jpg", category:"Akademik",     date:"2025", description:"Meraih juara harapan 1 Olimpiade Matematika tingkat Provinsi" },
+      { id:20, title:"Penghargaan Sekolah Adiwiyata Mandiri",          image:"img/IMG-20260706-WA0115.jpg", category:"Penghargaan", date:"2025", description:"Penghargaan Adiwiyata Mandiri dari Kementerian LH" },
+      { id:21, title:"Juara 1 Lomba MTQ Tingkat Kecamatan",           image:"img/IMG-20260706-WA0120.jpg",  category:"Non-Akademik",date:"2026", description:"Meraih juara 1 MTQ tingkat Kecamatan" },
+      { id:22, title:"Juara 3 Bulu Tangkis Tingkat Kota",              image:"img/IMG-20260706-WA0121.jpg", category:"Olahraga",    date:"2026", description:"Meraih juara 3 bulu tangkis O2SN" },
+      { id:23, title:"Juara 2 Pidato Bahasa Inggris",                  image:"img/IMG-20260706-WA0122.jpg", category:"Non-Akademik",date:"2025", description:"Meraih juara 2 pidato Bahasa Inggris" },
+      { id:24, title:"Penghargaan Sekolah Bebas Narkoba",              image:"img/IMG-20260706-WA0123.jpg", category:"Penghargaan", date:"2025", description:"Penghargaan Sekolah Bebas Narkoba" },
+      { id:25, title:"Juara 1 Lomba PBB Tingkat Kota",               image:"img/IMG-20260706-WA0124.jpg",  category:"Non-Akademik",date:"2026", description:"Regu PBB meraih juara 1 PBB tingkat Kota" },
+      { id:26, title:"Juara Harapan 1 Karya Ilmiah Remaja",           image:"img/IMG-20260706-WA0125.jpg", category:"Akademik",     date:"2026", description:"Meraih juara harapan 1 KIR tingkat Provinsi" },
+      { id:27, title:"Juara 2 Fashion Show Tingkat Kota",              image:"img/IMG-20260706-WA0126.jpg", category:"Non-Akademik",date:"2026", description:"Meraih juara 2 fashion show pakaian adat" }
     ];
 
     // ==========================================
-    // STATE
+    // BACA DATA ADMIN dari localStorage + window.name
+    //   (synchronous — langsung render)
     // ==========================================
-    var currentFilter = 'all';
-    var windowNameData = [];
-    var staticData = [];       // akan diisi dari JSON atau fallback
-    var dataReady = false;
-
-    // ==========================================
-    // AMBIL DATA STATIS (dari prestasi.json)
-    // ==========================================
-    function loadStaticData(callback) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'prestasi.json', true);
-      xhr.onload = function () {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          try {
-            var json = JSON.parse(xhr.responseText);
-            if (json && json.length) {
-              console.log('[Prestasi] Loaded', json.length, 'items from prestasi.json');
-              staticData = json;
-              if (callback) callback(true);
-              return;
-            }
-          } catch (e) {}
-        }
-        // Fallback ke data hardcoded
-        console.log('[Prestasi] JSON gagal, pakai fallback data');
-        staticData = FALLBACK_DATA;
-        if (callback) callback(false);
-      };
-      xhr.onerror = function () {
-        console.log('[Prestasi] Fetch error, pakai fallback data');
-        staticData = FALLBACK_DATA;
-        if (callback) callback(false);
-      };
-      xhr.send();
-    }
-
-    // ==========================================
-    // WINDOW.NAME BRIDGE
-    // ==========================================
-    try {
-      if (window.name && window.name.startsWith('__prestasi_data__')) {
-        windowNameData = JSON.parse(window.name.substring('__prestasi_data__'.length));
-        window.name = '';  // reset
-        console.log('[Prestasi] Loaded', windowNameData.length, 'items from window.name bridge');
-      }
-    } catch (e) {}
-
-    // ==========================================
-    // AMBIL SEMUA DATA (admin + static)
-    // ==========================================
-    function getAllPrestasi() {
-      // 1) Admin dari localStorage
+    function getAdminData() {
       var adminData = [];
+
+      // 1) Coba localStorage dulu
       try {
         var raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           adminData = JSON.parse(raw);
-          if (adminData.length) console.log('[Prestasi] Loaded', adminData.length, 'admin items from localStorage');
         }
-      } catch (e) {
-        console.warn('[Prestasi] localStorage read error:', e.message);
+      } catch(e) {}
+
+      // 2) Fallback ke window.name (bridge dari admin)
+      if (!adminData.length) {
+        try {
+          if (window.name && window.name.indexOf('__prestasi_data__') === 0) {
+            adminData = JSON.parse(window.name.substring('__prestasi_data__'.length));
+            window.name = '';
+          }
+        } catch(e) {}
       }
 
-      // 2) Jika localStorage kosong, coba window.name bridge
-      if (!adminData.length && windowNameData.length) {
-        adminData = windowNameData;
-      }
+      return adminData;
+    }
 
-      // 3) Map admin → format internal
-      var adminMapped = [];
-      for (var i = 0; i < adminData.length; i++) {
-        var a = adminData[i];
-        adminMapped.push({
-          id: a.id || 'admin_' + i,
+    // ==========================================
+    // GABUNG SEMUA DATA
+    // ==========================================
+    function getAllItems() {
+      // Admin items
+      var adminRaw = getAdminData();
+      var adminItems = [];
+      for (var i = 0; i < adminRaw.length; i++) {
+        var a = adminRaw[i];
+        adminItems.push({
+          id: a.id || 'a_' + i,
           title: a.title || 'Prestasi',
           image: a.dataUrl || '',
           category: a.category || 'Penghargaan',
           date: a.date || '2026',
           description: a.description || '',
           _admin: true,
-          _sortKey: Date.now() - new Date(a.createdAt || Date.now()).getTime()
+          _sortKey: Date.now() - (a.createdAt ? new Date(a.createdAt).getTime() : Date.now())
         });
       }
 
-      // 4) Map static data
-      var staticMapped = [];
-      for (var j = 0; j < staticData.length; j++) {
-        var s = staticData[j];
-        staticMapped.push({
-          id: s.id || 'static_' + j,
-          title: s.title || 'Prestasi',
-          image: s.image || '',
-          category: s.category || 'Penghargaan',
-          date: s.date || '2026',
-          description: s.description || '',
+      // Static items
+      var staticItems = [];
+      for (var j = 0; j < STATIC_DATA.length; j++) {
+        var s = STATIC_DATA[j];
+        staticItems.push({
+          id: s.id,
+          title: s.title,
+          image: s.image,
+          category: s.category,
+          date: s.date,
+          description: s.description,
           _admin: false,
-          _sortKey: j
+          _sortKey: 99999 + j  // static items selalu di bawah admin items
         });
       }
 
-      return adminMapped.concat(staticMapped);
+      return adminItems.concat(staticItems);
     }
 
     // ==========================================
-    // RENDER SATU KARTU PRESTASI
+    // BUILD CARD
     // ==========================================
     function buildCard(p) {
-      var colors = CATEGORY_COLORS[p.category] || CATEGORY_COLORS['Akademik'];
+      var clr = CATEGORY_COLORS[p.category] || CATEGORY_COLORS['Akademik'];
+      var hasImg = p.image && (p.image.indexOf('data:')===0 || p.image.indexOf('http')===0 || p.image.indexOf('img/')===0);
       
-      // Cek apakah gambar valid
-      var hasImage = p.image && (
-        p.image.indexOf('data:') === 0 ||
-        p.image.indexOf('http') === 0 ||
-        p.image.indexOf('img/') === 0 ||
-        p.image.indexOf('./') === 0 ||
-        p.image.indexOf('/') === 0
-      );
-      
-      // Tentukan emoji peringkat
-      var rankEmoji = colors.medal;
-      var titleLow = (p.title || '').toLowerCase();
-      if (titleLow.indexOf('juara 1') >= 0 || titleLow.indexOf('medali emas') >= 0) rankEmoji = '🥇';
-      else if (titleLow.indexOf('juara 2') >= 0 || titleLow.indexOf('medali perak') >= 0) rankEmoji = '🥈';
-      else if (titleLow.indexOf('juara 3') >= 0 || titleLow.indexOf('juara harapan') >= 0) rankEmoji = '🥉';
-      else if (titleLow.indexOf('penghargaan') >= 0) rankEmoji = '🏆';
+      var rnk = clr.medal;
+      var t = (p.title||'').toLowerCase();
+      if (t.indexOf('juara 1')>=0||t.indexOf('medali emas')>=0) rnk='🥇';
+      else if(t.indexOf('juara 2')>=0||t.indexOf('medali perak')>=0) rnk='🥈';
+      else if(t.indexOf('juara 3')>=0||t.indexOf('juara harapan')>=0) rnk='🥉';
+      else if(t.indexOf('penghargaan')>=0) rnk='🏆';
 
-      var safeTitle = (p.title || '').replace(/"/g, '&quot;');
-      var safeDesc = (p.description || '').replace(/"/g, '&quot;');
-      var gradientHex = '#2563eb';
-      try {
-        var gMatch = colors.gradient.match(/#[0-9a-f]{6}/g);
-        if (gMatch && gMatch[0]) gradientHex = gMatch[0];
-      } catch(e) {}
+      var st=(p.title||'').replace(/"/g,'&quot;'), sd=(p.description||'').replace(/"/g,'&quot;');
+      var hex='#2563eb'; try{var m=clr.gradient.match(/#[0-9a-f]{6}/g);if(m&&m[0])hex=m[0];}catch(e){}
+      var img=hasImg?'<img src="'+p.image+'" alt="'+st+'" loading="lazy" onerror="this.style.display=\'none\'">':'';
+      var badge=p._admin?'<span style="position:absolute;top:8px;left:8px;z-index:3;background:rgba(16,185,129,.92);color:#fff;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;display:inline-flex;align-items:center;gap:3px;"><i class="fas fa-cloud-upload-alt"></i> Admin</span>':'';
 
-      // Image HTML
-      var imageHtml = '';
-      if (hasImage) {
-        imageHtml = '<img src="' + p.image + '" alt="' + safeTitle + '" loading="lazy" onerror="this.style.display=\'none\'">';
-      }
-
-      // Admin badge
-      var adminBadge = p._admin
-        ? '<span style="position:absolute;top:8px;left:8px;z-index:3;background:rgba(16,185,129,.92);color:#fff;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;display:inline-flex;align-items:center;gap:3px;"><i class="fas fa-cloud-upload-alt" style="font-size:.6rem;"></i> Admin</span>'
-        : '';
-
-      return [
-        '<div class="prestasi-card animate-on-scroll">',
-          '<div class="prestasi-card-image" style="background:' + (hasImage ? 'var(--bg-alt)' : colors.gradient) + '">',
-            adminBadge,
-            imageHtml,
-            '<div class="prestasi-medal-overlay" style="background:' + colors.gradient + '">' + rankEmoji + '</div>',
-            '<span class="prestasi-category-badge" style="background:rgba(255,255,255,.92);color:' + gradientHex + ';">',
-              '<i class="fas ' + colors.icon + '"></i> ' + p.category,
-            '</span>',
-          '</div>',
-          '<div class="prestasi-card-body">',
-            '<div class="prestasi-year"><i class="far fa-calendar-alt"></i> ' + (p.date || '-') + '</div>',
-            '<h3>' + p.title + '</h3>',
-            '<p>' + (p.description || '') + '</p>',
-          '</div>',
-          '<div class="prestasi-card-footer">',
-            '<span class="prestasi-rank">' + rankEmoji + ' Prestasi</span>',
-            '<span class="prestasi-detail-btn" data-title="' + safeTitle + '" data-desc="' + safeDesc + '">Detail <i class="fas fa-arrow-right"></i></span>',
-          '</div>',
-        '</div>'
-      ].join('');
+      return '<div class="prestasi-card animate-on-scroll">'
+        +'<div class="prestasi-card-image" style="background:'+(hasImg?'var(--bg-alt)':clr.gradient)+'">'
+        +badge+img
+        +'<div class="prestasi-medal-overlay" style="background:'+clr.gradient+'">'+rnk+'</div>'
+        +'<span class="prestasi-category-badge" style="background:rgba(255,255,255,.92);color:'+hex+';"><i class="fas '+clr.icon+'"></i> '+p.category+'</span>'
+        +'</div>'
+        +'<div class="prestasi-card-body">'
+        +'<div class="prestasi-year"><i class="far fa-calendar-alt"></i> '+(p.date||'-')+'</div>'
+        +'<h3>'+p.title+'</h3>'
+        +'<p>'+(p.description||'')+'</p>'
+        +'</div>'
+        +'<div class="prestasi-card-footer">'
+        +'<span class="prestasi-rank">'+rnk+' Prestasi</span>'
+        +'<span class="prestasi-detail-btn" data-title="'+st+'" data-desc="'+sd+'">Detail <i class="fas fa-arrow-right"></i></span>'
+        +'</div>'
+        +'</div>';
     }
 
     // ==========================================
-    // RENDER SEMUA PRESTASI
+    // RENDER
     // ==========================================
     function renderPrestasi() {
-      if (!dataReady) return;
+      var all = getAllItems();
 
-      var allData = getAllPrestasi();
-      if (!allData.length) {
-        document.getElementById('prestasiGrid').innerHTML = '';
-        document.getElementById('emptyState').style.display = 'block';
-        return;
-      }
-
-      // Sort: admin items first, lalu tahun terbaru, lalu item terbaru
-      allData.sort(function (a, b) {
-        if (a._admin && !b._admin) return -1;
-        if (!a._admin && b._admin) return 1;
-        var yd = parseInt(b.date || 0) - parseInt(a.date || 0);
-        if (yd !== 0) return yd;
-        return (a._sortKey || 0) - (b._sortKey || 0);
+      // Sort: admin first, tahun desc, lalu yang terbaru
+      all.sort(function(a,b){
+        if(a._admin && !b._admin) return -1;
+        if(!a._admin && b._admin) return 1;
+        var yd=parseInt(b.date||0)-parseInt(a.date||0);
+        return yd!==0?yd:(a._sortKey||0)-(b._sortKey||0);
       });
 
       // Stats
-      var total = allData.length, akad = 0, nonakad = 0, pengh = 0, olah = 0;
-      for (var i = 0; i < total; i++) {
-        var cat = allData[i].category;
-        if (cat === 'Akademik') akad++;
-        else if (cat === 'Non-Akademik') nonakad++;
-        else if (cat === 'Penghargaan') pengh++;
-        else if (cat === 'Olahraga') olah++;
-      }
-      document.getElementById('totalPrestasiCount').textContent = total;
-      document.getElementById('akademikCount').textContent = akad;
-      document.getElementById('nonAkademikCount').textContent = nonakad;
-      document.getElementById('olahragaCount').textContent = olah;
-      document.getElementById('penghargaanCount').textContent = pengh;
+      var tot=all.length, ak=0, na=0, ph=0, ol=0;
+      for(var i=0;i<tot;i++){var c=all[i].category;if(c==='Akademik')ak++;else if(c==='Non-Akademik')na++;else if(c==='Penghargaan')ph++;else if(c==='Olahraga')ol++;}
+      document.getElementById('totalPrestasiCount').textContent=tot;
+      document.getElementById('akademikCount').textContent=ak;
+      document.getElementById('nonAkademikCount').textContent=na;
+      document.getElementById('olahragaCount').textContent=ol;
+      document.getElementById('penghargaanCount').textContent=ph;
 
       // Filter buttons
-      var cats = {};
-      for (var ci = 0; ci < total; ci++) {
-        var c = allData[ci].category;
-        if (c) cats[c] = (cats[c] || 0) + 1;
-      }
-      var filterHtml = '<button class="prestasi-filter-btn active" data-filter="all"><i class="fas fa-th-list"></i> Semua <span class="count">' + total + '</span></button>';
-      for (var cname in cats) {
-        var cfg = CATEGORY_COLORS[cname] || { icon: 'fa-star' };
-        filterHtml += '<button class="prestasi-filter-btn" data-filter="' + cname + '"><i class="fas ' + cfg.icon + '"></i> ' + cname + ' <span class="count">' + cats[cname] + '</span></button>';
-      }
-      document.getElementById('filterContainer').innerHTML = filterHtml;
+      var cats={};for(var ci=0;ci<tot;ci++){var c=all[ci].category;if(c)cats[c]=(cats[c]||0)+1;}
+      var fhtml='<button class="prestasi-filter-btn active" data-filter="all"><i class="fas fa-th-list"></i> Semua <span class="count">'+tot+'</span></button>';
+      for(var cn in cats){var cfg=CATEGORY_COLORS[cn]||{icon:'fa-star'};fhtml+='<button class="prestasi-filter-btn" data-filter="'+cn+'"><i class="fas '+cfg.icon+'"></i> '+cn+' <span class="count">'+cats[cn]+'</span></button>';}
+      document.getElementById('filterContainer').innerHTML=fhtml;
 
       // Last update year
-      var years = [];
-      for (var yi = 0; yi < total; yi++) {
-        var y = allData[yi].date;
-        if (y && years.indexOf(y) === -1) years.push(y);
-      }
-      years.sort();
-      document.getElementById('lastUpdate').textContent = years[years.length - 1] || '2026';
+      var yrs=[];for(var yi=0;yi<tot;yi++){var y=all[yi].date;if(y&&yrs.indexOf(y)===-1)yrs.push(y);}
+      yrs.sort();document.getElementById('lastUpdate').textContent=yrs[yrs.length-1]||'2026';
 
-      // Filter kategori
-      var filtered = [];
-      for (var fi = 0; fi < total; fi++) {
-        if (currentFilter === 'all' || allData[fi].category === currentFilter) {
-          filtered.push(allData[fi]);
-        }
-      }
+      // Filter
+      var filtered=[];
+      for(var fi=0;fi<tot;fi++){if(currentFilter==='all'||all[fi].category===currentFilter)filtered.push(all[fi]);}
 
-      if (filtered.length === 0) {
-        document.getElementById('prestasiGrid').innerHTML = '';
-        document.getElementById('emptyState').style.display = 'block';
+      if(!filtered.length){
+        document.getElementById('prestasiGrid').innerHTML='';
+        document.getElementById('emptyState').style.display='block';
         return;
       }
-      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('emptyState').style.display='none';
 
-      // Build cards
-      var html = '';
-      for (var k = 0; k < filtered.length; k++) {
-        html += buildCard(filtered[k]);
-      }
-      document.getElementById('prestasiGrid').innerHTML = html;
+      var html='';for(var k=0;k<filtered.length;k++)html+=buildCard(filtered[k]);
+      document.getElementById('prestasiGrid').innerHTML=html;
 
-      // Trigger scroll animation after DOM update
-      setTimeout(function () {
-        var cards = document.querySelectorAll('#prestasiGrid .animate-on-scroll');
-        cards.forEach(function (el) {
-          var rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight + 100) el.classList.add('visible');
-        });
-      }, 100);
-
-      console.log('[Prestasi] Rendered', filtered.length, 'items (admin:', allData.filter(function(x){return x._admin;}).length, 'static:', allData.filter(function(x){return !x._admin;}).length, ')');
+      console.log('[Prestasi] Rendered',filtered.length,'items (admin:',all.filter(function(x){return x._admin;}).length,')');
     }
 
     // ==========================================
-    // DETAIL CLICK
+    // EVENT LISTENERS
     // ==========================================
-    document.getElementById('prestasiGrid').addEventListener('click', function (e) {
-      var btn = e.target.closest('.prestasi-detail-btn');
-      if (!btn) return;
-      alert(btn.getAttribute('data-title') + ' — ' + (btn.getAttribute('data-desc') || 'Tidak ada deskripsi'));
+    document.getElementById('prestasiGrid').addEventListener('click',function(e){
+      var btn=e.target.closest('.prestasi-detail-btn');
+      if(!btn)return;
+      alert(btn.getAttribute('data-title')+' \u2014 '+(btn.getAttribute('data-desc')||'Tidak ada deskripsi'));
     });
 
-    // ==========================================
-    // FILTER CLICK
-    // ==========================================
-    document.getElementById('filterContainer').addEventListener('click', function (e) {
-      var btn = e.target.closest('.prestasi-filter-btn');
-      if (!btn) return;
-      var btns = this.querySelectorAll('.prestasi-filter-btn');
-      for (var b = 0; b < btns.length; b++) btns[b].classList.remove('active');
+    document.getElementById('filterContainer').addEventListener('click',function(e){
+      var btn=e.target.closest('.prestasi-filter-btn');
+      if(!btn)return;
+      var btns=this.querySelectorAll('.prestasi-filter-btn');
+      for(var b=0;b<btns.length;b++)btns[b].classList.remove('active');
       btn.classList.add('active');
-      currentFilter = btn.getAttribute('data-filter');
+      currentFilter=btn.getAttribute('data-filter');
       renderPrestasi();
     });
 
     // ==========================================
-    // INIT — muat data static dulu, baru render
+    // INIT — render SEKARANG juga, sinkron
+    //   (data statis inline, admin dari localStorage)
     // ==========================================
-    loadStaticData(function () {
-      dataReady = true;
-      renderPrestasi();
-    });
+    renderPrestasi();
   </script>
 </body>
 
