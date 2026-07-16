@@ -655,10 +655,19 @@
 
   <script src="script.js"></script>
   <script>
-    // ============================
-    // DATA PRESTASI STATIS (27 item)
-    // ============================
-    var PRESTASI_DATA = [
+    // ==========================================
+    // KONFIGURASI & DATA
+    // ==========================================
+    var STORAGE_KEY = 'sdN3Halong_prestasi_admin';
+    var CATEGORY_COLORS = {
+      Akademik: { icon: 'fa-graduation-cap', gradient: 'linear-gradient(135deg,#667eea,#764ba2)', medal: '🥇' },
+      Olahraga: { icon: 'fa-running', gradient: 'linear-gradient(135deg,#f093fb,#f5576c)', medal: '⚽' },
+      'Non-Akademik': { icon: 'fa-palette', gradient: 'linear-gradient(135deg,#4facfe,#00f2fe)', medal: '🎨' },
+      Penghargaan: { icon: 'fa-award', gradient: 'linear-gradient(135deg,#43e97b,#38f9d7)', medal: '🏆' }
+    };
+    
+    // Data statis cadangan (27 item) — dipakai jika fetch JSON gagal
+    var FALLBACK_DATA = [
       { id: 1, title: "Juara 1 Olimpiade Sains Tingkat Kota", image: "img/IMG-20260706-WA0096.jpg", category: "Akademik", date: "2026", description: "Siswa SD Negeri 3 Halong meraih juara 1 Olimpiade Sains tingkat Kota Banjarmasin" },
       { id: 2, title: "Juara 2 Sepak Bola Antar Sekolah", image: "img/IMG-20260706-WA0097.jpg", category: "Olahraga", date: "2026", description: "Tim sepak bola SD Negeri 3 Halong meraih juara 2 dalam turnamen antar sekolah se-Kota Banjarmasin" },
       { id: 3, title: "Juara 1 Pidato Bahasa Indonesia", image: "img/IMG-20260706-WA0098.jpg", category: "Non-Akademik", date: "2025", description: "Siswa SD Negeri 3 Halong meraih juara 1 lomba pidato Bahasa Indonesia tingkat kabupaten" },
@@ -688,120 +697,189 @@
       { id: 27, title: "Juara 2 Fashion Show Tingkat Kota", image: "img/IMG-20260706-WA0126.jpg", category: "Non-Akademik", date: "2026", description: "Meraih juara 2 fashion show pakaian adat" }
     ];
 
-    // ============================
-    // KONFIGURASI
-    // ============================
-    var STORAGE_KEY = 'sdN3Halong_prestasi_admin';
-    var CATEGORY_COLORS = {
-      Akademik: { icon: 'fa-graduation-cap', gradient: 'linear-gradient(135deg,#667eea,#764ba2)', medal: '🥇' },
-      Olahraga: { icon: 'fa-running', gradient: 'linear-gradient(135deg,#f093fb,#f5576c)', medal: '⚽' },
-      'Non-Akademik': { icon: 'fa-palette', gradient: 'linear-gradient(135deg,#4facfe,#00f2fe)', medal: '🎨' },
-      Penghargaan: { icon: 'fa-award', gradient: 'linear-gradient(135deg,#43e97b,#38f9d7)', medal: '🏆' }
-    };
+    // ==========================================
+    // STATE
+    // ==========================================
+    var currentFilter = 'all';
+    var windowNameData = [];
+    var staticData = [];       // akan diisi dari JSON atau fallback
+    var dataReady = false;
 
-    var currentFilter = 'all'; var windowNameData = [];
-    var localStorageOK = false;
+    // ==========================================
+    // AMBIL DATA STATIS (dari prestasi.json)
+    // ==========================================
+    function loadStaticData(callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'prestasi.json', true);
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            var json = JSON.parse(xhr.responseText);
+            if (json && json.length) {
+              console.log('[Prestasi] Loaded', json.length, 'items from prestasi.json');
+              staticData = json;
+              if (callback) callback(true);
+              return;
+            }
+          } catch (e) {}
+        }
+        // Fallback ke data hardcoded
+        console.log('[Prestasi] JSON gagal, pakai fallback data');
+        staticData = FALLBACK_DATA;
+        if (callback) callback(false);
+      };
+      xhr.onerror = function () {
+        console.log('[Prestasi] Fetch error, pakai fallback data');
+        staticData = FALLBACK_DATA;
+        if (callback) callback(false);
+      };
+      xhr.send();
+    }
 
-    // ============================
+    // ==========================================
     // WINDOW.NAME BRIDGE
-    // ============================
+    // ==========================================
     try {
       if (window.name && window.name.startsWith('__prestasi_data__')) {
         windowNameData = JSON.parse(window.name.substring('__prestasi_data__'.length));
-        window.name = '';
+        window.name = '';  // reset
+        console.log('[Prestasi] Loaded', windowNameData.length, 'items from window.name bridge');
       }
-    } catch (e) { }
+    } catch (e) {}
 
-    // ============================
-    // AMBIL SEMUA DATA PRESTASI
-    // ============================
+    // ==========================================
+    // AMBIL SEMUA DATA (admin + static)
+    // ==========================================
     function getAllPrestasi() {
+      // 1) Admin dari localStorage
       var adminData = [];
       try {
         var raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) adminData = JSON.parse(raw);
-      } catch (e) { /* localStorage not available */ }
+        if (raw) {
+          adminData = JSON.parse(raw);
+          if (adminData.length) console.log('[Prestasi] Loaded', adminData.length, 'admin items from localStorage');
+        }
+      } catch (e) {
+        console.warn('[Prestasi] localStorage read error:', e.message);
+      }
 
-      // Fallback ke window.name
+      // 2) Jika localStorage kosong, coba window.name bridge
       if (!adminData.length && windowNameData.length) {
         adminData = windowNameData;
       }
 
-      // Merge window.name ke localStorage jika bisa
-      if (windowNameData.length && localStorageOK) {
-        try {
-          var existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-          var ids = new Set(existing.map(function (i) { return i.id; }));
-          var changed = false;
-          windowNameData.forEach(function (item) {
-            if (!ids.has(item.id)) { existing.push(item); ids.add(item.id); changed = true; }
-          });
-          if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
-        } catch (e) { }
-        windowNameData = [];
-      }
-
-      // Map admin data
+      // 3) Map admin → format internal
       var adminMapped = [];
       for (var i = 0; i < adminData.length; i++) {
+        var a = adminData[i];
         adminMapped.push({
-          id: adminData[i].id, title: adminData[i].title, image: adminData[i].dataUrl,
-          category: adminData[i].category, date: adminData[i].date, description: adminData[i].description,
-          _admin: true, _sortKey: Date.now() - new Date(adminData[i].createdAt || Date.now()).getTime()
+          id: a.id || 'admin_' + i,
+          title: a.title || 'Prestasi',
+          image: a.dataUrl || '',
+          category: a.category || 'Penghargaan',
+          date: a.date || '2026',
+          description: a.description || '',
+          _admin: true,
+          _sortKey: Date.now() - new Date(a.createdAt || Date.now()).getTime()
         });
       }
 
-      // Map static data
+      // 4) Map static data
       var staticMapped = [];
-      for (var j = 0; j < PRESTASI_DATA.length; j++) {
-        var s = PRESTASI_DATA[j];
-        staticMapped.push({ id: s.id, title: s.title, image: s.image, category: s.category, date: s.date, description: s.description, _admin: false, _sortKey: j });
+      for (var j = 0; j < staticData.length; j++) {
+        var s = staticData[j];
+        staticMapped.push({
+          id: s.id || 'static_' + j,
+          title: s.title || 'Prestasi',
+          image: s.image || '',
+          category: s.category || 'Penghargaan',
+          date: s.date || '2026',
+          description: s.description || '',
+          _admin: false,
+          _sortKey: j
+        });
       }
 
       return adminMapped.concat(staticMapped);
     }
 
-    // ============================
-    // RENDER PRESTASI
-    // ============================
-    // ============================
-    // DIAGNOSTIC BANNER
-    // ============================
-    function showDiagnostic() {
-      localStorageOK = false;
-      try {
-        localStorage.setItem('_diag_ps', 'x');
-        localStorage.removeItem('_diag_ps');
-        localStorageOK = true;
-      } catch (e) { }
+    // ==========================================
+    // RENDER SATU KARTU PRESTASI
+    // ==========================================
+    function buildCard(p) {
+      var colors = CATEGORY_COLORS[p.category] || CATEGORY_COLORS['Akademik'];
+      
+      // Cek apakah gambar valid
+      var hasImage = p.image && (
+        p.image.indexOf('data:') === 0 ||
+        p.image.indexOf('http') === 0 ||
+        p.image.indexOf('img/') === 0 ||
+        p.image.indexOf('./') === 0 ||
+        p.image.indexOf('/') === 0
+      );
+      
+      // Tentukan emoji peringkat
+      var rankEmoji = colors.medal;
+      var titleLow = (p.title || '').toLowerCase();
+      if (titleLow.indexOf('juara 1') >= 0 || titleLow.indexOf('medali emas') >= 0) rankEmoji = '🥇';
+      else if (titleLow.indexOf('juara 2') >= 0 || titleLow.indexOf('medali perak') >= 0) rankEmoji = '🥈';
+      else if (titleLow.indexOf('juara 3') >= 0 || titleLow.indexOf('juara harapan') >= 0) rankEmoji = '🥉';
+      else if (titleLow.indexOf('penghargaan') >= 0) rankEmoji = '🏆';
 
-      if (localStorageOK && !windowNameData.length) return;
-      var banner = document.createElement('div');
-      banner.style.cssText = 'padding:16px 20px;border-radius:12px;margin-bottom:20px;font-size:.85rem;line-height:1.6;display:flex;align-items:flex-start;gap:12px;';
-      if (!localStorageOK) {
-        banner.style.background = '#fef3c7'; banner.style.color = '#92400e'; banner.style.border = '1px solid #fde68a';
-        banner.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size:1.3rem;margin-top:2px;"></i><div><strong>Penyimpanan Lokal Tidak Tersedia</strong><br>Browser Anda memblokir localStorage. Data upload mungkin tidak tampil. Coba buka halaman ini melalui tombol "Buka Halaman Prestasi" dari admin.</div>';
-      } else if (windowNameData.length) {
-        banner.style.background = '#dbeafe'; banner.style.color = '#1e40af'; banner.style.border = '1px solid #bfdbfe';
-        banner.innerHTML = '<i class="fas fa-info-circle" style="font-size:1.3rem;margin-top:2px;"></i><div><strong>Data Upload Terdeteksi</strong><br>Data dari admin telah dimuat. ' + windowNameData.length + ' item prestasi ditambahkan.</div>';
+      var safeTitle = (p.title || '').replace(/"/g, '&quot;');
+      var safeDesc = (p.description || '').replace(/"/g, '&quot;');
+      var gradientHex = '#2563eb';
+      var gradientMatch = colors.gradient.match(/#[0-9a-f]{6}/g);
+      if (gradientMatch) gradientHex = gradientMatch[0];
+
+      // Image HTML
+      var imageHtml = '';
+      if (hasImage) {
+        imageHtml = '<img src="' + p.image + '" alt="' + safeTitle + '" loading="lazy" onerror="this.style.display=\'none\'">';
       }
-      var grid = document.getElementById('prestasiGrid');
-      if (grid && grid.parentNode) grid.parentNode.insertBefore(banner, grid);
+
+      // Admin badge
+      var adminBadge = p._admin
+        ? '<span style="position:absolute;top:8px;left:8px;z-index:3;background:rgba(16,185,129,.92);color:#fff;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;display:inline-flex;align-items:center;gap:3px;"><i class="fas fa-cloud-upload-alt" style="font-size:.6rem;"></i> Admin</span>'
+        : '';
+
+      return [
+        '<div class="prestasi-card animate-on-scroll">',
+          '<div class="prestasi-card-image" style="background:' + (hasImage ? 'var(--bg-alt)' : colors.gradient) + '">',
+            adminBadge,
+            imageHtml,
+            '<div class="prestasi-medal-overlay" style="background:' + colors.gradient + '">' + rankEmoji + '</div>',
+            '<span class="prestasi-category-badge" style="background:rgba(255,255,255,.92);color:' + gradientHex + ';">',
+              '<i class="fas ' + colors.icon + '"></i> ' + p.category,
+            '</span>',
+          '</div>',
+          '<div class="prestasi-card-body">',
+            '<div class="prestasi-year"><i class="far fa-calendar-alt"></i> ' + (p.date || '-') + '</div>',
+            '<h3>' + p.title + '</h3>',
+            '<p>' + (p.description || '') + '</p>',
+          '</div>',
+          '<div class="prestasi-card-footer">',
+            '<span class="prestasi-rank">' + rankEmoji + ' Prestasi</span>',
+            '<span class="prestasi-detail-btn" data-title="' + safeTitle + '" data-desc="' + safeDesc + '">Detail <i class="fas fa-arrow-right"></i></span>',
+          '</div>',
+        '</div>'
+      ].join('');
     }
 
-    // ============================
-    // DETAIL CLICK (Event Delegation)
-    // ============================
-    document.getElementById('prestasiGrid').addEventListener('click', function (e) {
-      var btn = e.target.closest('.prestasi-detail-btn');
-      if (!btn) return;
-      alert(btn.getAttribute('data-title') + ' — ' + (btn.getAttribute('data-desc') || 'Tidak ada deskripsi'));
-    });
-
+    // ==========================================
+    // RENDER SEMUA PRESTASI
+    // ==========================================
     function renderPrestasi() {
-      var allData = getAllPrestasi();
+      if (!dataReady) return;
 
-      // Sort: admin items first, then year descending
+      var allData = getAllPrestasi();
+      if (!allData.length) {
+        document.getElementById('prestasiGrid').innerHTML = '';
+        document.getElementById('emptyState').style.display = 'block';
+        return;
+      }
+
+      // Sort: admin items first, lalu tahun terbaru, lalu item terbaru
       allData.sort(function (a, b) {
         if (a._admin && !b._admin) return -1;
         if (!a._admin && b._admin) return 1;
@@ -810,17 +888,16 @@
         return (a._sortKey || 0) - (b._sortKey || 0);
       });
 
-      // Stats (hitung semua data)
-      var uploadTotal = 0, akad = 0, nonakad = 0, pengh = 0, olah = 0;
-      for (var i = 0; i < allData.length; i++) {
-        uploadTotal++;
+      // Stats
+      var total = allData.length, akad = 0, nonakad = 0, pengh = 0, olah = 0;
+      for (var i = 0; i < total; i++) {
         var cat = allData[i].category;
         if (cat === 'Akademik') akad++;
         else if (cat === 'Non-Akademik') nonakad++;
         else if (cat === 'Penghargaan') pengh++;
         else if (cat === 'Olahraga') olah++;
       }
-      document.getElementById('totalPrestasiCount').textContent = uploadTotal;
+      document.getElementById('totalPrestasiCount').textContent = total;
       document.getElementById('akademikCount').textContent = akad;
       document.getElementById('nonAkademikCount').textContent = nonakad;
       document.getElementById('olahragaCount').textContent = olah;
@@ -828,11 +905,11 @@
 
       // Filter buttons
       var cats = {};
-      for (var ci = 0; ci < allData.length; ci++) {
+      for (var ci = 0; ci < total; ci++) {
         var c = allData[ci].category;
         if (c) cats[c] = (cats[c] || 0) + 1;
       }
-      var filterHtml = '<button class="prestasi-filter-btn active" data-filter="all"><i class="fas fa-th-list"></i> Semua <span class="count">' + allData.length + '</span></button>';
+      var filterHtml = '<button class="prestasi-filter-btn active" data-filter="all"><i class="fas fa-th-list"></i> Semua <span class="count">' + total + '</span></button>';
       for (var cname in cats) {
         var cfg = CATEGORY_COLORS[cname] || { icon: 'fa-star' };
         filterHtml += '<button class="prestasi-filter-btn" data-filter="' + cname + '"><i class="fas ' + cfg.icon + '"></i> ' + cname + ' <span class="count">' + cats[cname] + '</span></button>';
@@ -841,16 +918,16 @@
 
       // Last update year
       var years = [];
-      for (var yi = 0; yi < allData.length; yi++) {
+      for (var yi = 0; yi < total; yi++) {
         var y = allData[yi].date;
         if (y && years.indexOf(y) === -1) years.push(y);
       }
       years.sort();
       document.getElementById('lastUpdate').textContent = years[years.length - 1] || '2026';
 
-      // Filter
+      // Filter kategori
       var filtered = [];
-      for (var fi = 0; fi < allData.length; fi++) {
+      for (var fi = 0; fi < total; fi++) {
         if (currentFilter === 'all' || allData[fi].category === currentFilter) {
           filtered.push(allData[fi]);
         }
@@ -866,43 +943,34 @@
       // Build cards
       var html = '';
       for (var k = 0; k < filtered.length; k++) {
-        var p = filtered[k];
-        var colors = CATEGORY_COLORS[p.category] || CATEGORY_COLORS['Akademik'];
-
-        var hasImage = p.image && (p.image.indexOf('data:') === 0 || p.image.indexOf('http') === 0 || p.image.indexOf('img/') === 0 || p.image.indexOf('./') === 0);
-        var rankEmoji = colors.medal;
-        var titleLow = (p.title || '').toLowerCase();
-        if (titleLow.indexOf('juara 1') >= 0 || titleLow.indexOf('medali emas') >= 0) rankEmoji = '🥇';
-        else if (titleLow.indexOf('juara 2') >= 0 || titleLow.indexOf('medali perak') >= 0) rankEmoji = '🥈';
-        else if (titleLow.indexOf('juara 3') >= 0 || titleLow.indexOf('juara harapan') >= 0) rankEmoji = '🥉';
-        else if (titleLow.indexOf('penghargaan') >= 0) rankEmoji = '🏆';
-
-        var imageHtml = hasImage ? '<img src="' + p.image + '" alt="' + p.title.replace(/"/g, '&quot;') + '" onerror="this.style.display=\'none\';this.parentElement.style.background=\'' + colors.gradient + '\'">' : '';
-        var adminBadge = p._admin ? '<span style="position:absolute;top:8px;left:8px;z-index:3;background:rgba(16,185,129,.92);color:#fff;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;display:inline-flex;align-items:center;gap:3px;"><i class="fas fa-cloud-upload-alt" style="font-size:.6rem;"></i> Admin</span>' : '';
-
-        html += '<div class="prestasi-card animate-on-scroll">' +
-          '<div class="prestasi-card-image" style="background:' + (hasImage ? 'var(--bg-alt)' : colors.gradient) + '">' +
-          adminBadge + imageHtml +
-          '<div class="prestasi-medal-overlay" style="background:' + colors.gradient + '">' + rankEmoji + '</div>' +
-          '<span class="prestasi-category-badge" style="background:rgba(255,255,255,.92);color:' + colors.gradient.match(/#[0-9a-f]{6}/g)[0] + ';">' +
-          '<i class="fas ' + colors.icon + '"></i> ' + p.category + '</span>' +
-          '</div>' +
-          '<div class="prestasi-card-body">' +
-          '<div class="prestasi-year"><i class="far fa-calendar-alt"></i> ' + (p.date || '-') + '</div>' +
-          '<h3>' + p.title + '</h3>' +
-          '<p>' + (p.description || '') + '</p>' +
-          '</div>' +
-          '<div class="prestasi-card-footer">' +
-          '<span class="prestasi-rank">' + rankEmoji + ' Prestasi</span>' +
-          '<span class="prestasi-detail-btn" data-title="' + p.title.replace(/"/g, '&quot;') + '" data-desc="' + (p.description || '').replace(/"/g, '&quot;') + '">Detail <i class="fas fa-arrow-right"></i></span>' +
-        '</div></div>';
+        html += buildCard(filtered[k]);
       }
       document.getElementById('prestasiGrid').innerHTML = html;
+
+      // Trigger scroll animation after DOM update
+      setTimeout(function () {
+        var cards = document.querySelectorAll('#prestasiGrid .animate-on-scroll');
+        cards.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight + 100) el.classList.add('visible');
+        });
+      }, 100);
+
+      console.log('[Prestasi] Rendered', filtered.length, 'items (admin:', allData.filter(function(x){return x._admin;}).length, 'static:', allData.filter(function(x){return !x._admin;}).length, ')');
     }
 
-    // ============================
-    // FILTER EVENTS (Event Delegation)
-    // ============================
+    // ==========================================
+    // DETAIL CLICK
+    // ==========================================
+    document.getElementById('prestasiGrid').addEventListener('click', function (e) {
+      var btn = e.target.closest('.prestasi-detail-btn');
+      if (!btn) return;
+      alert(btn.getAttribute('data-title') + ' — ' + (btn.getAttribute('data-desc') || 'Tidak ada deskripsi'));
+    });
+
+    // ==========================================
+    // FILTER CLICK
+    // ==========================================
     document.getElementById('filterContainer').addEventListener('click', function (e) {
       var btn = e.target.closest('.prestasi-filter-btn');
       if (!btn) return;
@@ -913,11 +981,13 @@
       renderPrestasi();
     });
 
-    // ============================
-    // INIT
-    // ============================
-    showDiagnostic();
-    renderPrestasi();
+    // ==========================================
+    // INIT — muat data static dulu, baru render
+    // ==========================================
+    loadStaticData(function () {
+      dataReady = true;
+      renderPrestasi();
+    });
   </script>
 </body>
 
