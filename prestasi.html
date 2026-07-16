@@ -829,8 +829,10 @@
       var safeTitle = (p.title || '').replace(/"/g, '&quot;');
       var safeDesc = (p.description || '').replace(/"/g, '&quot;');
       var gradientHex = '#2563eb';
-      var gradientMatch = colors.gradient.match(/#[0-9a-f]{6}/g);
-      if (gradientMatch) gradientHex = gradientMatch[0];
+      try {
+        var gMatch = colors.gradient.match(/#[0-9a-f]{6}/g);
+        if (gMatch && gMatch[0]) gradientHex = gMatch[0];
+      } catch(e) {}
 
       // Image HTML
       var imageHtml = '';
