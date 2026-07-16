@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Program Literasi",
+    "image": "img/program-1.jpg",
+    "description": "Program membaca 15 menit sebelum pelajaran dimulai untuk meningkatkan minat baca siswa."
+  },
+  {
+    "id": 2,
+    "title": "English Day",
+    "image": "img/program-2.jpg",
+    "description": "Setiap hari Rabu, siswa diajak berkomunikasi dalam bahasa Inggris."
+  },
+  {
+    "id": 3,
+    "title": "Pendidikan Karakter",
+    "image": "img/program-3.jpg",
+    "description": "Program pembentukan karakter melalui kegiatan sosial dan keagamaan."
+  }
+]

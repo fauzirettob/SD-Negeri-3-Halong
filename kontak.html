@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD NEGERI 3 HALONG - Kontak</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo-icon">
+          <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+        </div>
+        <div>
+          <h1>SD NEGERI 3 HALONG</h1>
+        </div>
+      </a>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links" id="mobileMenu">
+        <li><a href="index.html">Beranda</a></li>
+        <li class="nav-item">
+          <a href="sambutan.html">Profil <i class="fas fa-chevron-down dropdown-icon"></i></a>
+          <div class="nav-dropdown">
+            <a href="sambutan.html"><i class="fas fa-greeting"></i> Sambutan</a>
+            <a href="visi-misi.html"><i class="fas fa-bullseye"></i> Visi & Misi</a>
+            <a href="sejarah.html"><i class="fas fa-history"></i> Sejarah</a>
+            <a href="guru.html"><i class="fas fa-sitemap"></i> Struktur Organisasi</a>
+          </div>
+        </li>
+        <li><a href="program.html">Program</a></li>
+
+        <li><a href="prestasi.html">Prestasi</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li><a href="informasi.html">Informasi</a></li>
+        <li><a href="galeri.html">Dokumentasi</a></li>
+        <li><a href="kontak.html" class="active">Kontak</a></li>
+      </ul>
+      <a href="login.html" class="nav-login-link"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero"
+    style="padding: 140px 0 60px; text-align: center; background: linear-gradient(135deg, var(--primary-light) 0%, #fff 50%, #fef3c7 100%);">
+    <div class="container">
+      <span
+        style="display: inline-block; background: var(--primary-light); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: .85rem; font-weight: 600; margin-bottom: 16px;">
+        <i class="fas fa-phone-alt"></i> Hubungi Kami
+      </span>
+      <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">Kontak</h1>
+      <p style="font-size: 1.1rem; color: var(--text-light);">Kami siap membantu Anda. Silakan hubungi kami melalui
+        informasi di bawah ini.</p>
+    </div>
+  </section>
+
+  <!-- KONTAK SECTION -->
+  <section class="section">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Informasi Kontak</h2>
+        <p>Temukan kami melalui berbagai saluran komunikasi</p>
+      </div>
+
+      <div class="grid-2">
+        <!-- Info Cards -->
+        <div class="animate-on-scroll" style="display: flex; flex-direction: column; gap: 24px;">
+          <div class="card">
+            <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Alamat</h3>
+            <p style="color: var(--text-light); line-height: 1.7;">Jl. PHB Halong Atas <br>Kec. Baguala, Kota Ambon,
+              Maluku</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="fas fa-phone-alt"></i></div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Telepon</h3>
+            <p style="color: var(--text-light);">(0511) 123-4567</p>
+            <p style="color: var(--text-light); font-size: .88rem;">Senin - Jumat: 07:00 - 15:00 WITA</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="fas fa-envelope"></i></div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Email</h3>
+            <p><a href="mailto:gmmail@sdn3halong.sch.id"
+                style="color: var(--primary); font-weight: 500;">sdneg3.halong@gmail.com</a></p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="fas fa-share-alt"></i></div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Media Sosial</h3>
+            <p style="color: var(--text-light);">Facebook: SD Negeri 3 Halong</p>
+            <p style="color: var(--text-light);">Instagram: @sdn3halong</p>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="card animate-on-scroll" style="padding: 32px;">
+          <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 24px;">Kirim Pesan</h3>
+          <form id="contactForm" style="display: flex; flex-direction: column; gap: 4px;">
+            <div class="form-group">
+              <label class="form-label" for="name">Nama Lengkap</label>
+              <input type="text" id="name" class="form-input" placeholder="Masukkan nama Anda">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input type="email" id="email" class="form-input" placeholder="email@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subject">Subjek</label>
+              <select id="subject" class="form-select">
+                <option>Pilih Subjek</option>
+                <option>Informasi Pendaftaran</option>
+                <option>Pertanyaan Umum</option>
+                <option>Saran & Masukan</option>
+                <option>Lainnya</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="message">Pesan</label>
+              <textarea id="message" class="form-textarea" rows="5" placeholder="Tulis pesan Anda..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
+              <i class="fas fa-paper-plane"></i> Kirim Pesan
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="section" style="background: var(--bg); padding-top: 0;">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Lokasi Kami</h2>
+        <p>Kunjungi sekolah kami</p>
+      </div>
+      <div class="card animate-on-scroll" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden;">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.6717553162166!2d128.2115006752959!3d-3.662033042838803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce9db5ac7ff51%3A0x4fcead11deac0821!2sSD%20NEGERI%203%20HALONG!5e0!3m2!1sid!2sid!4v1783340968922!5m2!1sid!2sid"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: 0;"
+            allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+            <span>SD NEGERI 3 HALONG</span>
+          </div>
+          <p>Sekolah Adiwiyata yang berkomitmen mencerdaskan generasi bangsa dengan pendidikan berkualitas dan
+            berwawasan lingkungan.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="sambutan.html">Profil</a></li>
+            <li><a href="program.html">Program</a></li>
+
+            <li><a href="prestasi.html">Prestasi</a></li>
+            <li><a href="informasi.html">Informasi</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+            <li><a href="galeri.html">Dokumentasi</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="login.html"><i class="fas fa-lock"></i> Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Profil</h4>
+          <ul>
+            <li><a href="sambutan.html">Sambutan</a></li>
+            <li><a href="visi-misi.html">Visi & Misi</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Program</h4>
+          <ul>
+            <li><a href="program.html">Kelas Pagi</a></li>
+            <li><a href="program.html">Ekstrakurikuler</a></li>
+            <li><a href="program.html">Bimbingan Belajar</a></li>
+            <li><a href="program.html">Adiwiyata</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Hubungi Kami</h4>
+          <p><i class="fas fa-map-marker-alt"></i> Jl. BPH HALONG ATAS</p>
+          <p><i class="fas fa-phone"></i> (0511) 123-4567</p>
+          <p><i class="fas fa-envelope"></i> sdneg3halong@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>""</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

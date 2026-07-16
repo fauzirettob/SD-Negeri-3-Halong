@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD NEGERI 3 HALONG - Informasi Sekolah</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .info-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,.04);
+      transition: var(--transition);
+    }
+    .info-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--primary-light);
+    }
+    .info-card-header i {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .info-card-header h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .info-row {
+      display: flex;
+      padding: 8px 0;
+      border-bottom: 1px solid #f8fafc;
+      font-size: .88rem;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label {
+      width: 40%;
+      color: var(--text-light);
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .info-value {
+      width: 60%;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .info-value.highlight {
+      color: var(--primary);
+    }
+    .info-value.empty {
+      color: var(--text-lighter);
+      font-style: italic;
+    }
+    .info-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 6px;
+      font-size: .85rem;
+      font-weight: 600;
+    }
+    .info-badge-primary { background: var(--primary-light); color: var(--primary); }
+    .info-badge-success { background: #dcfce7; color: #16a34a; }
+    .info-badge-warning { background: #fef3c7; color: #d97706; }
+
+    /* Summary Stats */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+    .summary-item {
+      text-align: center;
+      padding: 20px 16px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,.04);
+    }
+    .summary-item .num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+    .summary-item .lbl {
+      font-size: .82rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .info-row { flex-direction: column; gap: 2px; }
+      .info-label { width: 100%; }
+      .info-value { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo-icon">
+          <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+        </div>
+        <div>
+          <h1>SD NEGERI 3 HALONG</h1>
+        </div>
+      </a>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links" id="mobileMenu">
+        <li><a href="index.html">Beranda</a></li>
+        <li class="nav-item">
+          <a href="sambutan.html">Profil <i class="fas fa-chevron-down dropdown-icon"></i></a>
+          <div class="nav-dropdown">
+            <a href="sambutan.html"><i class="fas fa-greeting"></i> Sambutan</a>
+            <a href="visi-misi.html"><i class="fas fa-bullseye"></i> Visi & Misi</a>
+            <a href="sejarah.html"><i class="fas fa-history"></i> Sejarah</a>
+            <a href="guru.html"><i class="fas fa-sitemap"></i> Struktur Organisasi</a>
+          </div>
+        </li>
+        <li><a href="program.html">Program</a></li>
+        <li><a href="prestasi.html">Prestasi</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li><a href="informasi.html" class="active">Informasi</a></li>
+        <li><a href="galeri.html">Dokumentasi</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <a href="login.html" class="nav-login-link"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero" style="padding: 140px 0 60px; text-align: center; background: linear-gradient(135deg, var(--primary-light) 0%, #fff 50%, #fef3c7 100%);">
+    <div class="container">
+      <span style="display: inline-block; background: var(--primary-light); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: .85rem; font-weight: 600; margin-bottom: 16px;">
+        <i class="fas fa-info-circle"></i> Informasi Sekolah
+      </span>
+      <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">Informasi Lengkap</h1>
+      <p style="font-size: 1.1rem; color: var(--text-light);">Data dan informasi lengkap mengenai SD Negeri 3 Halong</p>
+    </div>
+  </section>
+
+  <!-- SUMMARY STATS -->
+  <section class="section" style="padding: 40px 0;">
+    <div class="container">
+      <div class="summary-grid">
+        <div class="summary-item animate-on-scroll">
+          <div class="num">30303985</div>
+          <div class="lbl">NPSN</div>
+        </div>
+        <div class="summary-item animate-on-scroll">
+          <div class="num">Negeri</div>
+          <div class="lbl">Status</div>
+        </div>
+        <div class="summary-item animate-on-scroll">
+          <div class="num">B</div>
+          <div class="lbl">Akreditasi</div>
+        </div>
+        <div class="summary-item animate-on-scroll">
+          <div class="num">SD</div>
+          <div class="lbl">Jenjang</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATA SEKOLAH LENGKAP -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Data Lengkap Sekolah</h2>
+        <p>Informasi resmi SD Negeri 3 Halong berdasarkan data Dapodik</p>
+      </div>
+
+      <div class="info-grid">
+        <!-- Identitas Sekolah -->
+        <div class="info-card animate-on-scroll">
+          <div class="info-card-header">
+            <i style="background: linear-gradient(135deg, var(--primary), var(--primary-dark));"><i class="fas fa-school"></i></i>
+            <h3>Identitas Sekolah</h3>
+          </div>
+          <div class="info-row">
+            <span class="info-label">NPSN</span>
+            <span class="info-value highlight">30303985</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Nama Sekolah</span>
+            <span class="info-value">SD NEGERI HALONG 3</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Naungan</span>
+            <span class="info-value">Kementerian Pendidikan dan Kebudayaan</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Jenjang Pendidikan</span>
+            <span class="info-value">SD</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Status Sekolah</span>
+            <span class="info-value"><span class="info-badge info-badge-primary">Negeri</span></span>
+          </div>
+        </div>
+
+        <!-- Akreditasi -->
+        <div class="info-card animate-on-scroll">
+          <div class="info-card-header">
+            <i style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fas fa-award"></i></i>
+            <h3>Akreditasi</h3>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Akreditasi</span>
+            <span class="info-value"><span class="info-badge info-badge-warning">B</span></span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Tanggal Akreditasi</span>
+            <span class="info-value">18 Oktober 2016</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">No. SK Akreditasi</span>
+            <span class="info-value" style="font-size: .82rem;">641/KEP/BAP-SM/X/KU/TUP3/2016</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Sertifikasi</span>
+            <span class="info-value empty">Belum Bersertifikat</span>
+          </div>
+        </div>
+
+        <!-- Pendirian -->
+        <div class="info-card animate-on-scroll">
+          <div class="info-card-header">
+            <i style="background: linear-gradient(135deg, #0891b2, #0e7490);"><i class="fas fa-calendar-alt"></i></i>
+            <h3>Pendirian & Operasional</h3>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Tanggal Berdiri</span>
+            <span class="info-value">1 Januari 1970</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">No. SK Pendirian</span>
+            <span class="info-value empty">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Tanggal Operasional</span>
+            <span class="info-value">1 Januari 1910</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">No. SK Operasional</span>
+            <span class="info-value empty">-</span>
+          </div>
+        </div>
+
+        <!-- Alamat -->
+        <div class="info-card animate-on-scroll">
+          <div class="info-card-header">
+            <i style="background: linear-gradient(135deg, #10b981, #047857);"><i class="fas fa-map-marker-alt"></i></i>
+            <h3>Alamat</h3>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Alamat</span>
+            <span class="info-value">Jl. Pembangunan RT 07</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Desa / Kelurahan</span>
+            <span class="info-value">Halong</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Kecamatan</span>
+            <span class="info-value">Kec. Halong</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Kabupaten</span>
+            <span class="info-value">Kab. Balangan</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Provinsi</span>
+            <span class="info-value">Kalimantan Selatan</span>
+          </div>
+        </div>
+
+        <!-- Kontak -->
+        <div class="info-card animate-on-scroll">
+          <div class="info-card-header">
+            <i style="background: linear-gradient(135deg, #7c3aed, #6d28d9);"><i class="fas fa-address-book"></i></i>
+            <h3>Kontak</h3>
+          </div>
+          <div class="info-row">
+            <span class="info-label">No. Telepon</span>
+            <span class="info-value empty">Belum Tersedia</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Fax</span>
+            <span class="info-value empty">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Email</span>
+            <span class="info-value highlight">sdnhalong3@yahoo.com</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Website</span>
+            <span class="info-value empty">-</span>
+          </div>
+        </div>
+
+        <!-- Personil -->
+        <div class="info-card animate-on-scroll">
+          <div class="info-card-header">
+            <i style="background: linear-gradient(135deg, #dc2626, #b91c1c);"><i class="fas fa-users"></i></i>
+            <h3>Personil Sekolah</h3>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Kepala Sekolah</span>
+            <span class="info-value highlight" style="font-weight: 700;">Alis Sunnah</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Operator</span>
+            <span class="info-value">Ahmad Rinaldy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABEL DETAIL -->
+  <section class="section" style="background: var(--bg);">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Detail Data</h2>
+        <p>Seluruh data sekolah dalam format tabel lengkap</p>
+      </div>
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="card animate-on-scroll" style="padding: 24px 32px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light); width: 38%;">NPSN</td>
+              <td style="padding: 10px 16px; font-weight: 600;">30303985</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Nama Sekolah</td>
+              <td style="padding: 10px 16px; font-weight: 600;">SD NEGERI HALONG 3</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Naungan</td>
+              <td style="padding: 10px 16px; font-weight: 600;">Kementerian Pendidikan dan Kebudayaan</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Tanggal Berdiri</td>
+              <td style="padding: 10px 16px; font-weight: 600;">1 Januari 1970</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">No. SK Pendirian</td>
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-lighter);">-</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Tanggal Operasional</td>
+              <td style="padding: 10px 16px; font-weight: 600;">1 Januari 1910</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">No. SK Operasional</td>
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-lighter);">-</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Jenjang Pendidikan</td>
+              <td style="padding: 10px 16px; font-weight: 600;">SD</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Status Sekolah</td>
+              <td style="padding: 10px 16px; font-weight: 600;">Negeri</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Akreditasi</td>
+              <td style="padding: 10px 16px; font-weight: 600;">B</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Tanggal Akreditasi</td>
+              <td style="padding: 10px 16px; font-weight: 600;">18 Oktober 2016</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">No. SK Akreditasi</td>
+              <td style="padding: 10px 16px; font-size: .82rem; font-weight: 600;">641/KEP/BAP-SM/X/KU/TUP3/2016</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Sertifikasi</td>
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-lighter);">Belum Bersertifikat</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Alamat</td>
+              <td style="padding: 10px 16px; font-weight: 600;">Jl. Pembangunan RT 07</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Desa / Kelurahan</td>
+              <td style="padding: 10px 16px; font-weight: 600;">Halong</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Kecamatan</td>
+              <td style="padding: 10px 16px; font-weight: 600;">Kec. Halong</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Kabupaten</td>
+              <td style="padding: 10px 16px; font-weight: 600;">Kab. Balangan</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Provinsi</td>
+              <td style="padding: 10px 16px; font-weight: 600;">Kalimantan Selatan</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">No. Telepon</td>
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-lighter);">Belum Tersedia</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Fax</td>
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-lighter);">-</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Email</td>
+              <td style="padding: 10px 16px; font-weight: 600;">sdnhalong3@yahoo.com</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Website</td>
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-lighter);">-</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Kepala Sekolah</td>
+              <td style="padding: 10px 16px; font-weight: 700; color: var(--primary);">Alis Sunnah</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 16px; font-weight: 600; color: var(--text-light);">Operator</td>
+              <td style="padding: 10px 16px; font-weight: 600;">Ahmad Rinaldy</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+            <span>SD NEGERI 3 HALONG</span>
+          </div>
+          <p>Sekolah Adiwiyata yang berkomitmen mencerdaskan generasi bangsa dengan pendidikan berkualitas dan berwawasan lingkungan.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="sambutan.html">Profil</a></li>
+            <li><a href="program.html">Program</a></li>
+            <li><a href="prestasi.html">Prestasi</a></li>
+            <li><a href="informasi.html">Informasi</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+            <li><a href="galeri.html">Dokumentasi</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="login.html"><i class="fas fa-lock"></i> Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Profil</h4>
+          <ul>
+            <li><a href="sambutan.html">Sambutan</a></li>
+            <li><a href="visi-misi.html">Visi & Misi</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Hubungi Kami</h4>
+          <p><i class="fas fa-map-marker-alt"></i> Jl. Pembangunan RT 07, Halong</p>
+          <p><i class="fas fa-phone"></i> Belum Tersedia</p>
+          <p><i class="fas fa-envelope"></i> sdnhalong3@yahoo.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 SD Negeri 3 Halong. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

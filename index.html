@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD NEGERI 3 HALONG - Beranda</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ===== PROGRAM UNGGULAN GRID RESPONSIVE ===== */
+    .program-unggulan-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .program-unggulan-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== PRESTASI HOVER ANIMATIONS (Beranda) ===== */
+    #homePrestasiGrid .news-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(.4, 0, .2, 1), box-shadow 0.4s cubic-bezier(.4, 0, .2, 1), border-color 0.4s ease;
+    }
+
+    /* Top accent bar that reveals on hover */
+    #homePrestasiGrid .news-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transform: scaleX(0);
+      transition: transform .45s cubic-bezier(.4, 0, .2, 1);
+      transform-origin: left;
+      z-index: 5;
+    }
+
+    #homePrestasiGrid .news-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Shine sweep overlay (GPU-accelerated) */
+    #homePrestasiGrid .news-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent);
+      z-index: 4;
+      transform: translateX(-150%);
+      transition: transform .6s cubic-bezier(.4, 0, .2, 1);
+      pointer-events: none;
+    }
+
+    #homePrestasiGrid .news-card:hover::before {
+      transform: translateX(300%);
+    }
+
+    /* Image zoom on hover */
+    #homePrestasiGrid .news-card .news-image img {
+      transition: transform .6s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    #homePrestasiGrid .news-card:hover .news-image img {
+      transform: scale(1.15);
+    }
+
+    /* Subtle content highlight */
+    #homePrestasiGrid .news-card .news-content {
+      transition: background .4s ease;
+    }
+
+    #homePrestasiGrid .news-card:hover .news-content {
+      background: linear-gradient(180deg, transparent, var(--primary-lighter));
+    }
+
+    /* Category badge slide-up */
+    #homePrestasiGrid .news-card .news-image>span {
+      transition: all .35s cubic-bezier(.4, 0, .2, 1);
+      bottom: 10px !important;
+    }
+
+    #homePrestasiGrid .news-card:hover .news-image>span {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+    }
+
+    /* Title color shift */
+    #homePrestasiGrid .news-card .news-content h3 {
+      transition: color .35s ease;
+    }
+
+    #homePrestasiGrid .news-card:hover .news-content h3 {
+      color: var(--primary);
+    }
+
+    /* Arrow animation on read-more */
+    #homePrestasiGrid .news-card .read-more i {
+      transition: transform .35s ease;
+    }
+
+    #homePrestasiGrid .news-card:hover .read-more i {
+      transform: translateX(6px);
+    }
+
+    /* Date badge subtle highlight (no layout shift) */
+    #homePrestasiGrid .news-card .news-date {
+      transition: background .35s ease, color .35s ease, box-shadow .35s ease;
+      padding: 3px 12px;
+      border-radius: 6px;
+      background: var(--primary-lighter);
+      color: var(--primary);
+    }
+
+    #homePrestasiGrid .news-card:hover .news-date {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(30, 64, 175, .25);
+    }
+
+    /* Hover lift is more dramatic */
+    #homePrestasiGrid .news-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .14);
+      border-color: var(--primary-light);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo-icon">
+          <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+        </div>
+        <div>
+          <h1>SD NEGERI 3 HALONG</h1>
+        </div>
+      </a>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links" id="mobileMenu">
+        <li><a href="index.html" class="active">Beranda</a></li>
+        <li class="nav-item">
+          <a href="sambutan.html">Profil <i class="fas fa-chevron-down dropdown-icon"></i></a>
+          <div class="nav-dropdown">
+            <a href="sambutan.html"><i class="fas fa-greeting"></i> Sambutan</a>
+            <a href="visi-misi.html"><i class="fas fa-bullseye"></i> Visi & Misi</a>
+            <a href="sejarah.html"><i class="fas fa-history"></i> Sejarah</a>
+            <a href="guru.html"><i class="fas fa-sitemap"></i> Struktur Organisasi</a>
+          </div>
+        </li>
+        <li><a href="program.html">Program</a></li>
+
+        <li><a href="prestasi.html">Prestasi</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li><a href="informasi.html">Informasi</a></li>
+        <li><a href="galeri.html">Dokumentasi</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <a href="login.html" class="nav-login-link"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <span
+          style="display: inline-flex; align-items: center; gap: 8px; background: var(--primary-light); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: .85rem; font-weight: 600; margin-bottom: 20px;">
+          <i class="fas fa-school"></i> SD Negeri 3 Halong
+        </span>
+        <h1>Masa Keunggulan<br><span>Akademik & Prestasi</span></h1>
+        <p>Berkarya Bersama Membangun Generasi Cerdas, Kreatif, dan Berprestasi menuju masa depan yang gemilang.</p>
+        <div class="hero-buttons">
+          <a href="sambutan.html" class="btn btn-primary">
+            <i class="fas fa-greeting"></i> Profil Sekolah
+          </a>
+          <a href="kontak.html" class="btn btn-outline">
+            <i class="fas fa-phone-alt"></i> Hubungi Kami
+          </a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="placeholder">
+          <img src="img/profil/foto.png" alt="Profil SD Negeri 3 Halong">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="stats">
+        <div class="stat-card animate-on-scroll">
+          <div class="icon"><i class="fas fa-users"></i></div>
+          <div class="number">120+</div>
+          <div class="label">Siswa Aktif</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <div class="icon"><i class="fas fa-sitemap"></i></div>
+          <div class="number">10</div>
+          <div class="label">Tenaga Profesional</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <div class="icon"><i class="fas fa-trophy"></i></div>
+          <div class="number">25+</div>
+          <div class="label">Prestasi</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <div class="icon"><i class="fas fa-leaf"></i></div>
+          <div class="number">17 Maret 2007</div>
+          <div class="label">Tahun Adiwiyata</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMBUTAN -->
+  <section class="section">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Sambutan Kepala Sekolah</h2>
+        <p>Sambutan dari Kepala SD Negeri 3 Halong</p>
+      </div>
+      <div class="about-content animate-on-scroll">
+        <div class="about-image">
+          <div class="kepsek-avatar">
+            <img src="img/profil/foto.png" alt="Kepala SD Negeri 3 Halong">
+          </div>
+          <div class="kepsek-name-card">
+            <h3>AMINIAH LETSOIN, S.Pd.</h3>
+            <span>Kepala SD Negeri 3 Halong</span>
+          </div>
+        </div>
+        <div class="about-text">
+          <p>Assalamu'alaikum Warahmatullahi Wabarakatuh,</p>
+          <p>Selamat datang di website SD Negeri 3 Halong. Kami berkomitmen untuk memberikan pendidikan terbaik bagi
+            putra-putri Anda. Dengan tenaga pendidik yang profesional dan fasilitas yang memadai, kami berusaha
+            menciptakan lingkungan belajar yang nyaman dan kondusif.</p>
+          <ul class="about-list">
+            <li><span class="check"><i class="fas fa-check"></i></span> Unggul dalam Prestasi</li>
+            <li><span class="check"><i class="fas fa-check"></i></span> Berkarakter Mulia</li>
+            <li><span class="check"><i class="fas fa-check"></i></span> Berbudaya Lingkungan</li>
+            <li><span class="check"><i class="fas fa-check"></i></span> Berwawasan Global</li>
+          </ul>
+          <div style="margin-top: 20px;">
+            <a href="sambutan.html" class="btn btn-outline">
+              <i class="fas fa-arrow-right"></i> Selengkapnya
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM UNGGULAN (BERDASARKAN PROGRAM BARU) -->
+  <section class="section"
+    style="background: linear-gradient(180deg, var(--bg) 0%, var(--primary-lighter) 50%, var(--bg) 100%); position: relative; overflow: hidden;">
+    <div
+      style="position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(30,64,175,.05) 0%, transparent 70%); top: -200px; right: -150px; pointer-events: none;">
+    </div>
+    <div
+      style="position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(245,158,11,.04) 0%, transparent 70%); bottom: -150px; left: -100px; pointer-events: none;">
+    </div>
+
+    <div class="container" style="position: relative; z-index: 1;">
+      <div class="section-title animate-on-scroll">
+        <span
+          style="display: inline-block; background: var(--primary-light); color: var(--primary); padding: 6px 18px; border-radius: 20px; font-size: .82rem; font-weight: 600; margin-bottom: 12px;">
+          <i class="fas fa-star"></i> Standar Nasional Pendidikan
+        </span>
+        <h2>Program & Kegiatan Unggulan</h2>
+        <p>Program dan kegiatan berdasarkan standar nasional pendidikan untuk mewujudkan pembelajaran berkualitas</p>
+      </div>
+
+      <div class="program-unggulan-grid">
+        <!-- Standar Isi -->
+        <div class="card animate-on-scroll"
+          style="padding: 0; overflow: hidden; border: none; box-shadow: 0 4px 24px rgba(0,0,0,.06);"
+          onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.1)'"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px rgba(0,0,0,.06)'">
+          <div style="height: 6px; background: linear-gradient(90deg, #1e40af, #3b82f6);"></div>
+          <div style="padding: 28px 24px;">
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+              <div
+                style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #1e40af, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; flex-shrink: 0;">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px;">Standar Isi</h3>
+                <span style="font-size: .78rem; color: var(--text-lighter);">Kurikulum & Perangkat</span>
+              </div>
+            </div>
+            <div
+              style="background: var(--primary-lighter); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px;">
+              <p style="font-size: .82rem; color: var(--text); font-weight: 600; line-height: 1.5;">Penyusunan Kurikulum
+                (Dokumen 1, 2 dan 3)</p>
+              <p style="font-size: .78rem; color: var(--text-light); margin-top: 4px;">Tersedianya dokumen kurikulum
+                sebagai pedoman pembelajaran</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--text-light);">
+                <i class="fas fa-check-circle" style="color: #1e40af; font-size: .7rem;"></i> Rapat koordinasi &
+                penyusunan dokumen 1 & 2
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--text-light);">
+                <i class="fas fa-check-circle" style="color: #1e40af; font-size: .7rem;"></i> Dokumentasi & pelaporan
+                kurikulum
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Standar Kompetensi Lulusan -->
+        <div class="card animate-on-scroll"
+          style="padding: 0; overflow: hidden; border: none; box-shadow: 0 4px 24px rgba(0,0,0,.06); transition-delay: .1s;"
+          onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.1)'"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px rgba(0,0,0,.06)'">
+          <div style="height: 6px; background: linear-gradient(90deg, #7c3aed, #a78bfa);"></div>
+          <div style="padding: 28px 24px;">
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+              <div
+                style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #7c3aed, #a78bfa); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; flex-shrink: 0;">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px;">Standar
+                  Kompetensi Lulusan</h3>
+                <span style="font-size: .78rem; color: var(--text-lighter);">7 Program Unggulan</span>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px;">
+              <div style="background: #f3e8ff; border-radius: 8px; padding: 10px 12px;">
+                <p style="font-size: .78rem; font-weight: 600; color: #7c3aed;">KKTP</p>
+                <p style="font-size: .72rem; color: var(--text-light);">Penyusunan kriteria</p>
+              </div>
+              <div style="background: #f3e8ff; border-radius: 8px; padding: 10px 12px;">
+                <p style="font-size: .78rem; font-weight: 600; color: #7c3aed;">Ujian</p>
+                <p style="font-size: .72rem; color: var(--text-light);">Semester & Nasional</p>
+              </div>
+              <div style="background: #f3e8ff; border-radius: 8px; padding: 10px 12px;">
+                <p style="font-size: .78rem; font-weight: 600; color: #7c3aed;">Uji Coba</p>
+                <p style="font-size: .72rem; color: var(--text-light);">USBN Tingkat Kota</p>
+              </div>
+              <div style="background: #f3e8ff; border-radius: 8px; padding: 10px 12px;">
+                <p style="font-size: .78rem; font-weight: 600; color: #7c3aed;">ANBK</p>
+                <p style="font-size: .72rem; color: var(--text-light);">Baca tulis minimal 80%</p>
+              </div>
+            </div>
+            <p style="font-size: .78rem; color: var(--text-light); line-height: 1.5;"><i class="fas fa-bullseye"
+                style="color: #7c3aed;"></i> Target: Kelulusan 100% dengan rata-rata nilai minimal 70</p>
+          </div>
+        </div>
+
+        <!-- Standar Proses -->
+        <div class="card animate-on-scroll"
+          style="padding: 0; overflow: hidden; border: none; box-shadow: 0 4px 24px rgba(0,0,0,.06); transition-delay: .2s;"
+          onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.1)'"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px rgba(0,0,0,.06)'">
+          <div style="height: 6px; background: linear-gradient(90deg, #059669, #34d399);"></div>
+          <div style="padding: 28px 24px;">
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+              <div
+                style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #059669, #34d399); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; flex-shrink: 0;">
+                <i class="fas fa-chalkboard-teacher"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px;">Standar Proses
+                </h3>
+                <span style="font-size: .78rem; color: var(--text-lighter);">Kegiatan Akademik & Non-Akademik</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+              <div
+                style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #ecfdf5; border-radius: 8px;">
+                <i class="fas fa-calendar-day" style="color: #059669; width: 16px;"></i>
+                <span style="font-size: .8rem; color: var(--text);">Peringatan Hari Besar Agama & Nasional</span>
+              </div>
+              <div
+                style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #ecfdf5; border-radius: 8px;">
+                <i class="fas fa-user-plus" style="color: #059669; width: 16px;"></i>
+                <span style="font-size: .8rem; color: var(--text);">SPMB Transparan & Akuntabel</span>
+              </div>
+              <div
+                style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #ecfdf5; border-radius: 8px;">
+                <i class="fas fa-trophy" style="color: #059669; width: 16px;"></i>
+                <span style="font-size: .8rem; color: var(--text);">Lomba OSN, O2SN & Kecamatan</span>
+              </div>
+              <div
+                style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #ecfdf5; border-radius: 8px;">
+                <i class="fas fa-campground" style="color: #059669; width: 16px;"></i>
+                <span style="font-size: .8rem; color: var(--text);">Ekstrakurikuler Kepramukaan, Matematika & IPA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Standar Pendidik dan Tenaga Kependidikan -->
+        <div class="card animate-on-scroll"
+          style="padding: 0; overflow: hidden; border: none; box-shadow: 0 4px 24px rgba(0,0,0,.06); transition-delay: .3s;"
+          onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.1)'"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px rgba(0,0,0,.06)'">
+          <div style="height: 6px; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+          <div style="padding: 28px 24px;">
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+              <div
+                style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #f59e0b, #fbbf24); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; flex-shrink: 0;">
+                <i class="fas fa-user-tie"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px;">Standar Pendidik
+                  & Tendik</h3>
+                <span style="font-size: .78rem; color: var(--text-lighter);">Profesional & Kompeten</span>
+              </div>
+            </div>
+            <div style="background: #fef3c7; border-radius: 10px; padding: 14px 16px; margin-bottom: 12px;">
+              <p style="font-size: .82rem; font-weight: 600; color: var(--text);">Peningkatan Kualitas Guru & Kepala
+                Sekolah</p>
+              <p style="font-size: .78rem; color: var(--text-light); margin-top: 4px;">Guru profesional dan kompeten
+                sesuai bidangnya melalui KKG, Kombel, dan K3S</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--text-light);">
+                <i class="fas fa-check-circle" style="color: #f59e0b; font-size: .7rem;"></i> Transportasi & konsumsi
+                kegiatan
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--text-light);">
+                <i class="fas fa-check-circle" style="color: #f59e0b; font-size: .7rem;"></i> Pelaporan & evaluasi
+                kegiatan
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;" class="animate-on-scroll">
+        <a href="program.html" class="btn btn-primary" style="padding: 16px 36px; font-size: 1rem;">
+          <i class="fas fa-arrow-right"></i> Lihat Detail Program & Jadwal Lengkap
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESTASI -->
+  <section class="section"
+    style="background: linear-gradient(180deg, var(--primary-lighter) 0%, var(--bg) 50%, var(--white) 100%); position: relative; overflow: hidden;">
+    <div
+      style="position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(245,158,11,.05) 0%, transparent 70%); top: -100px; left: -100px; pointer-events: none;">
+    </div>
+    <div class="container" style="position: relative; z-index: 1;">
+      <div class="section-title animate-on-scroll">
+        <span
+          style="display: inline-block; background: var(--accent-light); color: var(--accent-dark); padding: 6px 18px; border-radius: 20px; font-size: .82rem; font-weight: 600; margin-bottom: 12px;">
+          <i class="fas fa-trophy"></i> Prestasi Siswa
+        </span>
+        <h2>Prestasi Terkini</h2>
+        <p>Pencapaian membanggakan yang diraih oleh siswa-siswi SD Negeri 3 Halong di berbagai bidang</p>
+      </div>
+      <div class="news-grid" id="homePrestasiGrid">
+        <!-- Rendering dynamic... -->
+      </div>
+      <div style="text-align: center; margin-top: 36px;" class="animate-on-scroll">
+        <a href="prestasi.html" class="btn btn-primary" style="padding: 14px 32px;">
+          <i class="fas fa-arrow-right"></i> Lihat Semua Prestasi
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TENAGA PENDIDIK -->
+  <section class="section" style="background: var(--bg);">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Struktur Organisasi</h2>
+        <p>Bagan struktur organisasi SD Negeri 3 Halong yang profesional dan terstruktur</p>
+      </div>
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto;">
+        <div class="card animate-on-scroll" style="text-align: center; padding: 24px 16px;">
+          <div
+            style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; margin: 0 auto 12px;">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h4 style="font-size: .95rem; font-weight: 700; margin-bottom: 4px;">14 Tenaga Profesional</h4>
+          <p style="font-size: .82rem; color: var(--text-light);">Kepala Sekolah & Staf</p>
+        </div>
+        <div class="card animate-on-scroll" style="text-align: center; padding: 24px 16px;">
+          <div
+            style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; margin: 0 auto 12px;">
+            <i class="fas fa-chalkboard"></i>
+          </div>
+          <h4 style="font-size: .95rem; font-weight: 700; margin-bottom: 4px;">6 Guru Kelas</h4>
+          <p style="font-size: .82rem; color: var(--text-light);">Kelas 1 - 6</p>
+        </div>
+        <div class="card animate-on-scroll" style="text-align: center; padding: 24px 16px;">
+          <div
+            style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #4facfe, #00f2fe); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; margin: 0 auto 12px;">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h4 style="font-size: .95rem; font-weight: 700; margin-bottom: 4px;">3 Guru Mapel</h4>
+          <p style="font-size: .82rem; color: var(--text-light);">PJOK, PAI, Bahasa Inggris</p>
+        </div>
+        <div class="card animate-on-scroll" style="text-align: center; padding: 24px 16px;">
+          <div
+            style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #fa709a, #fee140); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; margin: 0 auto 12px;">
+            <i class="fas fa-users-cog"></i>
+          </div>
+          <h4 style="font-size: .95rem; font-weight: 700; margin-bottom: 4px;">3 Pimpinan & Staf</h4>
+          <p style="font-size: .82rem; color: var(--text-light);">Manajemen Sekolah</p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 28px;">
+        <a href="guru.html" class="btn btn-outline">
+          <i class="fas fa-arrow-right"></i> Lihat Struktur Organisasi
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- CTA PENDAFTARAN -->
+  <section class="section" style="padding: 40px 0;">
+    <div class="container">
+      <div class="cta" style="padding: 60px 40px;">
+        <h2>Pendaftaran Peserta Didik Baru</h2>
+        <p>Buka pendaftaran untuk tahun ajaran 2026/2027. Daftarkan putra-putri Anda sekarang juga!</p>
+        <a href="kontak.html" class="btn btn-white" style="font-size: 1.1rem; padding: 16px 36px;">
+          <i class="fas fa-user-plus"></i> DAFTARKAN SEKARANG
+        </a>
+        <p style="margin-top: 16px; font-size: .88rem; opacity: .7;">
+          <i class="fas fa-info-circle"></i> Pendaftaran kegiatan akademik & peserta didik baru
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SURAT EDARAN -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Surat Edaran</h2>
+        <p>Informasi resmi dari sekolah untuk orang tua dan wali siswa</p>
+      </div>
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; max-width: 800px; margin: 0 auto;">
+        <div class="card animate-on-scroll" style="padding: 0; overflow: hidden;">
+          <div
+            style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;">
+            <span
+              style="background: rgba(255,255,255,.2); color: #fff; padding: 4px 12px; border-radius: 6px; font-size: .8rem; font-weight: 600;">No.
+              01</span>
+            <span style="color: rgba(255,255,255,.8); font-size: .82rem;"><i class="far fa-calendar-alt"></i> Juni
+              2026</span>
+          </div>
+          <div style="padding: 24px;">
+            <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 8px;">Pembagian Raport Semester Genap</h3>
+            <p style="font-size: .88rem; color: var(--text-light); line-height: 1.6; margin-bottom: 16px;">Pembagian
+              raport semester genap tahun ajaran 2025/2026 akan dilaksanakan pada hari Sabtu, 28 Juni 2026. Orang
+              tua/wali siswa diharapkan hadir tepat waktu.</p>
+            <div style="padding-top: 12px; border-top: 1px solid #f1f5f9;">
+              <p style="font-size: .85rem; font-weight: 600;">Aminah Letsoin, S.Pd.</p>
+              <p style="font-size: .8rem; color: var(--text-light);">Kepala Sekolah</p>
+            </div>
+          </div>
+        </div>
+        <div class="card animate-on-scroll" style="padding: 0; overflow: hidden;">
+          <div
+            style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;">
+            <span
+              style="background: rgba(255,255,255,.2); color: #fff; padding: 4px 12px; border-radius: 6px; font-size: .8rem; font-weight: 600;">No.
+              02</span>
+            <span style="color: rgba(255,255,255,.8); font-size: .82rem;"><i class="far fa-calendar-alt"></i> Juli
+              2026</span>
+          </div>
+          <div style="padding: 24px;">
+            <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 8px;">Pendaftaran Peserta Didik Baru</h3>
+            <p style="font-size: .88rem; color: var(--text-light); line-height: 1.6; margin-bottom: 16px;">Pendaftaran
+              peserta didik baru tahun ajaran 2026/2027 dibuka mulai tanggal 1 Juli 2026. Silakan mengunjungi sekolah
+              untuk informasi lebih lanjut.</p>
+            <div style="padding-top: 12px; border-top: 1px solid #f1f5f9;">
+              <p style="font-size: .85rem; font-weight: 600;">Dra. Sri Subaryati, M.Pd.</p>
+              <p style="font-size: .8rem; color: var(--text-light);">Wakil Kepala Sekolah</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+            <span>SD NEGERI 3 HALONG</span>
+          </div>
+          <p>Sekolah Adiwiyata yang berkomitmen mencerdaskan generasi bangsa dengan pendidikan berkualitas dan
+            berwawasan lingkungan.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="sambutan.html">Profil</a></li>
+            <li><a href="program.html">Program</a></li>
+
+            <li><a href="prestasi.html">Prestasi</a></li>
+            <li><a href="berita.html">Berita</a></li>
+            <li><a href="informasi.html">Informasi</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+            <li><a href="galeri.html">Dokumentasi</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="login.html"><i class="fas fa-lock"></i> Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Profil</h4>
+          <ul>
+            <li><a href="sambutan.html">Sambutan</a></li>
+            <li><a href="visi-misi.html">Visi & Misi</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Program</h4>
+          <ul>
+            <li><a href="program.html">Kelas Pagi</a></li>
+            <li><a href="program.html">Ekstrakurikuler</a></li>
+            <li><a href="program.html">Bimbingan Belajar</a></li>
+            <li><a href="program.html">Adiwiyata</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Hubungi Kami</h4>
+          <p><i class="fas fa-map-marker-alt"></i> Jl.BPH HALONG ATAS</p>
+          <p><i class="fas fa-phone"></i> (0511) 123-4567</p>
+          <p><i class="fas fa-envelope"></i> sdneg3halong@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 SD Negeri 3 Halong. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <script>
+    // ========== DATA PRESTASI (sumber data static) ==========
+    var prestasiData = [
+      { "id": 1, "title": "Juara 1 Olimpiade Sains Tingkat Kota", "image": "img/IMG-20260706-WA0096.jpg", "category": "Akademik", "date": "2026", "description": "Siswa SD Negeri 3 Halong meraih juara 1 Olimpiade Sains tingkat Kota Banjarmasin" },
+      { "id": 2, "title": "Juara 2 Sepak Bola Antar Sekolah", "image": "img/IMG-20260706-WA0097.jpg", "category": "Olahraga", "date": "2026", "description": "Tim sepak bola SD Negeri 3 Halong meraih juara 2 dalam turnamen antar sekolah se-Kota Banjarmasin" },
+      { "id": 3, "title": "Juara 1 Pidato Bahasa Indonesia", "image": "img/IMG-20260706-WA0098.jpg", "category": "Non-Akademik", "date": "2025", "description": "Siswa SD Negeri 3 Halong meraih juara 1 lomba pidato Bahasa Indonesia tingkat kabupaten" },
+      { "id": 4, "title": "Penghargaan Sekolah Adiwiyata", "image": "img/IMG-20260706-WA0099.jpg", "category": "Penghargaan", "date": "2025", "description": "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Adiwiyata atas kepedulian terhadap lingkungan" },
+      { "id": 5, "title": "Juara 3 Lomba Mewarnai Tingkat Provinsi", "image": "img/IMG-20260706-WA0100.jpg", "category": "Non-Akademik", "date": "2025", "description": "Siswa kelas 1 SD Negeri 3 Halong meraih juara 3 lomba mewarnai tingkat Provinsi Kalimantan Selatan" },
+      { "id": 6, "title": "Medali Emas OSN Matematika", "image": "img/IMG-20260706-WA0101.jpg", "category": "Akademik", "date": "2024", "description": "Meraih medali emas Olimpiade Sains Nasional (OSN) bidang Matematika tingkat kota" },
+      { "id": 7, "title": "Juara 3 Lomba Kaligrafi Tingkat Kota", "image": "img/IMG-20260706-WA0102.jpg", "category": "Non-Akademik", "date": "2024", "description": "Siswi SD Negeri 3 Halong meraih juara 3 lomba kaligrafi tingkat Kota Banjarmasin" },
+      { "id": 8, "title": "Penghargaan Sekolah Sehat Tingkat Provinsi", "image": "img/IMG-20260706-WA0103.jpg", "category": "Penghargaan", "date": "2024", "description": "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Sehat tingkat Provinsi Kalimantan Selatan" },
+      { "id": 9, "title": "Juara 1 Lomba Baca Puisi Tingkat Kota", "image": "img/IMG-20260706-WA0104.jpg", "category": "Non-Akademik", "date": "2024", "description": "Siswi SD Negeri 3 Halong meraih juara 1 lomba baca puisi tingkat Kota Banjarmasin" },
+      { "id": 10, "title": "Juara 2 Cerdas Cermat Tingkat Kecamatan", "image": "img/IMG-20260706-WA0105.jpg", "category": "Akademik", "date": "2024", "description": "Tim cerdas cermat SD Negeri 3 Halong meraih juara 2 tingkat Kecamatan Halong" },
+      { "id": 11, "title": "Juara 3 Lomba Menggambar Tingkat Provinsi", "image": "img/IMG-20260706-WA0106.jpg", "category": "Non-Akademik", "date": "2023", "description": "Siswa SD Negeri 3 Halong meraih juara 3 lomba menggambar tingkat Provinsi Kalimantan Selatan" },
+      { "id": 12, "title": "Penghargaan Sekolah Ramah Anak", "image": "img/IMG-20260706-WA0107.jpg", "category": "Penghargaan", "date": "2023", "description": "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Ramah Anak dari Pemerintah Kota" },
+      { "id": 13, "title": "Juara 1 Lomba Tari Tradisional Tingkat Kota", "image": "img/IMG-20260706-WA0108.jpg", "category": "Non-Akademik", "date": "2026", "description": "Siswi SD Negeri 3 Halong meraih juara 1 lomba tari tradisional tingkat Kota Banjarmasin" },
+      { "id": 14, "title": "Juara 2 Pramuka Tingkat Kecamatan", "image": "img/IMG-20260706-WA0109.jpg", "category": "Non-Akademik", "date": "2026", "description": "Regu Pramuka SD Negeri 3 Halong meraih juara 2 dalam lomba pramuka tingkat Kecamatan Halong" },
+      { "id": 15, "title": "Juara Harapan 1 Olimpiade IPA Tingkat Provinsi", "image": "img/IMG-20260706-WA0110.jpg", "category": "Akademik", "date": "2026", "description": "Siswa SD Negeri 3 Halong meraih juara harapan 1 Olimpiade IPA tingkat Provinsi Kalimantan Selatan" },
+      { "id": 16, "title": "Penghargaan Sekolah Inklusi Terbaik", "image": "img/IMG-20260706-WA0111.jpg", "category": "Penghargaan", "date": "2026", "description": "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Inklusi Terbaik dari Dinas Pendidikan Kota" },
+      { "id": 17, "title": "Juara 1 Lomba Cipta Puisi Tingkat Provinsi", "image": "img/IMG-20260706-WA0112.jpg", "category": "Non-Akademik", "date": "2026", "description": "Siswi SD Negeri 3 Halong meraih juara 1 lomba cipta puisi tingkat Provinsi Kalimantan Selatan" },
+      { "id": 18, "title": "Juara 2 Tenis Meja Tingkat Kota", "image": "img/IMG-20260706-WA0113.jpg", "category": "Olahraga", "date": "2026", "description": "Siswa SD Negeri 3 Halong meraih juara 2 tenis meja dalam ajang O2SN tingkat Kota Banjarmasin" },
+      { "id": 19, "title": "Juara Harapan 1 Olimpiade Matematika Tingkat Provinsi", "image": "img/IMG-20260706-WA0114.jpg", "category": "Akademik", "date": "2025", "description": "Siswa SD Negeri 3 Halong meraih juara harapan 1 Olimpiade Matematika tingkat Provinsi Kalimantan Selatan" },
+      { "id": 20, "title": "Penghargaan Sekolah Adiwiyata Mandiri", "image": "img/IMG-20260706-WA0115.jpg", "category": "Penghargaan", "date": "2025", "description": "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Adiwiyata Mandiri dari Kementerian Lingkungan Hidup" },
+      { "id": 21, "title": "Juara 1 Lomba MTQ Tingkat Kecamatan", "image": "img/IMG-20260706-WA0120.jpg", "category": "Non-Akademik", "date": "2026", "description": "Siswa SD Negeri 3 Halong meraih juara 1 Musabaqah Tilawatil Quran (MTQ) tingkat Kecamatan Halong" },
+      { "id": 22, "title": "Juara 3 Bulu Tangkis Tingkat Kota", "image": "img/IMG-20260706-WA0121.jpg", "category": "Olahraga", "date": "2026", "description": "Siswa SD Negeri 3 Halong meraih juara 3 cabang olahraga bulu tangkis dalam ajang O2SN tingkat Kota Banjarmasin" },
+      { "id": 23, "title": "Juara 2 Lomba Pidato Bahasa Inggris", "image": "img/IMG-20260706-WA0122.jpg", "category": "Non-Akademik", "date": "2025", "description": "Siswi SD Negeri 3 Halong meraih juara 2 lomba pidato Bahasa Inggris tingkat Kota Banjarmasin" },
+      { "id": 24, "title": "Penghargaan Sekolah Bebas Narkoba", "image": "img/IMG-20260706-WA0123.jpg", "category": "Penghargaan", "date": "2025", "description": "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Bebas Narkoba dari Badan Narkotika Nasional Kota" },
+      { "id": 25, "title": "Juara 1 Lomba PBB Tingkat Kota", "image": "img/IMG-20260706-WA0124.jpg", "category": "Non-Akademik", "date": "2026", "description": "Regu PBB SD Negeri 3 Halong meraih juara 1 lomba Peraturan Baris Berbaris (PBB) tingkat Kota Banjarmasin" },
+      { "id": 26, "title": "Juara Harapan 1 Karya Ilmiah Remaja", "image": "img/IMG-20260706-WA0125.jpg", "category": "Akademik", "date": "2026", "description": "Siswa SD Negeri 3 Halong meraih juara harapan 1 lomba Karya Ilmiah Remaja (KIR) tingkat Provinsi Kalimantan Selatan" },
+      { "id": 27, "title": "Juara 2 Fashion Show Tingkat Kota", "image": "img/IMG-20260706-WA0126.jpg", "category": "Non-Akademik", "date": "2026", "description": "Siswi SD Negeri 3 Halong meraih juara 2 lomba fashion show pakaian adat tingkat Kota Banjarmasin" }
+    ];
+
+    // ========== RENDER PRESTASI DI HALAMAN BERANDA ==========
+    const PRESTASI_ADMIN_KEY = 'sdN3Halong_prestasi_admin';
+
+    const categoryColors = {
+      'Akademik': { bg: '#dbeafe', text: '#2563eb', icon: 'fa-graduation-cap', gradient: 'linear-gradient(135deg, #667eea, #764ba2)' },
+      'Olahraga': { bg: '#dcfce7', text: '#16a34a', icon: 'fa-running', gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' },
+      'Non-Akademik': { bg: '#f3e8ff', text: '#9333ea', icon: 'fa-palette', gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+      'Penghargaan': { bg: '#fef3c7', text: '#d97706', icon: 'fa-award', gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)' }
+    };
+
+    function getAllPrestasi() {
+      var staticData = prestasiData.map(function (item, idx) {
+        return Object.assign({}, item, { _isAdmin: false, _sortKey: idx });
+      });
+      var adminData = [];
+      try {
+        var raw = localStorage.getItem(PRESTASI_ADMIN_KEY);
+        if (raw) adminData = JSON.parse(raw);
+      } catch (e) { }
+      var adminMapped = adminData.map(function (item) {
+        return {
+          id: item.id, title: item.title, image: item.dataUrl,
+          category: item.category, date: item.date, description: item.description,
+          _isAdmin: true, _sortKey: Date.now() - new Date(item.createdAt || Date.now()).getTime()
+        };
+      });
+      return adminMapped.concat(staticData);
+    }
+
+    function renderHomePrestasi() {
+      var allPrestasi = getAllPrestasi();
+
+      // Sort by date descending, then by newest first
+      allPrestasi.sort(function (a, b) {
+        var yearDiff = parseInt(b.date || 0) - parseInt(a.date || 0);
+        if (yearDiff !== 0) return yearDiff;
+        return b._sortKey - a._sortKey;
+      });
+
+      // Take top 3
+      var top3 = allPrestasi.slice(0, 3);
+
+      var container = document.getElementById('homePrestasiGrid');
+      if (!container) return;
+
+      if (top3.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-light);grid-column:1/-1;"><i class="fas fa-trophy" style="font-size:3rem;color:#e2e8f0;margin-bottom:16px;display:block;"></i><p>Belum ada data prestasi.</p></div>';
+        return;
+      }
+
+      container.innerHTML = top3.map(function (prestasi) {
+        var colors = categoryColors[prestasi.category] || categoryColors['Akademik'];
+        var hasImage = prestasi.image && (
+          prestasi.image.startsWith('data:') || prestasi.image.startsWith('http') ||
+          prestasi.image.startsWith('img/') || prestasi.image.startsWith('./')
+        );
+
+        return [
+          '<div class="news-card animate-on-scroll">',
+          '<div class="news-image" style="background: ' + (hasImage ? 'var(--bg-alt)' : colors.gradient) + '; position: relative;">',
+          hasImage ? '<img src="' + prestasi.image + '" alt="' + prestasi.title.replace(/"/g, '&quot;') + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;" onerror="this.style.display=\'none\'">' : '',
+          '<i class="fas ' + colors.icon + '" style="color: rgba(255,255,255,.4); font-size: 3.5rem;' + (hasImage ? 'display:none;' : '') + '"></i>',
+          '<span style="position:absolute;bottom:10px;left:10px;z-index:2;padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:rgba(255,255,255,.92);color:' + colors.text + ';display:inline-flex;align-items:center;gap:4px;">',
+          '<i class="fas ' + colors.icon + '"></i> ' + prestasi.category,
+          '</span>',
+          '</div>',
+          '<div class="news-content">',
+          '<span class="news-date"><i class="fas fa-calendar-alt"></i> ' + (prestasi.date || '-') + '</span>',
+          '<h3>' + prestasi.title + '</h3>',
+          '<p>' + prestasi.description + '</p>',
+          '<a href="prestasi.html" class="read-more" style="display: block; margin-top: 12px; color: var(--primary); font-weight: 600;">',
+          'Lihat Prestasi <i class="fas fa-arrow-right"></i>',
+          '</a>',
+          '</div>',
+          '</div>'
+        ].join('');
+      }).join('');
+    }
+
+    renderHomePrestasi();
+
+    // Observe newly rendered cards for scroll animation
+    setTimeout(function () {
+      var cards = document.querySelectorAll('#homePrestasiGrid .animate-on-scroll');
+      cards.forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 100) {
+          el.classList.add('visible');
+        }
+      });
+    }, 150);
+  </script>
+</body>
+
+</html>

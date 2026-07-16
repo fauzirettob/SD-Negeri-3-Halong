@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#8b5cf6"/>
+  <rect x="50" y="50" width="700" height="500" rx="20" fill="#f3e8ff"/>
+  <text x="400" y="200" text-anchor="middle" font-family="Arial,sans-serif" font-size="48" font-weight="bold" fill="#7c3aed">📚</text>
+  <text x="400" y="280" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#7c3aed">SAMPLE IMAGE 4</text>
+  <text x="400" y="320" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#64748b">Kegiatan Pembelajaran</text>
+  <text x="400" y="360" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#94a3b8">(Gambar acuan - bisa dihapus)</text>
+</svg>

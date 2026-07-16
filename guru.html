@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD NEGERI 3 HALONG - Struktur Organisasi</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo-icon">
+          <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+        </div>
+        <div>
+          <h1>SD NEGERI 3 HALONG</h1>
+        </div>
+      </a>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links" id="mobileMenu">
+        <li><a href="index.html">Beranda</a></li>
+        <li class="nav-item">
+          <a href="sambutan.html" class="active">Profil <i class="fas fa-chevron-down dropdown-icon"></i></a>
+          <div class="nav-dropdown">
+            <a href="sambutan.html"><i class="fas fa-greeting"></i> Sambutan</a>
+            <a href="visi-misi.html"><i class="fas fa-bullseye"></i> Visi & Misi</a>
+            <a href="sejarah.html"><i class="fas fa-history"></i> Sejarah</a>
+            <a href="guru.html"><i class="fas fa-sitemap"></i> Struktur Organisasi</a>
+          </div>
+        </li>
+        <li><a href="program.html">Program</a></li>
+
+        <li><a href="prestasi.html">Prestasi</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li><a href="informasi.html">Informasi</a></li>
+        <li><a href="galeri.html">Dokumentasi</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <a href="login.html" class="nav-login-link"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero"
+    style="padding: 140px 0 60px; text-align: center; background: linear-gradient(135deg, var(--primary-light) 0%, #fff 50%, #fef3c7 100%);">
+    <div class="container">
+      <span
+        style="display: inline-block; background: var(--primary-light); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: .85rem; font-weight: 600; margin-bottom: 16px;">
+        <i class="fas fa-sitemap"></i> Profil
+      </span>
+      <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">Struktur Organisasi</h1>
+      <p style="font-size: 1.1rem; color: var(--text-light);">Bagan struktur organisasi SD Negeri 3 Halong tahun ajaran
+        2025/2026</p>
+    </div>
+  </section>
+
+  <!-- STATS RINGKAS -->
+  <section class="section" style="padding: 40px 0;">
+    <div class="container">
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto;">
+        <div class="card animate-on-scroll" style="text-align: center; padding: 24px 16px;">
+          <div style="font-size: 2rem; color: var(--primary); margin-bottom: 8px;"><i class="fas fa-user-tie"></i></div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: var(--text);">1</div>
+          <p style="font-size: .85rem; color: var(--text-light);">Kepala Sekolah</p>
+        </div>
+        <div class="card animate-on-scroll" style="text-align: center; padding: 24px 16px;">
+          <div style="font-size: 2rem; color: #22c55e; margin-bottom: 8px;"><i class="fas fa-chalkboard-user"></i></div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: var(--text);">6</div>
+          <p style="font-size: .85rem; color: var(--text-light);">Wali Kelas</p>
+        </div>
+        <div class="card animate-on-scroll" style="text-align: center; padding: 24px 16px;">
+          <div style="font-size: 2rem; color: #a855f7; margin-bottom: 8px;"><i class="fas fa-book-open"></i></div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: var(--text);">4</div>
+          <p style="font-size: .85rem; color: var(--text-light);">Guru Mapel & Honor</p>
+        </div>
+        <div class="card animate-on-scroll" style="text-align: center; padding: 24px 16px;">
+          <div style="font-size: 2rem; color: #ef4444; margin-bottom: 8px;"><i class="fas fa-users-gear"></i></div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: var(--text);">4</div>
+          <p style="font-size: .85rem; color: var(--text-light);">Tendik</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRUKTUR ORGANISASI -->
+  <section class="section" style="padding-top: 20px;">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Bagan Struktur Organisasi</h2>
+        <p>SD Negeri 3 Halong — Tahun Ajaran 2025/2026</p>
+      </div>
+
+      <div class="org-chart">
+
+        <!-- LEVEL 0: KEPALA SEKOLAH -->
+        <div class="org-level org-top">
+          <div class="org-row org-center">
+            <div class="org-card org-main animate-on-scroll" style="max-width: 320px;">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #1e40af, #1e3a5f);">
+                <div class="org-avatar"><i class="fas fa-crown"></i></div>
+              </div>
+              <div class="org-card-body">
+                <span class="org-badge" style="background: #fef3c7; color: #d97706;"><i class="fas fa-crown"></i> Kepala
+                  Sekolah</span>
+                <h3>AMINAH LETSOIN, S.Pd.</h3>
+                <p class="org-role">NIP. 19750610 200501 2 018</p>
+                <p class="org-desc">Kepala SD Negeri 3 Halong</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VERTICAL CONNECTOR -->
+        <div class="org-level-connector">
+          <div class="org-connector-v-long"></div>
+        </div>
+
+        <!-- LEVEL 1: WALI KELAS -->
+        <div class="org-level">
+          <div class="org-section-label">
+            <span><i class="fas fa-chalkboard-user"></i> WALI KELAS</span>
+          </div>
+          <div class="org-row org-grid-6">
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #059669, #047857);">
+                <div class="org-avatar-sm">I</div>
+              </div>
+              <div class="org-card-body">
+                <h3>Syane Maulany, S.Pd.</h3>
+                <p class="org-role">Wali Kelas 1</p>
+                <p class="org-desc">NIP. 199010192025212055</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">
+                <div class="org-avatar-sm">II</div>
+              </div>
+              <div class="org-card-body">
+                <h3>Syarun Nurlette, S.Pd.</h3>
+                <p class="org-role">Wali Kelas 2</p>
+                <p class="org-desc">NIP. 19660810 199208 2 002</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">
+                <div class="org-avatar-sm">III</div>
+              </div>
+              <div class="org-card-body">
+                <h3>Devita Maya Harun, S.Pd.</h3>
+                <p class="org-role">Wali Kelas 3</p>
+                <p class="org-desc">NIP. 19730614 202321 2 004</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #d97706, #b45309);">
+                <div class="org-avatar-sm">IV</div>
+              </div>
+              <div class="org-card-body">
+                <h3>Shartje Sihasale</h3>
+                <p class="org-role">Wali Kelas 4</p>
+                <p class="org-desc">NIP. 1970616 199105 2 001</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">
+                <div class="org-avatar-sm">V</div>
+              </div>
+              <div class="org-card-body">
+                <h3>Agatha Rabbelya Lakmau, S.Pd.</h3>
+                <p class="org-role">Wali Kelas 5</p>
+                <p class="org-desc">NIP. 19930831 202321 2 027</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #0891b2, #0e7490);">
+                <div class="org-avatar-sm">VI</div>
+              </div>
+              <div class="org-card-body">
+                <h3>Lines Londa Papilaya, S.Pd.</h3>
+                <p class="org-role">Wali Kelas 6</p>
+                <p class="org-desc">NIP. 19810618 200801 2 019</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VERTICAL CONNECTOR -->
+        <div class="org-level-connector">
+          <div class="org-connector-v-long"></div>
+        </div>
+
+        <!-- LEVEL 2: GURU MAPEL & HONOR -->
+        <div class="org-level">
+          <div class="org-section-label">
+            <span><i class="fas fa-book-open"></i> GURU MAPEL & HONOR</span>
+          </div>
+          <div class="org-row org-center" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #e11d48, #be123c);">
+                <div class="org-avatar"><i class="fas fa-cross"></i></div>
+              </div>
+              <div class="org-card-body">
+                <h3>Kattyhanglon Jpattikawa, S.Pdk.</h3>
+                <p class="org-role">Guru Mapel Agama Kristen Protestan</p>
+                <p class="org-desc">NIP. 19710410 200501 2 012</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #0d9488, #0f766e);">
+                <div class="org-avatar"><i class="fas fa-church"></i></div>
+              </div>
+              <div class="org-card-body">
+                <h3>Maria Gorety Lamere, S.Sos</h3>
+                <p class="org-role">Guru Mapel Agama Katolik</p>
+                <p class="org-desc">NIP. 19701126 200501 2 010</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                <div class="org-avatar"><i class="fas fa-language"></i></div>
+              </div>
+              <div class="org-card-body">
+                <h3>Febriyanti Ngantung, S.Pd.</h3>
+                <p class="org-role">Honor Mapel Bahasa Inggris</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                <div class="org-avatar"><i class="fas fa-music"></i></div>
+              </div>
+              <div class="org-card-body">
+                <h3>Ridho Hetharion</h3>
+                <p class="org-role">Honor Mapel Seni Musik</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VERTICAL CONNECTOR -->
+        <div class="org-level-connector">
+          <div class="org-connector-v-long"></div>
+        </div>
+
+        <!-- LEVEL 3: TENAGA KEPENDIDIKAN -->
+        <div class="org-level" style="margin-bottom: 0;">
+          <div class="org-section-label">
+            <span><i class="fas fa-users-gear"></i> TENAGA KEPENDIDIKAN</span>
+          </div>
+          <div class="org-row org-center" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #78716c, #57534e);">
+                <div class="org-avatar"><i class="fas fa-user-cog"></i></div>
+              </div>
+              <div class="org-card-body">
+                <h3>Edmon Bastian</h3>
+                <p class="org-role">Tenaga Kependidikan</p>
+                <p class="org-desc">NIP. 198505232025211034</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #78716c, #57534e);">
+                <div class="org-avatar"><i class="fas fa-user-gear"></i></div>
+              </div>
+              <div class="org-card-body">
+                <h3>Linda Sasauw</h3>
+                <p class="org-role">Tenaga Kependidikan</p>
+                <p class="org-desc">NIP. 198202242025212016</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #78716c, #57534e);">
+                <div class="org-avatar"><i class="fas fa-user-tie"></i></div>
+              </div>
+              <div class="org-card-body">
+                <h3>Welmina Manuhutu</h3>
+                <p class="org-role">Tenaga Kependidikan</p>
+                <p class="org-desc">NIP. 197705072025212009</p>
+              </div>
+            </div>
+            <div class="org-card org-staff animate-on-scroll">
+              <div class="org-card-header" style="background: linear-gradient(135deg, #78716c, #57534e);">
+                <div class="org-avatar"><i class="fas fa-user-wrench"></i></div>
+              </div>
+              <div class="org-card-body">
+                <h3>Daniel Gelfelem</h3>
+                <p class="org-role">Tenaga Kependidikan</p>
+                <p class="org-desc">NIP. 198302212025211014</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEGENDA -->
+        <div class="org-legend">
+          <div class="org-legend-item">
+            <span class="org-legend-dot" style="background: linear-gradient(135deg, #1e40af, #1e3a5f);"></span>
+            Kepala Sekolah
+          </div>
+          <div class="org-legend-item">
+            <span class="org-legend-dot" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);"></span>
+            Wali Kelas
+          </div>
+          <div class="org-legend-item">
+            <span class="org-legend-dot" style="background: linear-gradient(135deg, #e11d48, #be123c);"></span>
+            Guru Mapel & Honor
+          </div>
+          <div class="org-legend-item">
+            <span class="org-legend-dot" style="background: linear-gradient(135deg, #78716c, #57534e);"></span>
+            Tenaga Kependidikan
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABEL DATA GURU & TENDIK -->
+  <section class="section" style="padding-top: 40px;">
+    <div class="container">
+      <div class="section-title animate-on-scroll">
+        <h2>Data Guru & Tenaga Kependidikan</h2>
+        <p>Daftar lengkap tenaga pendidik dan kependidikan SD Negeri 3 Halong</p>
+      </div>
+
+      <div class="table-wrapper animate-on-scroll" style="overflow-x: auto; border-radius: var(--radius); box-shadow: var(--shadow); background: var(--white);">
+        <table style="width: 100%; border-collapse: collapse; font-size: .88rem;">
+          <thead>
+            <tr style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff;">
+              <th style="padding: 14px 16px; text-align: left; font-weight: 600; white-space: nowrap;">No</th>
+              <th style="padding: 14px 16px; text-align: left; font-weight: 600; white-space: nowrap;">Nama Guru / Tendik</th>
+              <th style="padding: 14px 16px; text-align: left; font-weight: 600; white-space: nowrap;">NIP</th>
+              <th style="padding: 14px 16px; text-align: left; font-weight: 600; white-space: nowrap;">Pembagian Tugas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">1</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Aminah Letsoin, S.Pd</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">19750610 200501 2 018</td>
+              <td style="padding: 12px 16px;"><span style="background: #fef3c7; color: #d97706; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Kepala Sekolah</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">2</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Syarun Nurlette, S.Pd</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">19660810 199208 2 002</td>
+              <td style="padding: 12px 16px;"><span style="background: #dbeafe; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Wali Kelas 2</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">3</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Lines Londa Papilaya, S.Pd</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">19810618 200801 2 019</td>
+              <td style="padding: 12px 16px;"><span style="background: #dbeafe; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Wali Kelas 6</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">4</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Shartje Sihasale</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">1970616 199105 2 001</td>
+              <td style="padding: 12px 16px;"><span style="background: #dbeafe; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Wali Kelas 4</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">5</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Agatha Rabbelya Lakmau, S.Pd</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">19930831 202321 2 027</td>
+              <td style="padding: 12px 16px;"><span style="background: #dbeafe; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Wali Kelas 5</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">6</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Devita Maya Harun, S.Pd</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">19730614 202321 2 004</td>
+              <td style="padding: 12px 16px;"><span style="background: #dbeafe; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Wali Kelas 3</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">7</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Syane Maulany, S.Pd</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">199010192025212055</td>
+              <td style="padding: 12px 16px;"><span style="background: #dbeafe; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Wali Kelas 1</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">8</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Kattyhanglon Jpattikawa, S.Pdk</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">19710410 200501 2 012</td>
+              <td style="padding: 12px 16px;"><span style="background: #f3e8ff; color: #7c3aed; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Guru Mapel Agama Kristen Protestan</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">9</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Maria Gorety Lamere, S.Sos</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">19701126 200501 2 010</td>
+              <td style="padding: 12px 16px;"><span style="background: #f3e8ff; color: #7c3aed; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Guru Mapel Agama Katolik</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">10</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Edmon Bastian</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">198505232025211034</td>
+              <td style="padding: 12px 16px;"><span style="background: #fef3c7; color: #78716c; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Tenaga Kependidikan</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">11</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Linda Sasauw</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">198202242025212016</td>
+              <td style="padding: 12px 16px;"><span style="background: #fef3c7; color: #78716c; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Tenaga Kependidikan</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">12</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Welmina Manuhutu</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">197705072025212009</td>
+              <td style="padding: 12px 16px;"><span style="background: #fef3c7; color: #78716c; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Tenaga Kependidikan</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">13</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Daniel Gelfelem</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">198302212025211014</td>
+              <td style="padding: 12px 16px;"><span style="background: #fef3c7; color: #78716c; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Tenaga Kependidikan</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">14</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Febriyanti Ngantung, S.Pd</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">—</td>
+              <td style="padding: 12px 16px;"><span style="background: #fce7f3; color: #db2777; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Honor Mapel Bahasa Inggris</span></td>
+            </tr>
+            <tr style="border-bottom: none; transition: background .2s; cursor: default;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding: 12px 16px; font-weight: 600; color: var(--text-light);">15</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Ridho Hetharion</td>
+              <td style="padding: 12px 16px; color: var(--text-light); font-size: .82rem;">—</td>
+              <td style="padding: 12px 16px;"><span style="background: #fce7f3; color: #db2777; padding: 4px 10px; border-radius: 6px; font-size: .78rem; font-weight: 600;">Honor Mapel Seni Musik</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+            <span>SD NEGERI 3 HALONG</span>
+          </div>
+          <p>Sekolah Adiwiyata yang berkomitmen mencerdaskan generasi bangsa dengan pendidikan berkualitas dan
+            berwawasan lingkungan.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="sambutan.html">Profil</a></li>
+            <li><a href="program.html">Program</a></li>
+
+            <li><a href="prestasi.html">Prestasi</a></li>
+            <li><a href="informasi.html">Informasi</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+            <li><a href="galeri.html">Dokumentasi</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="login.html"><i class="fas fa-lock"></i> Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Profil</h4>
+          <ul>
+            <li><a href="sambutan.html">Sambutan Kepala Sekolah</a></li>
+            <li><a href="visi-misi.html">Visi & Misi</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Hubungi Kami</h4>
+          <p><i class="fas fa-map-marker-alt"></i> Jl. Halong Raya No. 3, Banjarmasin</p>
+          <p><i class="fas fa-phone"></i> (0511) 123-4567</p>
+          <p><i class="fas fa-envelope"></i> gmail@sdn3halong.sch.id</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 SD Negeri 3 Halong. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ========== TOGGLE MOBILE MENU ==========
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    }
+
+    // ========== SCROLL ANIMATION ==========
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+    // ========== NAVBAR SCROLL ==========
+    window.addEventListener('scroll', () => {
+      document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ========== MOBILE DROPDOWN ==========
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function (e) {
+        if (window.innerWidth <= 768) {
+          this.classList.toggle('open');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

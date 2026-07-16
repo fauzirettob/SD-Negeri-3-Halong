@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "Juara 1 Olimpiade Sains Tingkat Kota",
+    "image": "img/prestasi-1.jpg",
+    "category": "Akademik",
+    "date": "2026",
+    "description": "Siswa SD Negeri 3 Halong meraih juara 1 Olimpiade Sains tingkat Kota Banjarmasin"
+  },
+  {
+    "id": 2,
+    "title": "Juara 2 Sepak Bola Antar Sekolah",
+    "image": "img/prestasi-2.jpg",
+    "category": "Olahraga",
+    "date": "2026",
+    "description": "Tim sepak bola SD Negeri 3 Halong meraih juara 2 dalam turnamen antar sekolah se-Kota Banjarmasin"
+  },
+  {
+    "id": 3,
+    "title": "Juara 1 Pidato Bahasa Indonesia",
+    "image": "img/prestasi-3.jpg",
+    "category": "Non-Akademik",
+    "date": "2025",
+    "description": "Siswa SD Negeri 3 Halong meraih juara 1 lomba pidato Bahasa Indonesia tingkat kabupaten"
+  },
+  {
+    "id": 4,
+    "title": "Penghargaan Sekolah Adiwiyata",
+    "image": "img/prestasi-4.jpg",
+    "category": "Penghargaan",
+    "date": "2025",
+    "description": "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Adiwiyata atas kepedulian terhadap lingkungan"
+  },
+  {
+    "id": 5,
+    "title": "Juara 3 Lomba Mewarnai Tingkat Provinsi",
+    "image": "img/prestasi-5.jpg",
+    "category": "Non-Akademik",
+    "date": "2025",
+    "description": "Siswa kelas 1 SD Negeri 3 Halong meraih juara 3 lomba mewarnai tingkat Provinsi Kalimantan Selatan"
+  },
+  {
+    "id": 6,
+    "title": "Medali Emas OSN Matematika",
+    "image": "img/prestasi-6.jpg",
+    "category": "Akademik",
+    "date": "2024",
+    "description": "Meraih medali emas Olimpiade Sains Nasional (OSN) bidang Matematika tingkat kota"
+  }
+]

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD NEGERI 3 HALONG - Galeri</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo-icon">
+          <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+        </div>
+        <div>
+          <h1>SD NEGERI 3 HALONG</h1>
+        </div>
+      </a>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links" id="mobileMenu">
+        <li><a href="index.html">Beranda</a></li>
+        <li class="nav-item">
+          <a href="sambutan.html">Profil <i class="fas fa-chevron-down dropdown-icon"></i></a>
+          <div class="nav-dropdown">
+            <a href="sambutan.html"><i class="fas fa-greeting"></i> Sambutan</a>
+            <a href="visi-misi.html"><i class="fas fa-bullseye"></i> Visi & Misi</a>
+            <a href="sejarah.html"><i class="fas fa-history"></i> Sejarah</a>
+            <a href="guru.html"><i class="fas fa-sitemap"></i> Struktur Organisasi</a>
+          </div>
+        </li>
+        <li><a href="program.html">Program</a></li>
+
+        <li><a href="prestasi.html">Prestasi</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li><a href="informasi.html">Informasi</a></li>
+        <li><a href="galeri.html" class="active">Dokumentasi</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <a href="login.html" class="nav-login-link"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero" style="padding: 140px 0 60px; text-align: center; background: linear-gradient(135deg, var(--primary-light) 0%, #fff 50%, #fef3c7 100%);">
+    <div class="container">
+      <span style="display: inline-block; background: var(--primary-light); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: .85rem; font-weight: 600; margin-bottom: 16px;">
+        <i class="fas fa-images"></i> Galeri
+      </span>
+      <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">Galeri Foto</h1>
+      <p style="font-size: 1.1rem; color: var(--text-light);">Kumpulan dokumentasi kegiatan dan momen berharga di SD Negeri 3 Halong</p>
+    </div>
+  </section>
+
+  <!-- FILTER BUTTONS -->
+  <section class="gallery-filter">
+    <div class="container">
+      <div class="filter-buttons" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+        <button class="filter-btn active" data-filter="all" style="padding: 10px 20px; border: 2px solid var(--primary-light); background: var(--primary); color: #fff; border-radius: 8px; font-weight: 600; cursor: pointer; transition: .3s ease;">Semua</button>
+        <button class="filter-btn" data-filter="Kegiatan" style="padding: 10px 20px; border: 2px solid #e2e8f0; background: var(--white); color: var(--text); border-radius: 8px; font-weight: 500; cursor: pointer; transition: .3s ease;">Kegiatan</button>
+        <button class="filter-btn" data-filter="Pembelajaran" style="padding: 10px 20px; border: 2px solid #e2e8f0; background: var(--white); color: var(--text); border-radius: 8px; font-weight: 500; cursor: pointer; transition: .3s ease;">Pembelajaran</button>
+        <button class="filter-btn" data-filter="Olahraga" style="padding: 10px 20px; border: 2px solid #e2e8f0; background: var(--white); color: var(--text); border-radius: 8px; font-weight: 500; cursor: pointer; transition: .3s ease;">Olahraga</button>
+        <button class="filter-btn" data-filter="Penghargaan" style="padding: 10px 20px; border: 2px solid #e2e8f0; background: var(--white); color: var(--text); border-radius: 8px; font-weight: 500; cursor: pointer; transition: .3s ease;">Penghargaan</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 20px;">
+    <div class="container">
+      <div class="gallery-grid" id="galleryGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+        <!-- Dynamic content will be loaded here -->
+      </div>
+
+      <!-- Empty state -->
+      <div id="emptyState" style="text-align: center; padding: 60px 20px; display: none;">
+        <div style="font-size: 4rem; color: #e2e8f0; margin-bottom: 16px;">
+          <i class="fas fa-images"></i>
+        </div>
+        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 8px;">Belum Ada Foto</h3>
+        <p style="font-size: .9rem; color: var(--text-light);">Belum ada foto dokumentasi. Admin akan menambahkan foto dokumentasi di sini.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="galleryLightbox" class="gallery-lightbox" style="display: none;">
+    <span class="gallery-lightbox-close" onclick="closeGalleryLightbox()">&times;</span>
+    <button class="gallery-lightbox-nav gallery-lightbox-prev" onclick="navigateGallery(-1)" title="Sebelumnya">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="gallery-lightbox-nav gallery-lightbox-next" onclick="navigateGallery(1)" title="Selanjutnya">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <div class="gallery-lightbox-content">
+      <img class="gallery-lightbox-image" id="galleryLightboxImg" src="" alt="">
+      <div class="gallery-lightbox-info">
+        <span id="galleryLightboxTitle"></span>
+        <span id="galleryLightboxCategory" style="font-size: .82rem; opacity: .7; background: rgba(255,255,255,.1); padding: 4px 12px; border-radius: 12px;"></span>
+        <span id="galleryLightboxCounter"></span>
+      </div>
+      <div id="galleryLightboxDesc" style="color: rgba(255,255,255,.7); text-align: center; padding: 8px 0 0; font-size: .9rem; max-width: 600px; line-height: 1.5;"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG">
+            <span>SD NEGERI 3 HALONG</span>
+          </div>
+          <p>Sekolah Adiwiyata yang berkomitmen mencerdaskan generasi bangsa dengan pendidikan berkualitas dan berwawasan lingkungan.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="sambutan.html">Profil</a></li>
+            <li><a href="program.html">Program</a></li>
+
+            <li><a href="prestasi.html">Prestasi</a></li>
+            <li><a href="informasi.html">Informasi</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+            <li><a href="galeri.html">Dokumentasi</a></li>
+            <li><a href="galeri.html">Galeri</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="login.html"><i class="fas fa-lock"></i> Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Profil</h4>
+          <ul>
+            <li><a href="sambutan.html">Sambutan</a></li>
+            <li><a href="visi-misi.html">Visi & Misi</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Program</h4>
+          <ul>
+            <li><a href="program.html">Kelas Pagi</a></li>
+            <li><a href="program.html">Ekstrakurikuler</a></li>
+            <li><a href="program.html">Bimbingan Belajar</a></li>
+            <li><a href="program.html">Adiwiyata</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Hubungi Kami</h4>
+          <p><i class="fas fa-map-marker-alt"></i> Jl. Halong Raya No. 3, Banjarmasin</p>
+          <p><i class="fas fa-phone"></i> (0511) 123-4567</p>
+          <p><i class="fas fa-envelope"></i> gmail@sdn3halong.sch.id</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 SD Negeri 3 Halong. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // ========== GALERI DISPLAY ==========
+
+    const STORAGE_KEY = 'sdN3Halong_galeri_upload';
+    let galleryData = [];
+    let currentIndex = 0;
+
+    // DOM elements
+    const galleryGrid = document.getElementById('galleryGrid');
+    const emptyState = document.getElementById('emptyState');
+
+    // ========== DIAGNOSTIK + WINDOW.NAME BRIDGE ==========
+    let galeriWindowData = [];
+    try {
+      if (window.name && window.name.startsWith('__galeri_data__')) {
+        galeriWindowData = JSON.parse(window.name.substring('__galeri_data__'.length));
+        window.name = '';
+      }
+    } catch(e) {}
+    try {
+      localStorage.setItem('_diag_galeri_test', 'ok');
+      localStorage.removeItem('_diag_galeri_test');
+      if (galeriWindowData.length) {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        let existing = raw ? JSON.parse(raw) : [];
+        const existingIds = new Set(existing.map(i => i.id));
+        galeriWindowData.forEach(item => {
+          if (!existingIds.has(item.id)) existing.push(item);
+        });
+        if (existing.length > (raw ? JSON.parse(raw).length : 0)) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+        }
+      }
+    } catch(e) {
+      console.warn('[Galeri] localStorage error:', e.message);
+    }
+
+    // ========== LOAD & RENDER GALLERY ==========
+
+    function renderGallery() {
+      const uploaded = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+      // Merge static data + uploaded data
+      let merged = [];
+
+      // Uploaded from localStorage (first = priority)
+      const uploadedItems = uploaded.map(item => ({
+        ...item,
+        image: item.dataUrl,
+        _sourceIndex: 0,
+        isUploaded: true
+      }));
+
+      // Static from galeri.json
+      if (galleryData.length > 0) {
+        var staticItems = galleryData.map(function(item, idx) {
+          return Object.assign({}, item, {
+            _sourceIndex: idx,
+            isUploaded: false
+          });
+        });
+        merged = uploadedItems.concat(staticItems);
+      } else {
+        merged = uploadedItems;
+      }
+
+      // Store merged data for lightbox access
+      window._mergedData = merged;
+
+      if (merged.length === 0) {
+        galleryGrid.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      galleryGrid.innerHTML = merged.map((item, index) => `
+        <div class="gallery-item" data-category="${item.category}" data-index="${index}" style="opacity: 0; animation: fadeInUp 0.6s ease forwards; animation-delay: ${index * 0.03}s;">
+          <div class="card" style="padding: 0; overflow: hidden; cursor: pointer; position: relative;">
+            ${item.isUploaded ? '<span style="position: absolute; top: 10px; left: 10px; background: var(--primary); color: #fff; font-size: .7rem; padding: 3px 10px; border-radius: 6px; font-weight: 600; z-index: 2; letter-spacing: .02em;"><i class="fas fa-upload"></i> Upload</span>' : ''}
+            <div style="height: 220px; overflow: hidden; background: var(--bg-alt); position: relative;">
+              <img src="${item.image}" alt="${item.title}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;">
+              <div style="position: absolute; inset: 0; background: rgba(0,0,0,.2); opacity: 0; transition: .3s ease; display: flex; align-items: center; justify-content: center;" class="gallery-overlay">
+                <i class="fas fa-search-plus" style="color: #fff; font-size: 1.5rem; transform: scale(0.8); transition: .3s ease;"></i>
+              </div>
+            </div>
+            <div style="padding: 16px 20px 20px;">
+              <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 4px;">${item.title}</h3>
+              <span style="font-size: .82rem; color: var(--primary); font-weight: 500;"><i class="far fa-folder-open"></i> ${item.category}</span>
+              ${item.description ? `<p style="font-size: .82rem; color: var(--text-light); margin-top: 6px; line-height: 1.4;">${item.description}</p>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Overlay hover
+      document.querySelectorAll('.gallery-item .card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          const overlay = this.querySelector('.gallery-overlay');
+          const img = this.querySelector('img');
+          if (overlay) overlay.style.opacity = '1';
+          if (img) img.style.transform = 'scale(1.1)';
+        });
+        card.addEventListener('mouseleave', function() {
+          const overlay = this.querySelector('.gallery-overlay');
+          const img = this.querySelector('img');
+          if (overlay) overlay.style.opacity = '0';
+          if (img) img.style.transform = 'scale(1)';
+        });
+      });
+
+      // Click to lightbox
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const idx = parseInt(this.dataset.index);
+          openGalleryLightbox(idx);
+        });
+      });
+
+      // Re-apply active filter
+      const activeFilter = document.querySelector('.filter-btn.active');
+      if (activeFilter) applyFilter(activeFilter.dataset.filter);
+    }
+
+    // ========== FILTER ==========
+
+    function applyFilter(filter) {
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach(item => {
+        if (filter === 'all' || item.dataset.category === filter) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // ========== LIGHTBOX ==========
+
+    function openGalleryLightbox(index) {
+      const merged = window._mergedData || [];
+      if (!merged.length) return;
+      currentIndex = index;
+      updateLightbox();
+      document.getElementById('galleryLightbox').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeGalleryLightbox() {
+      document.getElementById('galleryLightbox').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function navigateGallery(direction) {
+      const visibleItems = getVisibleGalleryItems();
+      if (visibleItems.length === 0) return;
+
+      const currentVisibleIndex = visibleItems.indexOf(currentIndex);
+      let newVisibleIndex = currentVisibleIndex + direction;
+
+      if (newVisibleIndex < 0) newVisibleIndex = visibleItems.length - 1;
+      if (newVisibleIndex >= visibleItems.length) newVisibleIndex = 0;
+
+      currentIndex = visibleItems[newVisibleIndex];
+      updateLightbox();
+    }
+
+    function getVisibleGalleryItems() {
+      const items = document.querySelectorAll('.gallery-item');
+      const visible = [];
+      items.forEach(item => {
+        if (item.style.display !== 'none') {
+          visible.push(parseInt(item.dataset.index));
+        }
+      });
+      return visible;
+    }
+
+    function updateLightbox() {
+      const merged = window._mergedData || [];
+      const item = merged[currentIndex];
+      if (!item) return;
+
+      const lightboxImg = document.getElementById('galleryLightboxImg');
+      const titleEl = document.getElementById('galleryLightboxTitle');
+      const catEl = document.getElementById('galleryLightboxCategory');
+      const descEl = document.getElementById('galleryLightboxDesc');
+      const counterEl = document.getElementById('galleryLightboxCounter');
+
+      lightboxImg.src = item.image;
+      lightboxImg.alt = item.title;
+      titleEl.textContent = item.title;
+      catEl.textContent = item.category;
+      descEl.textContent = item.description || '';
+      descEl.style.display = item.description ? 'block' : 'none';
+
+      const visibleItems = getVisibleGalleryItems();
+      const visibleIndex = visibleItems.indexOf(currentIndex);
+      counterEl.textContent = `${visibleIndex + 1} / ${visibleItems.length}`;
+    }
+
+    // ========== KEYBOARD & CLOSE ==========
+
+    document.addEventListener('keydown', function(e) {
+      const lightbox = document.getElementById('galleryLightbox');
+      if (lightbox.style.display !== 'flex') return;
+
+      if (e.key === 'Escape') {
+        closeGalleryLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        navigateGallery(-1);
+      } else if (e.key === 'ArrowRight') {
+        navigateGallery(1);
+      }
+    });
+
+    document.getElementById('galleryLightbox').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeGalleryLightbox();
+      }
+    });
+
+    // ========== FILTER BUTTONS ==========
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.style.background = 'var(--white)';
+          b.style.color = 'var(--text)';
+          b.style.borderColor = '#e2e8f0';
+          b.classList.remove('active');
+        });
+        btn.style.background = 'var(--primary)';
+        btn.style.color = '#fff';
+        btn.style.borderColor = 'var(--primary)';
+        btn.classList.add('active');
+
+        applyFilter(btn.dataset.filter);
+      });
+    });
+
+    // ========== INIT ==========
+
+    // Load static data from galeri.json, then render
+    fetch('galeri.json')
+      .then(response => response.json())
+      .then(data => {
+        galleryData = data;
+        renderGallery();
+      })
+      .catch(error => {
+        console.error('Error loading gallery:', error);
+        renderGallery();
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin — SD NEGERI 3 HALONG</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .admin-body { background: var(--bg); }
+    .admin-topbar {
+      background: var(--white); border-bottom: 1px solid rgba(0,0,0,.06);
+      padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);
+    }
+    .admin-topbar-left { display: flex; align-items: center; gap: 12px; }
+    .admin-topbar-left .brand { font-weight: 700; font-size: 1rem; color: var(--text); }
+    .admin-topbar-left .brand i { color: var(--primary); margin-right: 6px; }
+    .admin-topbar-right { display: flex; align-items: center; gap: 12px; }
+    .admin-badge {
+      background: var(--primary-light); color: var(--primary); padding: 4px 12px;
+      border-radius: 6px; font-size: .78rem; font-weight: 600;
+    }
+    .admin-container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+    /* Tab Navigation */
+    .admin-tabs {
+      display: flex; gap: 4px; background: var(--white); border-radius: var(--radius);
+      padding: 6px; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04);
+      margin-bottom: 32px; overflow-x: auto;
+    }
+    .admin-tab {
+      padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: .9rem;
+      cursor: pointer; transition: var(--transition); white-space: nowrap;
+      color: var(--text-light); border: none; background: transparent;
+    }
+    .admin-tab:hover { color: var(--primary); background: var(--primary-lighter); }
+    .admin-tab.active { color: #fff; background: var(--primary); box-shadow: 0 2px 8px rgba(30,64,175,.25); }
+    .admin-tab i { margin-right: 6px; }
+
+    /* Upload Area */
+    .admin-upload-card { display: none; }
+    .admin-upload-card.active { display: block; }
+
+    .upload-dropzone {
+      border: 3px dashed #e2e8f0; border-radius: var(--radius-lg); padding: 48px 24px;
+      text-align: center; cursor: pointer; transition: var(--transition); background: var(--white);
+      margin-bottom: 24px;
+    }
+    .upload-dropzone:hover { border-color: var(--primary); background: var(--primary-lighter); }
+    .upload-dropzone.has-file { border-color: var(--primary); background: var(--primary-lighter); padding: 24px; }
+    .upload-dropzone-icon { font-size: 3rem; color: var(--primary); margin-bottom: 16px; }
+    .upload-dropzone h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+    .upload-dropzone p { font-size: .9rem; color: var(--text-light); margin-bottom: 16px; }
+
+    .upload-preview-row {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;
+    }
+    .upload-preview-item {
+      width: 140px; height: 140px; border-radius: 8px; overflow: hidden;
+      border: 2px solid #e2e8f0; position: relative; flex-shrink: 0;
+    }
+    .upload-preview-item img { width: 100%; height: 100%; object-fit: cover; }
+    .upload-preview-item .remove-btn {
+      position: absolute; top: 4px; right: 4px; width: 24px; height: 24px;
+      background: #ef4444; color: #fff; border: none; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; cursor: pointer; transition: .2s;
+    }
+    .upload-preview-item .remove-btn:hover { transform: scale(1.15); }
+
+    .upload-form { max-width: 600px; margin: 0 auto; }
+    .upload-form .form-group { margin-bottom: 16px; }
+    .upload-form .form-label { display: block; margin-bottom: 6px; font-weight: 600; font-size: .88rem; }
+    .upload-form .form-input,
+    .upload-form .form-select,
+    .upload-form .form-textarea {
+      width: 100%; padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: .95rem; font-family: inherit; color: var(--text); background: var(--white);
+      transition: var(--transition); outline: none;
+    }
+    .upload-form .form-input:focus,
+    .upload-form .form-select:focus,
+    .upload-form .form-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(30,64,175,.12); }
+    .upload-form .form-textarea { min-height: 100px; resize: vertical; }
+    .upload-form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+    .admin-success {
+      background: #dcfce7; color: #16a34a; padding: 12px 16px; border-radius: 8px;
+      font-size: .88rem; font-weight: 500; display: none; align-items: center; gap: 8px; margin-bottom: 20px;
+    }
+    .admin-success.show { display: flex; }
+    @media (max-width: 768px) {
+      .admin-container { padding: 20px 16px; }
+      .admin-tabs { gap: 2px; padding: 4px; }
+      .admin-tab { padding: 10px 16px; font-size: .82rem; }
+      .upload-preview-item { width: 100px; height: 100px; }
+    }
+  </style>
+</head>
+<body class="admin-body">
+  <!-- TOPBAR -->
+  <div class="admin-topbar">
+    <div class="admin-topbar-left">
+      <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+        <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem;">
+          <i class="fas fa-school"></i>
+        </div>
+        <span class="brand"><i class="fas fa-cog"></i> Panel Admin</span>
+      </a>
+    </div>
+    <div class="admin-topbar-right">
+      <span class="admin-badge"><i class="fas fa-user-shield"></i> Admin</span>
+      <button class="btn" onclick="cekPenyimpanan()" style="padding: 8px 12px; font-size: .78rem; background: var(--primary-lighter); color: var(--primary); border: 2px solid var(--primary-light); cursor: pointer; border-radius: 8px;">
+        <i class="fas fa-stethoscope"></i> Cek Data
+      </button>
+      <a href="index.html" class="btn btn-outline" style="padding: 8px 16px; font-size: .82rem;">
+        <i class="fas fa-external-link-alt"></i> Lihat Situs
+      </a>
+      <button class="btn" onclick="logout()" style="padding: 8px 16px; font-size: .82rem; background: #fee2e2; color: #dc2626; border: none;">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </div>
+
+  <div class="admin-container">
+    <!-- Success message -->
+    <div class="admin-success" id="successMsg">
+      <i class="fas fa-check-circle"></i>
+      <span id="successMsgText">Berhasil disimpan!</span>
+    </div>
+
+    <!-- TABS -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="prestasi"><i class="fas fa-trophy"></i> Prestasi</button>
+      <button class="admin-tab" data-tab="dokumentasi"><i class="fas fa-images"></i> Dokumentasi</button>
+      <button class="admin-tab" data-tab="berita"><i class="fas fa-newspaper"></i> Berita</button>
+    </div>
+
+    <!-- ============ TAB: PRESTASI ============ -->
+    <div class="admin-upload-card active" id="tabPrestasi">
+      <!-- Upload Form -->
+      <div class="upload-dropzone" id="prestasiDropzone">
+        <div id="prestasiDropzonePrompt">
+          <div class="upload-dropzone-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+          <h3>Upload Gambar Prestasi</h3>
+          <p>Klik atau seret foto prestasi ke sini</p>
+          <button class="btn btn-primary" onclick="document.getElementById('prestasiFileInput').click(); event.stopPropagation();">
+            <i class="fas fa-plus"></i> Pilih Foto
+          </button>
+          <input type="file" id="prestasiFileInput" accept="image/*" multiple style="display: none;">
+          <p style="font-size: .8rem; color: var(--text-light); margin-top: 10px;">Format: JPG, PNG • Maks 5MB per foto</p>
+        </div>
+        <div id="prestasiDropzonePreview" style="display: none;">
+          <div class="upload-preview-row" id="prestasiPreviewList"></div>
+          <div class="upload-form">
+            <div class="form-group">
+              <label class="form-label">Nama Lomba / Prestasi <span style="color: #dc2626;">*</span></label>
+              <input type="text" id="prestasiTitle" class="form-input" placeholder="Contoh: Juara 1 Olimpiade Sains Tingkat Kota">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kategori</label>
+              <select id="prestasiCategory" class="form-select">
+                <option value="Akademik">Akademik</option>
+                <option value="Olahraga">Olahraga</option>
+                <option value="Non-Akademik">Non-Akademik</option>
+                <option value="Penghargaan">Penghargaan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tahun</label>
+              <input type="text" id="prestasiDate" class="form-input" placeholder="Contoh: 2026" value="2026">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Deskripsi Lomba <span style="color: #dc2626;">*</span></label>
+              <textarea id="prestasiDesc" class="form-textarea" placeholder="Jelaskan lomba/perlombaan apa yang dimenangkan, tingkat lomba, dll..."></textarea>
+            </div>
+            <div class="upload-form-actions">
+              <button class="btn btn-primary" onclick="savePrestasi()"><i class="fas fa-save"></i> Simpan Prestasi</button>
+              <button class="btn btn-outline" onclick="cancelPrestasiUpload()"><i class="fas fa-times"></i> Batal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daftar Prestasi Terupload -->
+      <div id="uploadedPrestasiSection" style="margin-top: 32px; display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <h3 style="font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-database" style="color: var(--primary);"></i> Prestasi Terupload
+          </h3>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span id="uploadedCount" style="font-size: .85rem; color: var(--text-light); font-weight: 500;">0 item</span>
+            <button class="btn" onclick="deleteAllPrestasi()" id="deleteAllBtn" style="display: none; padding: 8px 14px; font-size: .8rem; background: #fee2e2; color: #dc2626; border: none; border-radius: 8px; cursor: pointer; transition: .2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+              <i class="fas fa-trash-alt"></i> Hapus Semua
+            </button>
+            <button onclick="exportPrestasiJSON()" style="padding: 8px 14px; font-size: .8rem; background: var(--primary-lighter); color: var(--primary); border: 2px solid var(--primary-light); border-radius: 8px; cursor: pointer; font-weight: 600;">
+              <i class="fas fa-download"></i> Download Data
+            </button>
+            <button onclick="bukaPrestasi()" id="btnBukaPrestasi" style="padding: 8px 14px; font-size: .8rem; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+              <i class="fas fa-external-link-alt"></i> Buka Halaman Prestasi
+            </button>
+          </div>
+        </div>
+        <div id="uploadedPrestasiList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
+          <!-- Rendered dynamically -->
+        </div>
+        <div id="uploadedPrestasiEmpty" style="text-align: center; padding: 40px 20px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04);">
+          <div style="font-size: 2.5rem; color: #e2e8f0; margin-bottom: 12px;"><i class="fas fa-inbox"></i></div>
+          <p style="font-size: .9rem; color: var(--text-light);">Belum ada prestasi yang diupload dari panel admin.</p>
+        </div>
+      </div>
+
+      <!-- Diagnostic Info -->
+      <div id="diagnosticBanner" style="display: none; margin-top: 24px; padding: 20px; border-radius: var(--radius); border: 2px solid #f59e0b; background: #fffbeb;">
+        <h4 style="font-size: .95rem; font-weight: 700; margin-bottom: 8px; color: #92400e;">
+          <i class="fas fa-exclamation-triangle" style="color: #f59e0b;"></i> Diagnostik Penyimpanan
+        </h4>
+        <div id="diagnosticContent" style="font-size: .85rem; color: #78350f; line-height: 1.7;"></div>
+      </div>
+    </div>
+
+    <!-- ============ TAB: DOKUMENTASI ============ -->
+    <div class="admin-upload-card" id="tabDokumentasi">
+      <!-- Upload Form -->
+      <div class="upload-dropzone" id="dokumentasiDropzone">
+        <div id="dokumentasiDropzonePrompt">
+          <div class="upload-dropzone-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+          <h3>Upload Foto Dokumentasi</h3>
+          <p>Klik atau seret foto dokumentasi ke sini</p>
+          <button class="btn btn-primary" onclick="document.getElementById('dokumentasiFileInput').click(); event.stopPropagation();">
+            <i class="fas fa-plus"></i> Pilih Foto
+          </button>
+          <input type="file" id="dokumentasiFileInput" accept="image/*" multiple style="display: none;">
+          <p style="font-size: .8rem; color: var(--text-light); margin-top: 10px;">Format: JPG, PNG • Maks 5MB per foto</p>
+        </div>
+        <div id="dokumentasiDropzonePreview" style="display: none;">
+          <div class="upload-preview-row" id="dokumentasiPreviewList"></div>
+          <div class="upload-form">
+            <div class="form-group">
+              <label class="form-label">Judul Foto <span style="color: #dc2626;">*</span></label>
+              <input type="text" id="dokumentasiTitle" class="form-input" placeholder="Contoh: Kegiatan Class Meeting 2026">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kategori</label>
+              <select id="dokumentasiCategory" class="form-select">
+                <option value="Kegiatan">Kegiatan</option>
+                <option value="Pembelajaran">Pembelajaran</option>
+                <option value="Olahraga">Olahraga</option>
+                <option value="Penghargaan">Penghargaan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Deskripsi</label>
+              <textarea id="dokumentasiDesc" class="form-textarea" placeholder="Deskripsi kegiatan apa yang dilakukan..."></textarea>
+            </div>
+            <div class="upload-form-actions">
+              <button class="btn btn-primary" onclick="saveDokumentasi()"><i class="fas fa-save"></i> Simpan</button>
+              <button class="btn btn-outline" onclick="cancelDokumentasiUpload()"><i class="fas fa-times"></i> Batal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daftar Dokumentasi Terupload -->
+      <div id="uploadedDokumentasiSection" style="margin-top: 32px; display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <h3 style="font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-database" style="color: var(--primary);"></i> Dokumentasi Terupload
+          </h3>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span id="uploadedDokumentasiCount" style="font-size: .85rem; color: var(--text-light); font-weight: 500;">0 item</span>
+            <button class="btn" onclick="deleteAllDokumentasi()" id="deleteAllDokumentasiBtn" style="display: none; padding: 8px 14px; font-size: .8rem; background: #fee2e2; color: #dc2626; border: none; border-radius: 8px; cursor: pointer; transition: .2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+              <i class="fas fa-trash-alt"></i> Hapus Semua
+            </button>
+            <button onclick="bukaGaleri()" style="padding: 8px 14px; font-size: .8rem; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+              <i class="fas fa-external-link-alt"></i> Buka Halaman Galeri
+            </button>
+          </div>
+        </div>
+        <div id="uploadedDokumentasiList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
+          <!-- Rendered dynamically -->
+        </div>
+        <div id="uploadedDokumentasiEmpty" style="text-align: center; padding: 40px 20px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04);">
+          <div style="font-size: 2.5rem; color: #e2e8f0; margin-bottom: 12px;"><i class="fas fa-inbox"></i></div>
+          <p style="font-size: .9rem; color: var(--text-light);">Belum ada dokumentasi yang diupload dari panel admin.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ TAB: BERITA ============ -->
+    <div class="admin-upload-card" id="tabBerita">
+      <!-- Upload Form -->
+      <div class="upload-dropzone" id="beritaDropzone">
+        <div id="beritaDropzonePrompt">
+          <div class="upload-dropzone-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+          <h3>Upload Gambar Berita</h3>
+          <p>Klik atau seret foto berita ke sini</p>
+          <button class="btn btn-primary" onclick="document.getElementById('beritaFileInput').click(); event.stopPropagation();">
+            <i class="fas fa-plus"></i> Pilih Foto
+          </button>
+          <input type="file" id="beritaFileInput" accept="image/*" multiple style="display: none;">
+          <p style="font-size: .8rem; color: var(--text-light); margin-top: 10px;">Format: JPG, PNG • Maks 5MB per foto</p>
+        </div>
+        <div id="beritaDropzonePreview" style="display: none;">
+          <div class="upload-preview-row" id="beritaPreviewList"></div>
+          <div class="upload-form">
+            <div class="form-group">
+              <label class="form-label">Judul Berita <span style="color: #dc2626;">*</span></label>
+              <input type="text" id="beritaTitle" class="form-input" placeholder="Contoh: Kegiatan Class Meeting 2026">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kategori</label>
+              <select id="beritaCategory" class="form-select">
+                <option value="Akademik">Akademik</option>
+                <option value="Olahraga">Olahraga</option>
+                <option value="Non-Akademik">Non-Akademik</option>
+                <option value="Penghargaan">Penghargaan</option>
+                <option value="Kegiatan">Kegiatan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tanggal</label>
+              <input type="text" id="beritaDate" class="form-input" placeholder="Contoh: 12 Juli 2026" value="2026">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Deskripsi Berita <span style="color: #dc2626;">*</span></label>
+              <textarea id="beritaDesc" class="form-textarea" placeholder="Tulis isi berita lengkap..."></textarea>
+            </div>
+            <div class="upload-form-actions">
+              <button class="btn btn-primary" onclick="saveBerita()"><i class="fas fa-save"></i> Simpan Berita</button>
+              <button class="btn btn-outline" onclick="cancelBeritaUpload()"><i class="fas fa-times"></i> Batal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daftar Berita Terupload -->
+      <div id="uploadedBeritaSection" style="margin-top: 32px; display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <h3 style="font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-database" style="color: var(--primary);"></i> Berita Terupload
+          </h3>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span id="uploadedBeritaCount" style="font-size: .85rem; color: var(--text-light); font-weight: 500;">0 item</span>
+            <button class="btn" onclick="deleteAllBerita()" id="deleteAllBeritaBtn" style="display: none; padding: 8px 14px; font-size: .8rem; background: #fee2e2; color: #dc2626; border: none; border-radius: 8px; cursor: pointer; transition: .2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+              <i class="fas fa-trash-alt"></i> Hapus Semua
+            </button>
+            <button onclick="bukaBerita()" style="padding: 8px 14px; font-size: .8rem; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+              <i class="fas fa-external-link-alt"></i> Buka Halaman Berita
+            </button>
+          </div>
+        </div>
+        <div id="uploadedBeritaList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
+          <!-- Rendered dynamically -->
+        </div>
+        <div id="uploadedBeritaEmpty" style="text-align: center; padding: 40px 20px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04);">
+          <div style="font-size: 2.5rem; color: #e2e8f0; margin-bottom: 12px;"><i class="fas fa-inbox"></i></div>
+          <p style="font-size: .9rem; color: var(--text-light);">Belum ada berita yang diupload dari panel admin.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ========== AUTH CHECK ==========
+    if (localStorage.getItem('sdN3_admin_logged_in') !== 'true') {
+      window.location.href = 'login.html';
+    }
+
+    function logout() {
+      if (!confirm('Yakin ingin logout?')) return;
+      localStorage.removeItem('sdN3_admin_logged_in');
+      localStorage.removeItem('sdN3_admin_session');
+      window.location.href = 'login.html';
+    }
+
+    // ========== TAB SWITCHING ==========
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.admin-upload-card').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab' + this.dataset.tab.charAt(0).toUpperCase() + this.dataset.tab.slice(1)).classList.add('active');
+        // Refresh uploaded list when switching tabs
+        if (this.dataset.tab === 'prestasi') {
+          loadUploadedPrestasi();
+        } else if (this.dataset.tab === 'dokumentasi') {
+          loadUploadedDokumentasi();
+        } else if (this.dataset.tab === 'berita') {
+          loadUploadedBerita();
+        }
+      });
+    });
+
+    // ========== STORAGE KEYS ==========
+    const PRESTASI_KEY = 'sdN3Halong_prestasi_admin';
+    const DOKUMENTASI_KEY = 'sdN3Halong_galeri_upload';
+    const BERITA_KEY = 'sdN3Halong_berita_admin';
+
+    // ========== SUCCESS/ERROR MESSAGE ==========
+    function showSuccess(msg) {
+      const el = document.getElementById('successMsg');
+      el.style.background = '#dcfce7';
+      el.style.color = '#16a34a';
+      document.getElementById('successMsgText').textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 5000);
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('successMsg');
+      el.style.background = '#fee2e2';
+      el.style.color = '#dc2626';
+      document.getElementById('successMsgText').textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 8000);
+    }
+
+    // ========== PRESTASI UPLOAD ==========
+    let prestasiFiles = [];
+    let prestasiDataUrls = [];
+
+    const prestasiDropzone = document.getElementById('prestasiDropzone');
+    const prestasiFileInput = document.getElementById('prestasiFileInput');
+
+    prestasiDropzone.addEventListener('dragover', (e) => { e.preventDefault(); prestasiDropzone.style.borderColor = 'var(--primary)'; prestasiDropzone.style.background = 'var(--primary-lighter)'; });
+    prestasiDropzone.addEventListener('dragleave', () => { prestasiDropzone.style.borderColor = '#e2e8f0'; prestasiDropzone.style.background = ''; });
+    prestasiDropzone.addEventListener('drop', (e) => { e.preventDefault(); prestasiDropzone.style.borderColor = '#e2e8f0'; prestasiDropzone.style.background = ''; handlePrestasiFiles(e.dataTransfer.files); });
+
+    prestasiFileInput.addEventListener('change', () => { handlePrestasiFiles(prestasiFileInput.files); prestasiFileInput.value = ''; });
+
+    function handlePrestasiFiles(files) {
+      const valid = [];
+      for (const f of files) {
+        if (f.type.startsWith('image/') && f.size <= 5 * 1024 * 1024) valid.push(f);
+      }
+      if (!valid.length) { alert('Hanya file gambar (JPG, PNG) maksimal 5MB.'); return; }
+      prestasiFiles = valid;
+      showPrestasiPreview();
+    }
+
+    function showPrestasiPreview() {
+      const list = document.getElementById('prestasiPreviewList');
+      list.innerHTML = '';
+      prestasiDataUrls = [];
+      if (!prestasiFiles.length) { cancelPrestasiUpload(); return; }
+
+      prestasiFiles.forEach((f, i) => {
+        const r = new FileReader();
+        r.onload = (e) => {
+          prestasiDataUrls[i] = e.target.result;
+          const div = document.createElement('div');
+          div.className = 'upload-preview-item';
+          div.innerHTML = `<img src="${e.target.result}"><button class="remove-btn" onclick="removePrestasiFile(${i})">&times;</button>`;
+          list.appendChild(div);
+        };
+        r.readAsDataURL(f);
+      });
+      document.getElementById('prestasiDropzonePrompt').style.display = 'none';
+      document.getElementById('prestasiDropzonePreview').style.display = 'block';
+      prestasiDropzone.classList.add('has-file');
+    }
+
+    function removePrestasiFile(idx) {
+      prestasiFiles.splice(idx, 1);
+      prestasiDataUrls.splice(idx, 1);
+      const list = document.getElementById('prestasiPreviewList');
+      list.innerHTML = '';
+      prestasiDataUrls.forEach((url, i) => {
+        const div = document.createElement('div');
+        div.className = 'upload-preview-item';
+        div.innerHTML = `<img src="${url}"><button class="remove-btn" onclick="removePrestasiFile(${i})">&times;</button>`;
+        list.appendChild(div);
+      });
+      if (!prestasiFiles.length) cancelPrestasiUpload();
+    }
+
+    function cancelPrestasiUpload() {
+      prestasiFiles = [];
+      prestasiDataUrls = [];
+      document.getElementById('prestasiPreviewList').innerHTML = '';
+      document.getElementById('prestasiTitle').value = '';
+      document.getElementById('prestasiCategory').value = 'Akademik';
+      document.getElementById('prestasiDate').value = '2026';
+      document.getElementById('prestasiDesc').value = '';
+      document.getElementById('prestasiDropzonePrompt').style.display = 'block';
+      document.getElementById('prestasiDropzonePreview').style.display = 'none';
+      prestasiDropzone.classList.remove('has-file');
+    }
+
+    function saveToStorage(key, data) {
+      try {
+        const serialized = JSON.stringify(data);
+        const sizeKB = (new Blob([serialized]).size / 1024).toFixed(1);
+        localStorage.setItem(key, serialized);
+        console.log('[Storage] Saved', key, '-', data.length, 'items,', sizeKB, 'KB');
+        return true;
+      } catch (e) {
+        console.error('[Storage] Error saving', key, ':', e.message);
+        if (e.name === 'QuotaExceededError' || e.code === 22) {
+          showError('Penyimpanan PENUH! Hapus data lama yang tidak terpakai, atau gunakan gambar lebih kecil.');
+        } else {
+          showError('Gagal menyimpan: ' + e.message + '. Coba refresh halaman.');
+        }
+        return false;
+      }
+    }
+
+    function savePrestasi() {
+      if (!prestasiFiles.length) { alert('Pilih gambar terlebih dahulu!'); return; }
+      const title = document.getElementById('prestasiTitle').value.trim();
+      const desc = document.getElementById('prestasiDesc').value.trim();
+      if (!title) { alert('Masukkan nama lomba/prestasi!'); return; }
+      if (!desc) { alert('Masukkan deskripsi lomba!'); return; }
+
+      const existing = JSON.parse(localStorage.getItem(PRESTASI_KEY) || '[]');
+      console.log('[Prestasi] Existing data:', existing.length, 'items');
+      let loaded = 0;
+      let hasError = false;
+
+      prestasiFiles.forEach((file) => {
+        const r = new FileReader();
+        r.onload = (e) => {
+          existing.push({
+            id: 'prestasi_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            dataUrl: e.target.result,
+            title: title,
+            category: document.getElementById('prestasiCategory').value,
+            date: document.getElementById('prestasiDate').value.trim() || '2026',
+            description: desc,
+            createdAt: new Date().toISOString()
+          });
+          loaded++;
+          console.log('[Prestasi] File loaded:', loaded, 'of', prestasiFiles.length);
+          if (loaded === prestasiFiles.length) {
+            console.log('[Prestasi] Saving to localStorage, key:', PRESTASI_KEY);
+            if (saveToStorage(PRESTASI_KEY, existing)) {
+              // Simpan juga ke window.name sebagai bridge (bertahan saat navigasi dalam tab yang sama)
+              try {
+                window.name = '__prestasi_data__' + JSON.stringify(existing);
+              } catch(e) {}
+              cancelPrestasiUpload();
+              loadUploadedPrestasi();
+              showSuccess('Prestasi berhasil disimpan! Klik \'Buka Halaman Prestasi\' untuk melihat hasilnya.');
+            }
+          }
+        };
+        r.onerror = () => { if (!hasError) { hasError = true; alert('Gagal membaca file gambar. Coba gunakan file lain.'); } };
+        r.onabort = () => { if (!hasError) { hasError = true; alert('Pembacaan file dibatalkan.'); } };
+        r.readAsDataURL(file);
+      });
+    }
+
+
+    // ========== DOKUMENTASI UPLOAD ==========
+    let dokumentasiFiles = [];
+    let dokumentasiDataUrls = [];
+
+    const dokumentasiDropzone = document.getElementById('dokumentasiDropzone');
+    const dokumentasiFileInput = document.getElementById('dokumentasiFileInput');
+
+    dokumentasiDropzone.addEventListener('dragover', (e) => { e.preventDefault(); dokumentasiDropzone.style.borderColor = 'var(--primary)'; dokumentasiDropzone.style.background = 'var(--primary-lighter)'; });
+    dokumentasiDropzone.addEventListener('dragleave', () => { dokumentasiDropzone.style.borderColor = '#e2e8f0'; dokumentasiDropzone.style.background = ''; });
+    dokumentasiDropzone.addEventListener('drop', (e) => { e.preventDefault(); dokumentasiDropzone.style.borderColor = '#e2e8f0'; dokumentasiDropzone.style.background = ''; handleDokumentasiFiles(e.dataTransfer.files); });
+
+    dokumentasiFileInput.addEventListener('change', () => { handleDokumentasiFiles(dokumentasiFileInput.files); dokumentasiFileInput.value = ''; });
+
+    function handleDokumentasiFiles(files) {
+      const valid = [];
+      for (const f of files) {
+        if (f.type.startsWith('image/') && f.size <= 5 * 1024 * 1024) valid.push(f);
+      }
+      if (!valid.length) { alert('Hanya file gambar (JPG, PNG) maksimal 5MB.'); return; }
+      dokumentasiFiles = valid;
+      showDokumentasiPreview();
+    }
+
+    function showDokumentasiPreview() {
+      const list = document.getElementById('dokumentasiPreviewList');
+      list.innerHTML = '';
+      dokumentasiDataUrls = [];
+      if (!dokumentasiFiles.length) { cancelDokumentasiUpload(); return; }
+
+      dokumentasiFiles.forEach((f, i) => {
+        const r = new FileReader();
+        r.onload = (e) => {
+          dokumentasiDataUrls[i] = e.target.result;
+          const div = document.createElement('div');
+          div.className = 'upload-preview-item';
+          div.innerHTML = `<img src="${e.target.result}"><button class="remove-btn" onclick="removeDokumentasiFile(${i})">&times;</button>`;
+          list.appendChild(div);
+        };
+        r.readAsDataURL(f);
+      });
+      document.getElementById('dokumentasiDropzonePrompt').style.display = 'none';
+      document.getElementById('dokumentasiDropzonePreview').style.display = 'block';
+      dokumentasiDropzone.classList.add('has-file');
+    }
+
+    function removeDokumentasiFile(idx) {
+      dokumentasiFiles.splice(idx, 1);
+      dokumentasiDataUrls.splice(idx, 1);
+      const list = document.getElementById('dokumentasiPreviewList');
+      list.innerHTML = '';
+      dokumentasiDataUrls.forEach((url, i) => {
+        const div = document.createElement('div');
+        div.className = 'upload-preview-item';
+        div.innerHTML = `<img src="${url}"><button class="remove-btn" onclick="removeDokumentasiFile(${i})">&times;</button>`;
+        list.appendChild(div);
+      });
+      if (!dokumentasiFiles.length) cancelDokumentasiUpload();
+    }
+
+    function cancelDokumentasiUpload() {
+      dokumentasiFiles = [];
+      dokumentasiDataUrls = [];
+      document.getElementById('dokumentasiPreviewList').innerHTML = '';
+      document.getElementById('dokumentasiTitle').value = '';
+      document.getElementById('dokumentasiCategory').value = 'Kegiatan';
+      document.getElementById('dokumentasiDesc').value = '';
+      document.getElementById('dokumentasiDropzonePrompt').style.display = 'block';
+      document.getElementById('dokumentasiDropzonePreview').style.display = 'none';
+      dokumentasiDropzone.classList.remove('has-file');
+    }
+
+    function saveDokumentasi() {
+      if (!dokumentasiFiles.length) { alert('Pilih gambar terlebih dahulu!'); return; }
+      const title = document.getElementById('dokumentasiTitle').value.trim();
+      if (!title) { alert('Masukkan judul foto!'); return; }
+
+      const existing = JSON.parse(localStorage.getItem(DOKUMENTASI_KEY) || '[]');
+      console.log('[Dokumentasi] Existing data:', existing.length, 'items');
+      let loaded = 0;
+      let hasError = false;
+
+      dokumentasiFiles.forEach((file) => {
+        const r = new FileReader();
+        r.onload = (e) => {
+          existing.push({
+            id: 'dokumentasi_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            dataUrl: e.target.result,
+            title: title,
+            category: document.getElementById('dokumentasiCategory').value,
+            description: document.getElementById('dokumentasiDesc').value.trim(),
+            date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+            createdAt: new Date().toISOString()
+          });
+          loaded++;
+          console.log('[Dokumentasi] File loaded:', loaded, 'of', dokumentasiFiles.length);
+          if (loaded === dokumentasiFiles.length) {
+            console.log('[Dokumentasi] Saving to localStorage, key:', DOKUMENTASI_KEY);
+            if (saveToStorage(DOKUMENTASI_KEY, existing)) {
+              cancelDokumentasiUpload();
+              showSuccess('Dokumentasi berhasil disimpan! Foto akan tampil di halaman galeri.');
+            }
+          }
+        };
+        r.onerror = () => { if (!hasError) { hasError = true; alert('Gagal membaca file gambar. Coba gunakan file lain.'); } };
+        r.onabort = () => { if (!hasError) { hasError = true; alert('Pembacaan file dibatalkan.'); } };
+        r.readAsDataURL(file);
+      });
+    }
+
+    // ========== MANAJEMEN DOKUMENTASI TERUPLOAD ==========
+    function loadUploadedDokumentasi() {
+      const section = document.getElementById('uploadedDokumentasiSection');
+      const list = document.getElementById('uploadedDokumentasiList');
+      const empty = document.getElementById('uploadedDokumentasiEmpty');
+      const countEl = document.getElementById('uploadedDokumentasiCount');
+      const deleteAllBtn = document.getElementById('deleteAllDokumentasiBtn');
+
+      try {
+        const raw = localStorage.getItem(DOKUMENTASI_KEY);
+        if (!raw) {
+          section.style.display = 'none';
+          return;
+        }
+        const data = JSON.parse(raw);
+        if (!data.length) {
+          section.style.display = 'none';
+          return;
+        }
+
+        section.style.display = 'block';
+        countEl.textContent = data.length + ' item';
+        deleteAllBtn.style.display = 'inline-flex';
+        empty.style.display = 'none';
+
+        list.innerHTML = data.map((item, idx) => {
+          const catColors = {
+            'Kegiatan': '#2563eb',
+            'Pembelajaran': '#16a34a',
+            'Olahraga': '#9333ea',
+            'Penghargaan': '#d97706'
+          };
+          const catColor = catColors[item.category] || '#64748b';
+          const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-';
+
+          return `
+            <div style="background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04); transition: .3s; position: relative;">
+              <div style="height: 160px; background: var(--bg-alt); overflow: hidden; position: relative;">
+                <img src="${item.dataUrl}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div style="padding: 12px 14px 14px;">
+                <span style="display: inline-block; background: ${catColor}15; color: ${catColor}; padding: 2px 10px; border-radius: 4px; font-size: .7rem; font-weight: 600; margin-bottom: 6px;">
+                  <i class="fas fa-tag"></i> ${item.category}
+                </span>
+                <h4 style="font-size: .85rem; font-weight: 700; margin-bottom: 4px; line-height: 1.4;">${item.title}</h4>
+                ${item.description ? `<p style="font-size: .78rem; color: var(--text-light); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px;">${item.description}</p>` : ''}
+                <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+                  <span style="font-size: .72rem; color: var(--text-lighter);"><i class="far fa-clock"></i> ${dateStr}</span>
+                  <button onclick="deleteDokumentasiItem(${idx})" style="background: #fee2e2; color: #dc2626; border: none; padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 600; cursor: pointer; transition: .2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+                    <i class="fas fa-trash-alt"></i> Hapus
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch(e) {
+        section.style.display = 'none';
+      }
+    }
+
+    function deleteDokumentasiItem(idx) {
+      if (!confirm('Hapus foto dokumentasi ini?')) return;
+      try {
+        const raw = localStorage.getItem(DOKUMENTASI_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        data.splice(idx, 1);
+        if (saveToStorage(DOKUMENTASI_KEY, data)) {
+          loadUploadedDokumentasi();
+          showSuccess('Foto dokumentasi berhasil dihapus!');
+        }
+      } catch(e) {
+        showError('Gagal menghapus: ' + e.message);
+      }
+    }
+
+    function deleteAllDokumentasi() {
+      if (!confirm('Hapus SEMUA foto dokumentasi yang diupload? Tindakan ini tidak bisa dibatalkan!')) return;
+      localStorage.removeItem(DOKUMENTASI_KEY);
+      loadUploadedDokumentasi();
+      showSuccess('Semua foto dokumentasi berhasil dihapus!');
+    }
+
+    function bukaGaleri() {
+      // Simpan data ke window.name sebagai bridge
+      try {
+        const raw = localStorage.getItem(DOKUMENTASI_KEY);
+        if (raw) {
+          window.name = '__galeri_data__' + raw;
+        }
+      } catch(e) {}
+      window.location.href = 'galeri.html';
+    }
+
+    // ========== BERITA UPLOAD ==========
+    let beritaFiles = [];
+    let beritaDataUrls = [];
+
+    const beritaDropzone = document.getElementById('beritaDropzone');
+    const beritaFileInput = document.getElementById('beritaFileInput');
+
+    beritaDropzone.addEventListener('dragover', (e) => { e.preventDefault(); beritaDropzone.style.borderColor = 'var(--primary)'; beritaDropzone.style.background = 'var(--primary-lighter)'; });
+    beritaDropzone.addEventListener('dragleave', () => { beritaDropzone.style.borderColor = '#e2e8f0'; beritaDropzone.style.background = ''; });
+    beritaDropzone.addEventListener('drop', (e) => { e.preventDefault(); beritaDropzone.style.borderColor = '#e2e8f0'; beritaDropzone.style.background = ''; handleBeritaFiles(e.dataTransfer.files); });
+
+    beritaFileInput.addEventListener('change', () => { handleBeritaFiles(beritaFileInput.files); beritaFileInput.value = ''; });
+
+    function handleBeritaFiles(files) {
+      const valid = [];
+      for (const f of files) {
+        if (f.type.startsWith('image/') && f.size <= 5 * 1024 * 1024) valid.push(f);
+      }
+      if (!valid.length) { alert('Hanya file gambar (JPG, PNG) maksimal 5MB.'); return; }
+      beritaFiles = valid;
+      showBeritaPreview();
+    }
+
+    function showBeritaPreview() {
+      const list = document.getElementById('beritaPreviewList');
+      list.innerHTML = '';
+      beritaDataUrls = [];
+      if (!beritaFiles.length) { cancelBeritaUpload(); return; }
+
+      beritaFiles.forEach((f, i) => {
+        const r = new FileReader();
+        r.onload = (e) => {
+          beritaDataUrls[i] = e.target.result;
+          const div = document.createElement('div');
+          div.className = 'upload-preview-item';
+          div.innerHTML = `<img src="${e.target.result}"><button class="remove-btn" onclick="removeBeritaFile(${i})">&times;</button>`;
+          list.appendChild(div);
+        };
+        r.readAsDataURL(f);
+      });
+      document.getElementById('beritaDropzonePrompt').style.display = 'none';
+      document.getElementById('beritaDropzonePreview').style.display = 'block';
+      beritaDropzone.classList.add('has-file');
+    }
+
+    function removeBeritaFile(idx) {
+      beritaFiles.splice(idx, 1);
+      beritaDataUrls.splice(idx, 1);
+      const list = document.getElementById('beritaPreviewList');
+      list.innerHTML = '';
+      beritaDataUrls.forEach((url, i) => {
+        const div = document.createElement('div');
+        div.className = 'upload-preview-item';
+        div.innerHTML = `<img src="${url}"><button class="remove-btn" onclick="removeBeritaFile(${i})">&times;</button>`;
+        list.appendChild(div);
+      });
+      if (!beritaFiles.length) cancelBeritaUpload();
+    }
+
+    function cancelBeritaUpload() {
+      beritaFiles = [];
+      beritaDataUrls = [];
+      document.getElementById('beritaPreviewList').innerHTML = '';
+      document.getElementById('beritaTitle').value = '';
+      document.getElementById('beritaCategory').value = 'Akademik';
+      document.getElementById('beritaDate').value = '2026';
+      document.getElementById('beritaDesc').value = '';
+      document.getElementById('beritaDropzonePrompt').style.display = 'block';
+      document.getElementById('beritaDropzonePreview').style.display = 'none';
+      beritaDropzone.classList.remove('has-file');
+    }
+
+    function saveBerita() {
+      if (!beritaFiles.length) { alert('Pilih gambar terlebih dahulu!'); return; }
+      const title = document.getElementById('beritaTitle').value.trim();
+      const desc = document.getElementById('beritaDesc').value.trim();
+      if (!title) { alert('Masukkan judul berita!'); return; }
+      if (!desc) { alert('Masukkan deskripsi berita!'); return; }
+
+      const existing = JSON.parse(localStorage.getItem(BERITA_KEY) || '[]');
+      console.log('[Berita] Existing data:', existing.length, 'items');
+      let loaded = 0;
+      let hasError = false;
+
+      beritaFiles.forEach((file) => {
+        const r = new FileReader();
+        r.onload = (e) => {
+          existing.push({
+            id: 'berita_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            dataUrl: e.target.result,
+            title: title,
+            category: document.getElementById('beritaCategory').value,
+            date: document.getElementById('beritaDate').value.trim() || '2026',
+            description: desc,
+            createdAt: new Date().toISOString()
+          });
+          loaded++;
+          console.log('[Berita] File loaded:', loaded, 'of', beritaFiles.length);
+          if (loaded === beritaFiles.length) {
+            console.log('[Berita] Saving to localStorage, key:', BERITA_KEY);
+            if (saveToStorage(BERITA_KEY, existing)) {
+              try {
+                window.name = '__berita_data__' + JSON.stringify(existing);
+              } catch(e) {}
+              cancelBeritaUpload();
+              loadUploadedBerita();
+              showSuccess('Berita berhasil disimpan! Klik \'Buka Halaman Berita\' untuk melihat hasilnya.');
+            }
+          }
+        };
+        r.onerror = () => { if (!hasError) { hasError = true; alert('Gagal membaca file gambar. Coba gunakan file lain.'); } };
+        r.onabort = () => { if (!hasError) { hasError = true; alert('Pembacaan file dibatalkan.'); } };
+        r.readAsDataURL(file);
+      });
+    }
+
+    // ========== MANAJEMEN BERITA TERUPLOAD ==========
+    function loadUploadedBerita() {
+      const section = document.getElementById('uploadedBeritaSection');
+      const list = document.getElementById('uploadedBeritaList');
+      const empty = document.getElementById('uploadedBeritaEmpty');
+      const countEl = document.getElementById('uploadedBeritaCount');
+      const deleteAllBtn = document.getElementById('deleteAllBeritaBtn');
+
+      try {
+        const raw = localStorage.getItem(BERITA_KEY);
+        if (!raw) {
+          section.style.display = 'none';
+          return;
+        }
+        const data = JSON.parse(raw);
+        if (!data.length) {
+          section.style.display = 'none';
+          return;
+        }
+
+        section.style.display = 'block';
+        countEl.textContent = data.length + ' item';
+        deleteAllBtn.style.display = 'inline-flex';
+        empty.style.display = 'none';
+
+        list.innerHTML = data.map((item, idx) => {
+          const catColors = {
+            'Akademik': '#2563eb',
+            'Olahraga': '#16a34a',
+            'Non-Akademik': '#9333ea',
+            'Penghargaan': '#d97706',
+            'Kegiatan': '#0284c7'
+          };
+          const catColor = catColors[item.category] || '#64748b';
+          const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-';
+
+          return `
+            <div style="background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04); transition: .3s; position: relative;">
+              <div style="height: 160px; background: var(--bg-alt); overflow: hidden; position: relative;">
+                <img src="${item.dataUrl}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                <span style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.5); color: #fff; padding: 2px 10px; border-radius: 4px; font-size: .7rem; font-weight: 600;">
+                  ${item.date || '-'}
+                </span>
+              </div>
+              <div style="padding: 12px 14px 14px;">
+                <span style="display: inline-block; background: ${catColor}15; color: ${catColor}; padding: 2px 10px; border-radius: 4px; font-size: .7rem; font-weight: 600; margin-bottom: 6px;">
+                  <i class="fas fa-tag"></i> ${item.category}
+                </span>
+                <h4 style="font-size: .85rem; font-weight: 700; margin-bottom: 4px; line-height: 1.4;">${item.title}</h4>
+                <p style="font-size: .78rem; color: var(--text-light); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px;">${item.description || '-'}</p>
+                <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+                  <span style="font-size: .72rem; color: var(--text-lighter);"><i class="far fa-clock"></i> ${dateStr}</span>
+                  <button onclick="deleteBeritaItem(${idx})" style="background: #fee2e2; color: #dc2626; border: none; padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 600; cursor: pointer; transition: .2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+                    <i class="fas fa-trash-alt"></i> Hapus
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch(e) {
+        section.style.display = 'none';
+      }
+    }
+
+    function deleteBeritaItem(idx) {
+      if (!confirm('Hapus berita ini?')) return;
+      try {
+        const raw = localStorage.getItem(BERITA_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        data.splice(idx, 1);
+        if (saveToStorage(BERITA_KEY, data)) {
+          loadUploadedBerita();
+          showSuccess('Berita berhasil dihapus!');
+        }
+      } catch(e) {
+        showError('Gagal menghapus: ' + e.message);
+      }
+    }
+
+    function deleteAllBerita() {
+      if (!confirm('Hapus SEMUA berita yang diupload? Tindakan ini tidak bisa dibatalkan!')) return;
+      localStorage.removeItem(BERITA_KEY);
+      loadUploadedBerita();
+      showSuccess('Semua berita berhasil dihapus!');
+    }
+
+    function bukaBerita() {
+      try {
+        const raw = localStorage.getItem(BERITA_KEY);
+        if (raw) {
+          window.name = '__berita_data__' + raw;
+        }
+      } catch(e) {}
+      window.location.href = 'berita.html';
+    }
+
+    // ========== DIAGNOSTIC ==========
+    // ========== MANAJEMEN PRESTASI TERUPLOAD ==========
+    function loadUploadedPrestasi() {
+      const section = document.getElementById('uploadedPrestasiSection');
+      const list = document.getElementById('uploadedPrestasiList');
+      const empty = document.getElementById('uploadedPrestasiEmpty');
+      const countEl = document.getElementById('uploadedCount');
+      const deleteAllBtn = document.getElementById('deleteAllBtn');
+
+      try {
+        const raw = localStorage.getItem(PRESTASI_KEY);
+        if (!raw) {
+          section.style.display = 'none';
+          return;
+        }
+        const data = JSON.parse(raw);
+        if (!data.length) {
+          section.style.display = 'none';
+          return;
+        }
+
+        section.style.display = 'block';
+        countEl.textContent = data.length + ' item';
+        deleteAllBtn.style.display = 'inline-flex';
+        empty.style.display = 'none';
+
+        list.innerHTML = data.map((item, idx) => {
+          const catColors = {
+            'Akademik': '#2563eb',
+            'Olahraga': '#16a34a',
+            'Non-Akademik': '#9333ea',
+            'Penghargaan': '#d97706'
+          };
+          const catColor = catColors[item.category] || '#64748b';
+          const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-';
+
+          return `
+            <div style="background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04); transition: .3s; position: relative;">
+              <div style="height: 140px; background: var(--bg-alt); overflow: hidden; position: relative;">
+                <img src="${item.dataUrl}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                <span style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.5); color: #fff; padding: 2px 10px; border-radius: 4px; font-size: .7rem; font-weight: 600;">
+                  ${item.date || '-'}
+                </span>
+              </div>
+              <div style="padding: 12px 14px 14px;">
+                <span style="display: inline-block; background: ${catColor}15; color: ${catColor}; padding: 2px 10px; border-radius: 4px; font-size: .7rem; font-weight: 600; margin-bottom: 6px;">
+                  <i class="fas fa-tag"></i> ${item.category}
+                </span>
+                <h4 style="font-size: .85rem; font-weight: 700; margin-bottom: 4px; line-height: 1.4;">${item.title}</h4>
+                <p style="font-size: .78rem; color: var(--text-light); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px;">${item.description || '-'}</p>
+                <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+                  <span style="font-size: .72rem; color: var(--text-lighter);"><i class="far fa-clock"></i> ${dateStr}</span>
+                  <button onclick="deletePrestasiItem(${idx})" style="background: #fee2e2; color: #dc2626; border: none; padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 600; cursor: pointer; transition: .2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+                    <i class="fas fa-trash-alt"></i> Hapus
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch(e) {
+        section.style.display = 'none';
+      }
+    }
+
+    function deletePrestasiItem(idx) {
+      if (!confirm('Hapus prestasi ini?')) return;
+      try {
+        const raw = localStorage.getItem(PRESTASI_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        data.splice(idx, 1);
+        if (saveToStorage(PRESTASI_KEY, data)) {
+          loadUploadedPrestasi();
+          showSuccess('Prestasi berhasil dihapus!');
+        }
+      } catch(e) {
+        showError('Gagal menghapus: ' + e.message);
+      }
+    }
+
+    function deleteAllPrestasi() {
+      if (!confirm('Hapus SEMUA prestasi yang diupload? Tindakan ini tidak bisa dibatalkan!')) return;
+      localStorage.removeItem(PRESTASI_KEY);
+      loadUploadedPrestasi();
+      showSuccess('Semua prestasi berhasil dihapus!');
+    }
+
+    // ========== EXPORT DATA + WINDOW.NAME BRIDGE ==========
+    function exportPrestasiJSON() {
+      try {
+        const raw = localStorage.getItem(PRESTASI_KEY);
+        if (!raw) { alert('Tidak ada data prestasi untuk didownload.'); return; }
+        const data = JSON.parse(raw);
+        if (!data.length) { alert('Tidak ada data prestasi untuk didownload.'); return; }
+
+        const blob = new Blob([raw], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'prestasi-upload-data.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showSuccess('File JSON berhasil didownload! Drag & drop file ini ke halaman prestasi untuk import.');
+      } catch(e) {
+        showError('Gagal download: ' + e.message);
+      }
+    }
+
+    function bukaPrestasi() {
+      // Simpan data ke window.name sebagai bridge (bertahan saat navigasi dalam tab yang sama)
+      try {
+        const raw = localStorage.getItem(PRESTASI_KEY);
+        if (raw) {
+          window.name = '__prestasi_data__' + raw;
+        }
+      } catch(e) {}
+      window.location.href = 'prestasi.html';
+    }
+
+    // Load uploaded data on page load
+    loadUploadedPrestasi();
+    loadUploadedDokumentasi();
+    loadUploadedBerita();
+
+    // ========== DIAGNOSTIK ==========
+    setTimeout(function() {
+      try {
+        localStorage.setItem('_prestasi_diag_test', 'ok');
+        const testRead = localStorage.getItem('_prestasi_diag_test');
+        localStorage.removeItem('_prestasi_diag_test');
+
+        if (testRead !== 'ok') {
+          document.getElementById('diagnosticBanner').style.display = 'block';
+          document.getElementById('diagnosticContent').innerHTML = '<b>localStorage TIDAK berfungsi normal!</b> Data tidak dapat disimpan. Coba buka file menggunakan <b>Live Server</b> atau browser lain.';
+        } else {
+          // Cek apakah data bisa dibaca dari prestasi.html nanti
+          const raw = localStorage.getItem(PRESTASI_KEY);
+          const totalSize = raw ? (new Blob([raw]).size / 1024).toFixed(1) : 0;
+          const itemCount = raw ? JSON.parse(raw).length : 0;
+          if (totalSize > 4000) {
+            document.getElementById('diagnosticBanner').style.display = 'block';
+            document.getElementById('diagnosticContent').innerHTML = `
+              <b>Peringatan: Penyimpanan Hampir Penuh!</b><br>
+              Data prestasi: <b>${itemCount} item</b> (${totalSize} KB)<br>
+              Batas localStorage biasanya ~5MB (5120 KB).<br>
+              <span style="color: #dc2626;">Selebihnya akan gagal disimpan!</span> Gunakan gambar lebih kecil atau hapus data lama.
+            `;
+          }
+        }
+      } catch(e) {
+        document.getElementById('diagnosticBanner').style.display = 'block';
+        document.getElementById('diagnosticContent').innerHTML = `
+          <b>localStorage ERROR:</b> ${e.message}<br>
+          <span style="color: #dc2626;">Data tidak bisa disimpan! </span>
+          Solusi: Buka file dengan <b>Google Chrome</b> atau jalankan via <b>Live Server</b>.
+        `;
+      }
+    }, 1000);
+
+    function cekPenyimpanan() {
+      const keys = [PRESTASI_KEY, DOKUMENTASI_KEY];
+      const names = ['Prestasi', 'Dokumentasi'];
+      let msg = '=== CEK DATA TERSUMPAN ===\n\n';
+      keys.forEach((key, i) => {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const data = JSON.parse(raw);
+            const sizeKB = (new Blob([raw]).size / 1024).toFixed(1);
+            msg += `${names[i]}: ${data.length} item (${sizeKB} KB)\n`;
+          } else {
+            msg += `${names[i]}: KOSONG\n`;
+          }
+        } catch(e) {
+          msg += `${names[i]}: ERROR - ${e.message}\n`;
+        }
+      });
+      // Cek sisa kuota
+      try {
+        const test = 'x'.repeat(1024 * 100); // 100KB test
+        localStorage.setItem('_test_quota', test);
+        localStorage.removeItem('_test_quota');
+        msg += '\nlocalStorage: BERFUNGSI NORMAL';
+      } catch(e) {
+        msg += '\nlocalStorage: ERROR - ' + e.message;
+      }
+      alert(msg);
+      console.log(msg);
+    }
+
+    // ========== INIT ==========
+  </script>
+</body>
+</html>

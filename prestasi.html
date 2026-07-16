@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD NEGERI 3 HALONG - Prestasi</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .prestasi-hero {
+      padding: 150px 0 80px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #1e40af 100%);
+    }
+
+    .prestasi-hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, .12) 0%, transparent 70%);
+      top: -250px;
+      left: -150px;
+      pointer-events: none;
+    }
+
+    .prestasi-hero::after {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, .1) 0%, transparent 70%);
+      bottom: -150px;
+      right: -150px;
+      pointer-events: none;
+    }
+
+    .prestasi-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 80% 20%, rgba(245, 158, 11, .06) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(59, 130, 246, .06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .prestasi-hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .prestasi-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, .1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: #fbbf24;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: .85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .prestasi-hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -.03em;
+    }
+
+    .prestasi-hero h1 span {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .prestasi-hero p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, .7);
+      max-width: 560px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+
+    .prestasi-stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-top: -48px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .prestasi-stat-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(0, 0, 0, .04);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prestasi-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .prestasi-stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .prestasi-stat-card:hover::before {
+      opacity: 1;
+    }
+
+    .prestasi-stat-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+    }
+
+    .prestasi-stat-card .number {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .prestasi-stat-card .label {
+      font-size: .82rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .prestasi-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 16px 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0, 0, 0, .04);
+    }
+
+    .prestasi-filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .prestasi-filter-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: .82rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: var(--bg-alt);
+      color: var(--text-light);
+      transition: var(--transition);
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prestasi-filter-btn:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .prestasi-filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 64, 175, .3);
+    }
+
+    .prestasi-filter-btn .count {
+      background: rgba(0, 0, 0, .1);
+      padding: 1px 8px;
+      border-radius: 10px;
+      font-size: .72rem;
+    }
+
+    .prestasi-filter-btn.active .count {
+      background: rgba(255, 255, 255, .2);
+    }
+
+    .prestasi-filter-btn i {
+      font-size: .75rem;
+    }
+
+    .prestasi-section {
+      padding: 60px 0 0;
+    }
+
+    .prestasi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .prestasi-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, .04);
+      position: relative;
+    }
+
+    .prestasi-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--accent-light);
+    }
+
+    .prestasi-card-image {
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .prestasi-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+
+    .prestasi-card:hover .prestasi-card-image img {
+      transform: scale(1.1);
+    }
+
+    .prestasi-card-image .prestasi-medal-overlay {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .2);
+      z-index: 2;
+    }
+
+    .prestasi-card-image .prestasi-category-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: .72rem;
+      font-weight: 600;
+      z-index: 2;
+      backdrop-filter: blur(4px);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .prestasi-card-body {
+      padding: 20px 22px 22px;
+    }
+
+    .prestasi-card-body .prestasi-year {
+      font-size: .78rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding: 3px 12px;
+      border-radius: 6px;
+      background: var(--primary-lighter);
+      color: var(--primary);
+    }
+
+    .prestasi-card-body h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .prestasi-card-body p {
+      font-size: .85rem;
+      color: var(--text-light);
+      line-height: 1.65;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .prestasi-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px 20px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .prestasi-card-footer .prestasi-rank {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    .prestasi-card-footer .prestasi-detail-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: .82rem;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .prestasi-card-footer .prestasi-detail-btn:hover {
+      gap: 10px;
+    }
+
+    .prestasi-state {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .prestasi-state .icon {
+      font-size: 4rem;
+      color: #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .prestasi-state h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .prestasi-state p {
+      font-size: .9rem;
+      color: var(--text-lighter);
+    }
+
+    .prestasi-cta {
+      background: linear-gradient(135deg, #1e40af, #312e81);
+      color: #fff;
+      border-radius: var(--radius-xl);
+      padding: 50px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+
+    .prestasi-cta::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, .08);
+      top: -80px;
+      left: -100px;
+      pointer-events: none;
+    }
+
+    .prestasi-cta h2 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .prestasi-cta p {
+      opacity: .85;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .prestasi-cta .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, .95);
+      color: var(--primary);
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-size: .9rem;
+      transition: var(--transition);
+      position: relative;
+      z-index: 1;
+    }
+
+    .prestasi-cta .btn-white:hover {
+      background: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .18);
+    }
+
+    @media (max-width:1024px) {
+      .prestasi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width:768px) {
+      .prestasi-hero {
+        padding: 130px 0 60px;
+      }
+
+      .prestasi-hero h1 {
+        font-size: 2rem;
+      }
+
+      .prestasi-stats {
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: -24px;
+      }
+
+      .prestasi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .prestasi-toolbar {
+        padding: 14px 18px;
+      }
+
+      .prestasi-cta {
+        padding: 36px 24px;
+        border-radius: 16px;
+      }
+
+      .prestasi-cta h2 {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width:480px) {
+      .prestasi-hero h1 {
+        font-size: 1.6rem;
+      }
+
+      .prestasi-stats {
+        gap: 10px;
+      }
+
+      .prestasi-stat-card {
+        padding: 18px 14px;
+      }
+
+      .prestasi-stat-card .number {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo-icon"><img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG"></div>
+        <div>
+          <h1>SD NEGERI 3 HALONG</h1>
+        </div>
+      </a>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu"><i
+          class="fas fa-bars"></i></button>
+      <ul class="nav-links" id="mobileMenu">
+        <li><a href="index.html">Beranda</a></li>
+        <li class="nav-item">
+          <a href="sambutan.html">Profil <i class="fas fa-chevron-down dropdown-icon"></i></a>
+          <div class="nav-dropdown">
+            <a href="sambutan.html"><i class="fas fa-greeting"></i> Sambutan</a>
+            <a href="visi-misi.html"><i class="fas fa-bullseye"></i> Visi & Misi</a>
+            <a href="sejarah.html"><i class="fas fa-history"></i> Sejarah</a>
+            <a href="guru.html"><i class="fas fa-sitemap"></i> Struktur Organisasi</a>
+          </div>
+        </li>
+        <li><a href="program.html">Program</a></li>
+        <li><a href="prestasi.html" class="active">Prestasi</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li><a href="informasi.html">Informasi</a></li>
+        <li><a href="galeri.html">Dokumentasi</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <a href="login.html" class="nav-login-link"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="prestasi-hero">
+    <div class="prestasi-hero-bg"></div>
+    <div class="container">
+      <div class="prestasi-hero-content">
+        <div class="prestasi-hero-badge"><i class="fas fa-trophy"></i> Prestasi Sekolah</div>
+        <h1>Pencapaian <span>Membanggakan</span></h1>
+        <p>Berbagai prestasi membanggakan yang diraih oleh siswa dan siswi SD Negeri 3 Halong di berbagai bidang</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section>
+    <div class="container">
+      <div class="prestasi-stats" id="prestasiStats">
+        <div class="prestasi-stat-card animate-on-scroll stagger-1">
+          <div class="icon">🏆</div>
+          <div class="number" id="totalPrestasiCount">0</div>
+          <div class="label">Total Prestasi</div>
+        </div>
+        <div class="prestasi-stat-card animate-on-scroll stagger-2">
+          <div class="icon">📚</div>
+          <div class="number" id="akademikCount">0</div>
+          <div class="label">Akademik</div>
+        </div>
+        <div class="prestasi-stat-card animate-on-scroll stagger-3">
+          <div class="icon">🎨</div>
+          <div class="number" id="nonAkademikCount">0</div>
+          <div class="label">Non-Akademik</div>
+        </div>
+        <div class="prestasi-stat-card animate-on-scroll stagger-4">
+          <div class="icon">⚽</div>
+          <div class="number" id="olahragaCount">0</div>
+          <div class="label">Olahraga</div>
+        </div>
+        <div class="prestasi-stat-card animate-on-scroll stagger-5">
+          <div class="icon">🏅</div>
+          <div class="number" id="penghargaanCount">0</div>
+          <div class="label">Penghargaan</div>
+        </div>
+      </div>
+    </div>
+  </section>      <!-- CONTENT -->
+  <section class="prestasi-section">
+    <div class="container">
+      <div class="prestasi-toolbar animate-on-scroll">
+        <div class="prestasi-filters" id="filterContainer">
+          <button class="prestasi-filter-btn active" data-filter="all"><i class="fas fa-th-list"></i> Semua <span
+              class="count" id="allCount">0</span></button>
+        </div>
+        <span style="font-size:.82rem;color:var(--text-lighter);font-weight:500;"><i class="far fa-calendar-alt"></i>
+          Diperbarui: <span id="lastUpdate">2026</span></span>
+      </div>
+
+      <div id="emptyState" class="prestasi-state" style="display:none;">
+        <div class="icon"><i class="fas fa-trophy"></i></div>
+        <h3>Belum Ada Data Prestasi</h3>
+        <p>Data prestasi belum tersedia untuk kategori ini.</p>
+      </div>
+      <div class="prestasi-grid" id="prestasiGrid"></div>
+
+      <!-- CTA (di bawah grid, tanpa jarak ke footer) -->
+      <div class="prestasi-cta animate-on-scroll" style="margin-top:32px;margin-bottom:0;">
+        <h2>Punya Prestasi?</h2>
+        <p>Jika siswa/siswi SD Negeri 3 Halong meraih prestasi, laporkan kepada kami untuk dipublikasikan.</p>
+        <a href="kontak.html" class="btn-white"><i class="fas fa-phone"></i> Hubungi Kami</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo"><img src="img/profil/logo.jpg" alt="SD NEGERI 3 HALONG"><span>SD NEGERI 3
+              HALONG</span></div>
+          <p>Sekolah Adiwiyata yang berkomitmen mencerdaskan generasi bangsa dengan pendidikan berkualitas dan
+            berwawasan lingkungan.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="sambutan.html">Profil</a></li>
+            <li><a href="program.html">Program</a></li>
+            <li><a href="prestasi.html">Prestasi</a></li>
+            <li><a href="berita.html">Berita</a></li>
+            <li><a href="informasi.html">Informasi</a></li>
+            <li><a href="guru.html">Struktur Organisasi</a></li>
+            <li><a href="galeri.html">Dokumentasi</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="login.html"><i class="fas fa-lock"></i> Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Profil</h4>
+          <ul>
+            <li><a href="sambutan.html">Sambutan Kepala Sekolah</a></li>
+            <li><a href="visi-misi.html">Visi & Misi</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Hubungi Kami</h4>
+          <p><i class="fas fa-map-marker-alt"></i> Jl. Halong Raya No. 3, Banjarmasin</p>
+          <p><i class="fas fa-phone"></i> (0511) 123-4567</p>
+          <p><i class="fas fa-envelope"></i> sdneg3halong@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 SD Negeri 3 Halong. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // ============================
+    // DATA PRESTASI STATIS (27 item)
+    // ============================
+    var PRESTASI_DATA = [
+      { id: 1, title: "Juara 1 Olimpiade Sains Tingkat Kota", image: "img/IMG-20260706-WA0096.jpg", category: "Akademik", date: "2026", description: "Siswa SD Negeri 3 Halong meraih juara 1 Olimpiade Sains tingkat Kota Banjarmasin" },
+      { id: 2, title: "Juara 2 Sepak Bola Antar Sekolah", image: "img/IMG-20260706-WA0097.jpg", category: "Olahraga", date: "2026", description: "Tim sepak bola SD Negeri 3 Halong meraih juara 2 dalam turnamen antar sekolah se-Kota Banjarmasin" },
+      { id: 3, title: "Juara 1 Pidato Bahasa Indonesia", image: "img/IMG-20260706-WA0098.jpg", category: "Non-Akademik", date: "2025", description: "Siswa SD Negeri 3 Halong meraih juara 1 lomba pidato Bahasa Indonesia tingkat kabupaten" },
+      { id: 4, title: "Penghargaan Sekolah Adiwiyata", image: "img/IMG-20260706-WA0099.jpg", category: "Penghargaan", date: "2025", description: "SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Adiwiyata" },
+      { id: 5, title: "Juara 3 Lomba Mewarnai Tingkat Provinsi", image: "img/IMG-20260706-WA0100.jpg", category: "Non-Akademik", date: "2025", description: "Siswa kelas 1 meraih juara 3 lomba mewarnai tingkat Provinsi" },
+      { id: 6, title: "Medali Emas OSN Matematika", image: "img/IMG-20260706-WA0101.jpg", category: "Akademik", date: "2024", description: "Meraih medali emas OSN Matematika tingkat kota" },
+      { id: 7, title: "Juara 3 Lomba Kaligrafi Tingkat Kota", image: "img/IMG-20260706-WA0102.jpg", category: "Non-Akademik", date: "2024", description: "Siswi meraih juara 3 lomba kaligrafi tingkat Kota Banjarmasin" },
+      { id: 8, title: "Penghargaan Sekolah Sehat Tingkat Provinsi", image: "img/IMG-20260706-WA0103.jpg", category: "Penghargaan", date: "2024", description: "SD Negeri 3 Halong menerima penghargaan Sekolah Sehat tingkat Provinsi" },
+      { id: 9, title: "Juara 1 Lomba Baca Puisi Tingkat Kota", image: "img/IMG-20260706-WA0104.jpg", category: "Non-Akademik", date: "2024", description: "Siswi meraih juara 1 lomba baca puisi tingkat Kota Banjarmasin" },
+      { id: 10, title: "Juara 2 Cerdas Cermat Tingkat Kecamatan", image: "img/IMG-20260706-WA0105.jpg", category: "Akademik", date: "2024", description: "Tim cerdas cermat meraih juara 2 tingkat Kecamatan Halong" },
+      { id: 11, title: "Juara 3 Lomba Menggambar Tingkat Provinsi", image: "img/IMG-20260706-WA0106.jpg", category: "Non-Akademik", date: "2023", description: "Siswa meraih juara 3 lomba menggambar tingkat Provinsi" },
+      { id: 12, title: "Penghargaan Sekolah Ramah Anak", image: "img/IMG-20260706-WA0107.jpg", category: "Penghargaan", date: "2023", description: "SD Negeri 3 Halong menerima penghargaan Sekolah Ramah Anak" },
+      { id: 13, title: "Juara 1 Lomba Tari Tradisional Tingkat Kota", image: "img/IMG-20260706-WA0108.jpg", category: "Non-Akademik", date: "2026", description: "Siswi meraih juara 1 lomba tari tradisional tingkat Kota Banjarmasin" },
+      { id: 14, title: "Juara 2 Pramuka Tingkat Kecamatan", image: "img/IMG-20260706-WA0109.jpg", category: "Non-Akademik", date: "2026", description: "Regu Pramuka meraih juara 2 lomba pramuka" },
+      { id: 15, title: "Juara Harapan 1 Olimpiade IPA Tingkat Provinsi", image: "img/IMG-20260706-WA0110.jpg", category: "Akademik", date: "2026", description: "Meraih juara harapan 1 Olimpiade IPA tingkat Provinsi" },
+      { id: 16, title: "Penghargaan Sekolah Inklusi Terbaik", image: "img/IMG-20260706-WA0111.jpg", category: "Penghargaan", date: "2026", description: "SD Negeri 3 Halong sebagai Sekolah Inklusi Terbaik" },
+      { id: 17, title: "Juara 1 Lomba Cipta Puisi Tingkat Provinsi", image: "img/IMG-20260706-WA0112.jpg", category: "Non-Akademik", date: "2026", description: "Siswi meraih juara 1 cipta puisi tingkat Provinsi" },
+      { id: 18, title: "Juara 2 Tenis Meja Tingkat Kota", image: "img/IMG-20260706-WA0113.jpg", category: "Olahraga", date: "2026", description: "Siswa meraih juara 2 tenis meja O2SN" },
+      { id: 19, title: "Juara Harapan 1 Olimpiade Matematika", image: "img/IMG-20260706-WA0114.jpg", category: "Akademik", date: "2025", description: "Meraih juara harapan 1 Olimpiade Matematika tingkat Provinsi" },
+      { id: 20, title: "Penghargaan Sekolah Adiwiyata Mandiri", image: "img/IMG-20260706-WA0115.jpg", category: "Penghargaan", date: "2025", description: "Penghargaan Adiwiyata Mandiri dari Kementerian LH" },
+      { id: 21, title: "Juara 1 Lomba MTQ Tingkat Kecamatan", image: "img/IMG-20260706-WA0120.jpg", category: "Non-Akademik", date: "2026", description: "Meraih juara 1 MTQ tingkat Kecamatan" },
+      { id: 22, title: "Juara 3 Bulu Tangkis Tingkat Kota", image: "img/IMG-20260706-WA0121.jpg", category: "Olahraga", date: "2026", description: "Meraih juara 3 bulu tangkis O2SN" },
+      { id: 23, title: "Juara 2 Pidato Bahasa Inggris", image: "img/IMG-20260706-WA0122.jpg", category: "Non-Akademik", date: "2025", description: "Meraih juara 2 pidato Bahasa Inggris" },
+      { id: 24, title: "Penghargaan Sekolah Bebas Narkoba", image: "img/IMG-20260706-WA0123.jpg", category: "Penghargaan", date: "2025", description: "Penghargaan Sekolah Bebas Narkoba" },
+      { id: 25, title: "Juara 1 Lomba PBB Tingkat Kota", image: "img/IMG-20260706-WA0124.jpg", category: "Non-Akademik", date: "2026", description: "Regu PBB meraih juara 1 PBB tingkat Kota" },
+      { id: 26, title: "Juara Harapan 1 Karya Ilmiah Remaja", image: "img/IMG-20260706-WA0125.jpg", category: "Akademik", date: "2026", description: "Meraih juara harapan 1 KIR tingkat Provinsi" },
+      { id: 27, title: "Juara 2 Fashion Show Tingkat Kota", image: "img/IMG-20260706-WA0126.jpg", category: "Non-Akademik", date: "2026", description: "Meraih juara 2 fashion show pakaian adat" }
+    ];
+
+    // ============================
+    // KONFIGURASI
+    // ============================
+    var STORAGE_KEY = 'sdN3Halong_prestasi_admin';
+    var CATEGORY_COLORS = {
+      Akademik: { icon: 'fa-graduation-cap', gradient: 'linear-gradient(135deg,#667eea,#764ba2)', medal: '🥇' },
+      Olahraga: { icon: 'fa-running', gradient: 'linear-gradient(135deg,#f093fb,#f5576c)', medal: '⚽' },
+      'Non-Akademik': { icon: 'fa-palette', gradient: 'linear-gradient(135deg,#4facfe,#00f2fe)', medal: '🎨' },
+      Penghargaan: { icon: 'fa-award', gradient: 'linear-gradient(135deg,#43e97b,#38f9d7)', medal: '🏆' }
+    };
+
+    var currentFilter = 'all'; var windowNameData = [];
+    var localStorageOK = false;
+
+    // ============================
+    // WINDOW.NAME BRIDGE
+    // ============================
+    try {
+      if (window.name && window.name.startsWith('__prestasi_data__')) {
+        windowNameData = JSON.parse(window.name.substring('__prestasi_data__'.length));
+        window.name = '';
+      }
+    } catch (e) { }
+
+    // ============================
+    // AMBIL SEMUA DATA PRESTASI
+    // ============================
+    function getAllPrestasi() {
+      var adminData = [];
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) adminData = JSON.parse(raw);
+      } catch (e) { /* localStorage not available */ }
+
+      // Fallback ke window.name
+      if (!adminData.length && windowNameData.length) {
+        adminData = windowNameData;
+      }
+
+      // Merge window.name ke localStorage jika bisa
+      if (windowNameData.length && localStorageOK) {
+        try {
+          var existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+          var ids = new Set(existing.map(function (i) { return i.id; }));
+          var changed = false;
+          windowNameData.forEach(function (item) {
+            if (!ids.has(item.id)) { existing.push(item); ids.add(item.id); changed = true; }
+          });
+          if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+        } catch (e) { }
+        windowNameData = [];
+      }
+
+      // Map admin data
+      var adminMapped = [];
+      for (var i = 0; i < adminData.length; i++) {
+        adminMapped.push({
+          id: adminData[i].id, title: adminData[i].title, image: adminData[i].dataUrl,
+          category: adminData[i].category, date: adminData[i].date, description: adminData[i].description,
+          _admin: true, _sortKey: Date.now() - new Date(adminData[i].createdAt || Date.now()).getTime()
+        });
+      }
+
+      // Map static data
+      var staticMapped = [];
+      for (var j = 0; j < PRESTASI_DATA.length; j++) {
+        var s = PRESTASI_DATA[j];
+        staticMapped.push({ id: s.id, title: s.title, image: s.image, category: s.category, date: s.date, description: s.description, _admin: false, _sortKey: j });
+      }
+
+      return adminMapped.concat(staticMapped);
+    }
+
+    // ============================
+    // RENDER PRESTASI
+    // ============================
+    // ============================
+    // DIAGNOSTIC BANNER
+    // ============================
+    function showDiagnostic() {
+      localStorageOK = false;
+      try {
+        localStorage.setItem('_diag_ps', 'x');
+        localStorage.removeItem('_diag_ps');
+        localStorageOK = true;
+      } catch (e) { }
+
+      if (localStorageOK && !windowNameData.length) return;
+      var banner = document.createElement('div');
+      banner.style.cssText = 'padding:16px 20px;border-radius:12px;margin-bottom:20px;font-size:.85rem;line-height:1.6;display:flex;align-items:flex-start;gap:12px;';
+      if (!localStorageOK) {
+        banner.style.background = '#fef3c7'; banner.style.color = '#92400e'; banner.style.border = '1px solid #fde68a';
+        banner.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size:1.3rem;margin-top:2px;"></i><div><strong>Penyimpanan Lokal Tidak Tersedia</strong><br>Browser Anda memblokir localStorage. Data upload mungkin tidak tampil. Coba buka halaman ini melalui tombol "Buka Halaman Prestasi" dari admin.</div>';
+      } else if (windowNameData.length) {
+        banner.style.background = '#dbeafe'; banner.style.color = '#1e40af'; banner.style.border = '1px solid #bfdbfe';
+        banner.innerHTML = '<i class="fas fa-info-circle" style="font-size:1.3rem;margin-top:2px;"></i><div><strong>Data Upload Terdeteksi</strong><br>Data dari admin telah dimuat. ' + windowNameData.length + ' item prestasi ditambahkan.</div>';
+      }
+      var grid = document.getElementById('prestasiGrid');
+      if (grid && grid.parentNode) grid.parentNode.insertBefore(banner, grid);
+    }
+
+    // ============================
+    // DETAIL CLICK (Event Delegation)
+    // ============================
+    document.getElementById('prestasiGrid').addEventListener('click', function (e) {
+      var btn = e.target.closest('.prestasi-detail-btn');
+      if (!btn) return;
+      alert(btn.getAttribute('data-title') + ' — ' + (btn.getAttribute('data-desc') || 'Tidak ada deskripsi'));
+    });
+
+    function renderPrestasi() {
+      var allData = getAllPrestasi();
+
+      // Sort: admin items first, then year descending
+      allData.sort(function (a, b) {
+        if (a._admin && !b._admin) return -1;
+        if (!a._admin && b._admin) return 1;
+        var yd = parseInt(b.date || 0) - parseInt(a.date || 0);
+        if (yd !== 0) return yd;
+        return (b._sortKey || 0) - (a._sortKey || 0);
+      });
+
+      // Stats (hitung semua data)
+      var uploadTotal = 0, akad = 0, nonakad = 0, pengh = 0, olah = 0;
+      for (var i = 0; i < allData.length; i++) {
+        uploadTotal++;
+        var cat = allData[i].category;
+        if (cat === 'Akademik') akad++;
+        else if (cat === 'Non-Akademik') nonakad++;
+        else if (cat === 'Penghargaan') pengh++;
+        else if (cat === 'Olahraga') olah++;
+      }
+      document.getElementById('totalPrestasiCount').textContent = uploadTotal;
+      document.getElementById('akademikCount').textContent = akad;
+      document.getElementById('nonAkademikCount').textContent = nonakad;
+      document.getElementById('olahragaCount').textContent = olah;
+      document.getElementById('penghargaanCount').textContent = pengh;
+
+      // Filter buttons
+      var cats = {};
+      for (var ci = 0; ci < allData.length; ci++) {
+        var c = allData[ci].category;
+        if (c) cats[c] = (cats[c] || 0) + 1;
+      }
+      var filterHtml = '<button class="prestasi-filter-btn active" data-filter="all"><i class="fas fa-th-list"></i> Semua <span class="count">' + allData.length + '</span></button>';
+      for (var cname in cats) {
+        var cfg = CATEGORY_COLORS[cname] || { icon: 'fa-star' };
+        filterHtml += '<button class="prestasi-filter-btn" data-filter="' + cname + '"><i class="fas ' + cfg.icon + '"></i> ' + cname + ' <span class="count">' + cats[cname] + '</span></button>';
+      }
+      document.getElementById('filterContainer').innerHTML = filterHtml;
+
+      // Last update year
+      var years = [];
+      for (var yi = 0; yi < allData.length; yi++) {
+        var y = allData[yi].date;
+        if (y && years.indexOf(y) === -1) years.push(y);
+      }
+      years.sort();
+      document.getElementById('lastUpdate').textContent = years[years.length - 1] || '2026';
+
+      // Filter
+      var filtered = [];
+      for (var fi = 0; fi < allData.length; fi++) {
+        if (currentFilter === 'all' || allData[fi].category === currentFilter) {
+          filtered.push(allData[fi]);
+        }
+      }
+
+      if (filtered.length === 0) {
+        document.getElementById('prestasiGrid').innerHTML = '';
+        document.getElementById('emptyState').style.display = 'block';
+        return;
+      }
+      document.getElementById('emptyState').style.display = 'none';
+
+      // Build cards
+      var html = '';
+      for (var k = 0; k < filtered.length; k++) {
+        var p = filtered[k];
+        var colors = CATEGORY_COLORS[p.category] || CATEGORY_COLORS['Akademik'];
+
+        var hasImage = p.image && (p.image.indexOf('data:') === 0 || p.image.indexOf('http') === 0 || p.image.indexOf('img/') === 0 || p.image.indexOf('./') === 0);
+        var rankEmoji = colors.medal;
+        var titleLow = (p.title || '').toLowerCase();
+        if (titleLow.indexOf('juara 1') >= 0 || titleLow.indexOf('medali emas') >= 0) rankEmoji = '🥇';
+        else if (titleLow.indexOf('juara 2') >= 0 || titleLow.indexOf('medali perak') >= 0) rankEmoji = '🥈';
+        else if (titleLow.indexOf('juara 3') >= 0 || titleLow.indexOf('juara harapan') >= 0) rankEmoji = '🥉';
+        else if (titleLow.indexOf('penghargaan') >= 0) rankEmoji = '🏆';
+
+        var imageHtml = hasImage ? '<img src="' + p.image + '" alt="' + p.title.replace(/"/g, '&quot;') + '" onerror="this.style.display=\'none\';this.parentElement.style.background=\'' + colors.gradient + '\'">' : '';
+        var adminBadge = p._admin ? '<span style="position:absolute;top:8px;left:8px;z-index:3;background:rgba(16,185,129,.92);color:#fff;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;display:inline-flex;align-items:center;gap:3px;"><i class="fas fa-cloud-upload-alt" style="font-size:.6rem;"></i> Admin</span>' : '';
+
+        html += '<div class="prestasi-card animate-on-scroll">' +
+          '<div class="prestasi-card-image" style="background:' + (hasImage ? 'var(--bg-alt)' : colors.gradient) + '">' +
+          adminBadge + imageHtml +
+          '<div class="prestasi-medal-overlay" style="background:' + colors.gradient + '">' + rankEmoji + '</div>' +
+          '<span class="prestasi-category-badge" style="background:rgba(255,255,255,.92);color:' + colors.gradient.match(/#[0-9a-f]{6}/g)[0] + ';">' +
+          '<i class="fas ' + colors.icon + '"></i> ' + p.category + '</span>' +
+          '</div>' +
+          '<div class="prestasi-card-body">' +
+          '<div class="prestasi-year"><i class="far fa-calendar-alt"></i> ' + (p.date || '-') + '</div>' +
+          '<h3>' + p.title + '</h3>' +
+          '<p>' + (p.description || '') + '</p>' +
+          '</div>' +
+          '<div class="prestasi-card-footer">' +
+          '<span class="prestasi-rank">' + rankEmoji + ' Prestasi</span>' +
+          '<span class="prestasi-detail-btn" data-title="' + p.title.replace(/"/g, '&quot;') + '" data-desc="' + (p.description || '').replace(/"/g, '&quot;') + '">Detail <i class="fas fa-arrow-right"></i></span>' +
+        '</div></div>';
+      }
+      document.getElementById('prestasiGrid').innerHTML = html;
+    }
+
+    // ============================
+    // FILTER EVENTS (Event Delegation)
+    // ============================
+    document.getElementById('filterContainer').addEventListener('click', function (e) {
+      var btn = e.target.closest('.prestasi-filter-btn');
+      if (!btn) return;
+      var btns = this.querySelectorAll('.prestasi-filter-btn');
+      for (var b = 0; b < btns.length; b++) btns[b].classList.remove('active');
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter');
+      renderPrestasi();
+    });
+
+    // ============================
+    // INIT
+    // ============================
+    showDiagnostic();
+    renderPrestasi();
+  </script>
+</body>
+
+</html>
