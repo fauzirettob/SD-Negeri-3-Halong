@@ -668,42 +668,9 @@
     var currentFilter = 'all';
 
     // ==========================================
-    // DATA STATIS (27 item - inline, NO async fetch)
-    //   ✓ Dibaca sinkron dari array — dijamin muncul
-    // ==========================================
-    var STATIC_DATA = [
-      { id:1,  title:"Juara 1 Olimpiade Sains Tingkat Kota",           image:"img/IMG-20260706-WA0096.jpg",  category:"Akademik",     date:"2026", description:"Siswa SD Negeri 3 Halong meraih juara 1 Olimpiade Sains tingkat Kota Banjarmasin" },
-      { id:2,  title:"Juara 2 Sepak Bola Antar Sekolah",               image:"img/IMG-20260706-WA0097.jpg",  category:"Olahraga",    date:"2026", description:"Tim sepak bola SD Negeri 3 Halong meraih juara 2 dalam turnamen antar sekolah se-Kota Banjarmasin" },
-      { id:3,  title:"Juara 1 Pidato Bahasa Indonesia",               image:"img/IMG-20260706-WA0098.jpg",  category:"Non-Akademik",date:"2025", description:"Siswa SD Negeri 3 Halong meraih juara 1 lomba pidato Bahasa Indonesia tingkat kabupaten" },
-      { id:4,  title:"Penghargaan Sekolah Adiwiyata",                  image:"img/IMG-20260706-WA0099.jpg",  category:"Penghargaan", date:"2025", description:"SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Adiwiyata" },
-      { id:5,  title:"Juara 3 Lomba Mewarnai Tingkat Provinsi",        image:"img/IMG-20260706-WA0100.jpg",  category:"Non-Akademik",date:"2025", description:"Siswa kelas 1 meraih juara 3 lomba mewarnai tingkat Provinsi" },
-      { id:6,  title:"Medali Emas OSN Matematika",                     image:"img/IMG-20260706-WA0101.jpg",  category:"Akademik",     date:"2024", description:"Meraih medali emas OSN Matematika tingkat kota" },
-      { id:7,  title:"Juara 3 Lomba Kaligrafi Tingkat Kota",           image:"img/IMG-20260706-WA0102.jpg",  category:"Non-Akademik",date:"2024", description:"Siswi meraih juara 3 lomba kaligrafi tingkat Kota Banjarmasin" },
-      { id:8,  title:"Penghargaan Sekolah Sehat Tingkat Provinsi",     image:"img/IMG-20260706-WA0103.jpg",  category:"Penghargaan", date:"2024", description:"SD Negeri 3 Halong menerima penghargaan Sekolah Sehat tingkat Provinsi" },
-      { id:9,  title:"Juara 1 Lomba Baca Puisi Tingkat Kota",          image:"img/IMG-20260706-WA0104.jpg",  category:"Non-Akademik",date:"2024", description:"Siswi meraih juara 1 lomba baca puisi tingkat Kota Banjarmasin" },
-      { id:10, title:"Juara 2 Cerdas Cermat Tingkat Kecamatan",        image:"img/IMG-20260706-WA0105.jpg",  category:"Akademik",     date:"2024", description:"Tim cerdas cermat meraih juara 2 tingkat Kecamatan Halong" },
-      { id:11, title:"Juara 3 Lomba Menggambar Tingkat Provinsi",      image:"img/IMG-20260706-WA0106.jpg",  category:"Non-Akademik",date:"2023", description:"Siswa meraih juara 3 lomba menggambar tingkat Provinsi" },
-      { id:12, title:"Penghargaan Sekolah Ramah Anak",                 image:"img/IMG-20260706-WA0107.jpg",  category:"Penghargaan", date:"2023", description:"SD Negeri 3 Halong menerima penghargaan Sekolah Ramah Anak" },
-      { id:13, title:"Juara 1 Lomba Tari Tradisional Tingkat Kota",    image:"img/IMG-20260706-WA0108.jpg",  category:"Non-Akademik",date:"2026", description:"Siswi meraih juara 1 lomba tari tradisional tingkat Kota Banjarmasin" },
-      { id:14, title:"Juara 2 Pramuka Tingkat Kecamatan",             image:"img/IMG-20260706-WA0109.jpg",  category:"Non-Akademik",date:"2026", description:"Regu Pramuka meraih juara 2 lomba pramuka" },
-      { id:15, title:"Juara Harapan 1 Olimpiade IPA Tingkat Provinsi", image:"img/IMG-20260706-WA0110.jpg", category:"Akademik",     date:"2026", description:"Meraih juara harapan 1 Olimpiade IPA tingkat Provinsi" },
-      { id:16, title:"Penghargaan Sekolah Inklusi Terbaik",            image:"img/IMG-20260706-WA0111.jpg", category:"Penghargaan", date:"2026", description:"SD Negeri 3 Halong sebagai Sekolah Inklusi Terbaik" },
-      { id:17, title:"Juara 1 Lomba Cipta Puisi Tingkat Provinsi",    image:"img/IMG-20260706-WA0112.jpg", category:"Non-Akademik",date:"2026", description:"Siswi meraih juara 1 cipta puisi tingkat Provinsi" },
-      { id:18, title:"Juara 2 Tenis Meja Tingkat Kota",                image:"img/IMG-20260706-WA0113.jpg", category:"Olahraga",    date:"2026", description:"Siswa meraih juara 2 tenis meja O2SN" },
-      { id:19, title:"Juara Harapan 1 Olimpiade Matematika",           image:"img/IMG-20260706-WA0114.jpg", category:"Akademik",     date:"2025", description:"Meraih juara harapan 1 Olimpiade Matematika tingkat Provinsi" },
-      { id:20, title:"Penghargaan Sekolah Adiwiyata Mandiri",          image:"img/IMG-20260706-WA0115.jpg", category:"Penghargaan", date:"2025", description:"Penghargaan Adiwiyata Mandiri dari Kementerian LH" },
-      { id:21, title:"Juara 1 Lomba MTQ Tingkat Kecamatan",           image:"img/IMG-20260706-WA0120.jpg",  category:"Non-Akademik",date:"2026", description:"Meraih juara 1 MTQ tingkat Kecamatan" },
-      { id:22, title:"Juara 3 Bulu Tangkis Tingkat Kota",              image:"img/IMG-20260706-WA0121.jpg", category:"Olahraga",    date:"2026", description:"Meraih juara 3 bulu tangkis O2SN" },
-      { id:23, title:"Juara 2 Pidato Bahasa Inggris",                  image:"img/IMG-20260706-WA0122.jpg", category:"Non-Akademik",date:"2025", description:"Meraih juara 2 pidato Bahasa Inggris" },
-      { id:24, title:"Penghargaan Sekolah Bebas Narkoba",              image:"img/IMG-20260706-WA0123.jpg", category:"Penghargaan", date:"2025", description:"Penghargaan Sekolah Bebas Narkoba" },
-      { id:25, title:"Juara 1 Lomba PBB Tingkat Kota",               image:"img/IMG-20260706-WA0124.jpg",  category:"Non-Akademik",date:"2026", description:"Regu PBB meraih juara 1 PBB tingkat Kota" },
-      { id:26, title:"Juara Harapan 1 Karya Ilmiah Remaja",           image:"img/IMG-20260706-WA0125.jpg", category:"Akademik",     date:"2026", description:"Meraih juara harapan 1 KIR tingkat Provinsi" },
-      { id:27, title:"Juara 2 Fashion Show Tingkat Kota",              image:"img/IMG-20260706-WA0126.jpg", category:"Non-Akademik",date:"2026", description:"Meraih juara 2 fashion show pakaian adat" }
-    ];
-
-    // ==========================================
     // BACA DATA ADMIN dari localStorage + window.name
-    //   (synchronous — langsung render)
+    //   ✓ HANYA data dari admin — TIDAK ada data statis
+    //   ✓ Synchronous — langsung render
     // ==========================================
     function getAdminData() {
       var adminData = [];
@@ -711,8 +678,9 @@
       // 1) Coba localStorage dulu
       try {
         var raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          adminData = JSON.parse(raw);
+        if (raw && raw !== '[]') {
+          var parsed = JSON.parse(raw);
+          if (parsed && parsed.length) adminData = parsed;
         }
       } catch(e) {}
 
@@ -720,7 +688,8 @@
       if (!adminData.length) {
         try {
           if (window.name && window.name.indexOf('__prestasi_data__') === 0) {
-            adminData = JSON.parse(window.name.substring('__prestasi_data__'.length));
+            var parsed = JSON.parse(window.name.substring('__prestasi_data__'.length));
+            if (parsed && parsed.length) adminData = parsed;
             window.name = '';
           }
         } catch(e) {}
@@ -730,43 +699,24 @@
     }
 
     // ==========================================
-    // GABUNG SEMUA DATA
+    // GET ALL ITEMS (hanya dari admin)
     // ==========================================
     function getAllItems() {
-      // Admin items
       var adminRaw = getAdminData();
-      var adminItems = [];
+      var items = [];
       for (var i = 0; i < adminRaw.length; i++) {
         var a = adminRaw[i];
-        adminItems.push({
+        items.push({
           id: a.id || 'a_' + i,
           title: a.title || 'Prestasi',
           image: a.dataUrl || '',
           category: a.category || 'Penghargaan',
           date: a.date || '2026',
           description: a.description || '',
-          _admin: true,
           _sortKey: Date.now() - (a.createdAt ? new Date(a.createdAt).getTime() : Date.now())
         });
       }
-
-      // Static items
-      var staticItems = [];
-      for (var j = 0; j < STATIC_DATA.length; j++) {
-        var s = STATIC_DATA[j];
-        staticItems.push({
-          id: s.id,
-          title: s.title,
-          image: s.image,
-          category: s.category,
-          date: s.date,
-          description: s.description,
-          _admin: false,
-          _sortKey: 99999 + j  // static items selalu di bawah admin items
-        });
-      }
-
-      return adminItems.concat(staticItems);
+      return items;
     }
 
     // ==========================================
@@ -812,10 +762,8 @@
     function renderPrestasi() {
       var all = getAllItems();
 
-      // Sort: admin first, tahun desc, lalu yang terbaru
+      // Sort: tahun terbaru dulu, lalu yang terbaru diupload
       all.sort(function(a,b){
-        if(a._admin && !b._admin) return -1;
-        if(!a._admin && b._admin) return 1;
         var yd=parseInt(b.date||0)-parseInt(a.date||0);
         return yd!==0?yd:(a._sortKey||0)-(b._sortKey||0);
       });
