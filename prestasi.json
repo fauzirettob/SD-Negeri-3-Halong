@@ -214,5 +214,141 @@
     "category": "Non-Akademik",
     "date": "2026",
     "description": "Meraih juara 2 fashion show pakaian adat"
+  },
+  {
+    "id": 28,
+    "title": "Juara 1 Lomba Tahfidz Quran Tingkat Kecamatan",
+    "image": "img/prestasi-1.jpeg",
+    "category": "Akademik",
+    "date": "2026",
+    "description": "Siswa SD Negeri 3 Halong meraih juara 1 lomba Tahfidz Quran tingkat Kecamatan"
+  },
+  {
+    "id": 29,
+    "title": "Juara 2 Lomba Mading 3D Tingkat Kota",
+    "image": "img/prestasi-2.jpeg",
+    "category": "Non-Akademik",
+    "date": "2026",
+    "description": "Siswa SD Negeri 3 Halong meraih juara 2 lomba mading 3D tingkat Kota Banjarmasin"
+  },
+  {
+    "id": 30,
+    "title": "Juara 3 Lomba Storytelling Tingkat Provinsi",
+    "image": "img/prestasi-3.jpeg",
+    "category": "Non-Akademik",
+    "date": "2026",
+    "description": "Siswa SD Negeri 3 Halong meraih juara 3 lomba storytelling tingkat Provinsi"
+  },
+  {
+    "id": 31,
+    "title": "Penghargaan Sekolah Sehat Tingkat Nasional",
+    "image": "img/prestasi-4.jpeg",
+    "category": "Penghargaan",
+    "date": "2026",
+    "description": "SD Negeri 3 Halong menerima penghargaan Sekolah Sehat tingkat Nasional"
+  },
+  {
+    "id": 32,
+    "title": "Juara 1 Lomba Cerdas Cermat PAI Tingkat Kota",
+    "image": "img/prestasi-5.jpeg",
+    "category": "Akademik",
+    "date": "2026",
+    "description": "Tim cerdas cermat PAI SD Negeri 3 Halong meraih juara 1 tingkat Kota"
+  },
+  {
+    "id": 33,
+    "title": "Juara 1 Lomba Baris Berbaris Tingkat Kecamatan",
+    "image": "img/prestasi-6.jpeg",
+    "category": "Non-Akademik",
+    "date": "2026",
+    "description": "Regu baris berbaris SD Negeri 3 Halong meraih juara 1 tingkat Kecamatan"
+  },
+  {
+    "id": 34,
+    "title": "Juara Harapan 1 Lomba Dai Cilik Tingkat Kota",
+    "image": "img/prestasi-wa-1.jpeg",
+    "category": "Non-Akademik",
+    "date": "2026",
+    "description": "Siswa meraih juara harapan 1 lomba dai cilik tingkat Kota Banjarmasin"
+  },
+  {
+    "id": 35,
+    "title": "Penghargaan Sekolah Inovasi Pendidikan",
+    "image": "img/prestasi-wa-2.jpeg",
+    "category": "Penghargaan",
+    "date": "2026",
+    "description": "SD Negeri 3 Halong meraih penghargaan Inovasi Pendidikan"
+  },
+  {
+    "id": 36,
+    "title": "Juara 1 Lomba Tari Kreasi Daerah",
+    "image": "img/prestasi-wa-3.jpeg",
+    "category": "Non-Akademik",
+    "date": "2026",
+    "description": "Siswi meraih juara 1 lomba tari kreasi daerah tingkat Kota Banjarmasin"
+  },
+  {
+    "id": 37,
+    "title": "Juara 2 Lomba Vokal Grup Tingkat Kota",
+    "image": "img/prestasi-wa-4.jpeg",
+    "category": "Non-Akademik",
+    "date": "2026",
+    "description": "Siswi meraih juara 2 lomba vokal grup tingkat Kota Banjarmasin"
+  },
+  {
+    "id": 38,
+    "title": "Juara 3 Lomba Atletik Lari Cepat",
+    "image": "img/prestasi-wa-5.jpeg",
+    "category": "Olahraga",
+    "date": "2026",
+    "description": "Siswa meraih juara 3 lomba atletik lari cepat O2SN Kota Banjarmasin"
+  },
+  {
+    "id": 39,
+    "title": "Penghargaan Adiwiyata Tingkat Nasional",
+    "image": "img/prestasi-wa-6.jpeg",
+    "category": "Penghargaan",
+    "date": "2026",
+    "description": "Penghargaan Adiwiyata tingkat Nasional dari Kementerian LH"
+  },
+  {
+    "id": 40,
+    "title": "Penghargaan Sekolah Inklusi Tingkat Nasional",
+    "image": "img/prestasi-wa-7.jpeg",
+    "category": "Penghargaan",
+    "date": "2026",
+    "description": "Penghargaan Sekolah Inklusi tingkat Nasional"
+  },
+  {
+    "id": 41,
+    "title": "Penghargaan PELWATA GPM Tahun 2008",
+    "image": "img/prestasi-wa-8.jpeg",
+    "category": "Penghargaan",
+    "date": "2008",
+    "description": "Dokumentasi trophy penghargaan PELWATA GPM tahun 2008"
+  },
+  {
+    "id": 42,
+    "title": "Trophy Kenang-kenangan HUT PELWATA",
+    "image": "img/prestasi-wa-9.jpeg",
+    "category": "Penghargaan",
+    "date": "2008",
+    "description": "Trophy kenang-kenangan HUT PELWATA GPM"
+  },
+  {
+    "id": 43,
+    "title": "Dokumentasi Trophy HUT PELWATA GPM",
+    "image": "img/prestasi-wa-10.jpeg",
+    "category": "Penghargaan",
+    "date": "2008",
+    "description": "Dokumentasi trophy HUT PELWATA GPM tahun 2008"
+  },
+  {
+    "id": 44,
+    "title": "Penghargaan HUT PELWATA GPM 2008",
+    "image": "img/prestasi-wa-11.jpeg",
+    "category": "Penghargaan",
+    "date": "2008",
+    "description": "Penghargaan HUT PELWATA GPM tahun 2008"
   }
 ]

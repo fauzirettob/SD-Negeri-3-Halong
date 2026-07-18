@@ -188,10 +188,11 @@
       <div id="uploadedPrestasiSection" style="margin-top: 32px; display: none;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
           <h3 style="font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-database" style="color: var(--primary);"></i> Prestasi Terupload
+            <i class="fas fa-database" style="color: var(--primary);"></i> Semua Prestasi
           </h3>
           <div style="display: flex; gap: 8px; align-items: center;">
             <span id="uploadedCount" style="font-size: .85rem; color: var(--text-light); font-weight: 500;">0 item</span>
+            <button class="btn" onclick="restoreAllStaticPrestasi()" id="restoreAllBtn" style="display: none; padding: 8px 14px; font-size: .8rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 8px; cursor: pointer; transition: .2s;"><i class="fas fa-undo"></i> Pulihkan Semua</button>
             <button class="btn" onclick="deleteAllPrestasi()" id="deleteAllBtn" style="display: none; padding: 8px 14px; font-size: .8rem; background: #fee2e2; color: #dc2626; border: none; border-radius: 8px; cursor: pointer; transition: .2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
               <i class="fas fa-trash-alt"></i> Hapus Semua
             </button>
@@ -399,6 +400,10 @@
     const PRESTASI_KEY = 'sdN3Halong_prestasi_admin';
     const DOKUMENTASI_KEY = 'sdN3Halong_galeri_upload';
     const BERITA_KEY = 'sdN3Halong_berita_admin';
+    const HIDDEN_PRES_KEY = 'sdN3Halong_prestasi_hidden';
+
+    // ========== DATA PRESTASI STATIS (sama dengan prestasi.html) ==========
+    var PRESTASI_DATA = [{id:1,title:'Juara 1 Olimpiade Sains Tingkat Kota',image:'img/IMG-20260706-WA0096.jpg',category:'Akademik',date:'2026',description:'Siswa SD Negeri 3 Halong meraih juara 1 Olimpiade Sains tingkat Kota Banjarmasin'},{id:2,title:'Juara 2 Sepak Bola Antar Sekolah',image:'img/IMG-20260706-WA0097.jpg',category:'Olahraga',date:'2026',description:'Tim sepak bola SD Negeri 3 Halong meraih juara 2 dalam turnamen antar sekolah se-Kota Banjarmasin'},{id:3,title:'Juara 1 Pidato Bahasa Indonesia',image:'img/IMG-20260706-WA0098.jpg',category:'Non-Akademik',date:'2025',description:'Siswa SD Negeri 3 Halong meraih juara 1 lomba pidato Bahasa Indonesia tingkat kabupaten'},{id:4,title:'Penghargaan Sekolah Adiwiyata',image:'img/IMG-20260706-WA0099.jpg',category:'Penghargaan',date:'2025',description:'SD Negeri 3 Halong menerima penghargaan sebagai Sekolah Adiwiyata atas kepedulian terhadap lingkungan'},{id:5,title:'Juara 3 Lomba Mewarnai Tingkat Provinsi',image:'img/IMG-20260706-WA0100.jpg',category:'Non-Akademik',date:'2025',description:'Siswa kelas 1 SD Negeri 3 Halong meraih juara 3 lomba mewarnai tingkat Provinsi Kalimantan Selatan'},{id:6,title:'Medali Emas OSN Matematika',image:'img/IMG-20260706-WA0101.jpg',category:'Akademik',date:'2024',description:'Meraih medali emas Olimpiade Sains Nasional (OSN) bidang Matematika tingkat kota'},{id:7,title:'Juara 3 Lomba Kaligrafi Tingkat Kota',image:'img/IMG-20260706-WA0102.jpg',category:'Non-Akademik',date:'2024',description:'Siswi SD Negeri 3 Halong meraih juara 3 lomba kaligrafi tingkat Kota Banjarmasin'},{id:8,title:'Penghargaan Sekolah Sehat Tingkat Provinsi',image:'img/IMG-20260706-WA0103.jpg',category:'Penghargaan',date:'2024',description:'SD Negeri 3 Halong menerima penghargaan Sekolah Sehat tingkat Provinsi'},{id:9,title:'Juara 1 Lomba Baca Puisi Tingkat Kota',image:'img/IMG-20260706-WA0104.jpg',category:'Non-Akademik',date:'2024',description:'Siswi meraih juara 1 lomba baca puisi tingkat Kota Banjarmasin'},{id:10,title:'Juara 2 Cerdas Cermat Tingkat Kecamatan',image:'img/IMG-20260706-WA0105.jpg',category:'Akademik',date:'2024',description:'Tim cerdas cermat meraih juara 2 tingkat Kecamatan Halong'},{id:11,title:'Juara 3 Lomba Menggambar Tingkat Provinsi',image:'img/IMG-20260706-WA0106.jpg',category:'Non-Akademik',date:'2023',description:'Siswa meraih juara 3 lomba menggambar tingkat Provinsi'},{id:12,title:'Penghargaan Sekolah Ramah Anak',image:'img/IMG-20260706-WA0107.jpg',category:'Penghargaan',date:'2023',description:'SD Negeri 3 Halong menerima penghargaan Sekolah Ramah Anak'},{id:13,title:'Juara 1 Lomba Tari Tradisional Tingkat Kota',image:'img/IMG-20260706-WA0108.jpg',category:'Non-Akademik',date:'2026',description:'Siswi meraih juara 1 lomba tari tradisional tingkat Kota Banjarmasin'},{id:14,title:'Juara 2 Pramuka Tingkat Kecamatan',image:'img/IMG-20260706-WA0109.jpg',category:'Non-Akademik',date:'2026',description:'Regu Pramuka meraih juara 2 lomba pramuka'},{id:15,title:'Juara Harapan 1 Olimpiade IPA Tingkat Provinsi',image:'img/IMG-20260706-WA0110.jpg',category:'Akademik',date:'2026',description:'Meraih juara harapan 1 Olimpiade IPA tingkat Provinsi'},{id:16,title:'Penghargaan Sekolah Inklusi Terbaik',image:'img/IMG-20260706-WA0111.jpg',category:'Penghargaan',date:'2026',description:'SD Negeri 3 Halong sebagai Sekolah Inklusi Terbaik'},{id:17,title:'Juara 1 Lomba Cipta Puisi Tingkat Provinsi',image:'img/IMG-20260706-WA0112.jpg',category:'Non-Akademik',date:'2026',description:'Siswi meraih juara 1 cipta puisi tingkat Provinsi'},{id:18,title:'Juara 2 Tenis Meja Tingkat Kota',image:'img/IMG-20260706-WA0113.jpg',category:'Olahraga',date:'2026',description:'Siswa meraih juara 2 tenis meja O2SN'},{id:19,title:'Juara Harapan 1 Olimpiade Matematika Tingkat Provinsi',image:'img/IMG-20260706-WA0114.jpg',category:'Akademik',date:'2025',description:'Meraih juara harapan 1 Olimpiade Matematika tingkat Provinsi'},{id:20,title:'Penghargaan Sekolah Adiwiyata Mandiri',image:'img/IMG-20260706-WA0115.jpg',category:'Penghargaan',date:'2025',description:'Penghargaan Adiwiyata Mandiri dari Kementerian LH'},{id:21,title:'Juara 1 Lomba MTQ Tingkat Kecamatan',image:'img/IMG-20260706-WA0120.jpg',category:'Non-Akademik',date:'2026',description:'Meraih juara 1 MTQ tingkat Kecamatan'},{id:22,title:'Juara 3 Bulu Tangkis Tingkat Kota',image:'img/IMG-20260706-WA0121.jpg',category:'Olahraga',date:'2026',description:'Meraih juara 3 bulu tangkis O2SN'},{id:23,title:'Juara 2 Pidato Bahasa Inggris',image:'img/IMG-20260706-WA0122.jpg',category:'Non-Akademik',date:'2025',description:'Meraih juara 2 pidato Bahasa Inggris'},{id:24,title:'Penghargaan Sekolah Bebas Narkoba',image:'img/IMG-20260706-WA0123.jpg',category:'Penghargaan',date:'2025',description:'Penghargaan Sekolah Bebas Narkoba'},{id:25,title:'Juara 1 Lomba PBB Tingkat Kota',image:'img/IMG-20260706-WA0124.jpg',category:'Non-Akademik',date:'2026',description:'Regu PBB meraih juara 1 PBB tingkat Kota'},{id:26,title:'Juara Harapan 1 Karya Ilmiah Remaja',image:'img/IMG-20260706-WA0125.jpg',category:'Akademik',date:'2026',description:'Meraih juara harapan 1 KIR tingkat Provinsi'},{id:27,title:'Juara 2 Fashion Show Tingkat Kota',image:'img/IMG-20260706-WA0126.jpg',category:'Non-Akademik',date:'2026',description:'Meraih juara 2 fashion show pakaian adat'},{id:28,title:'Juara 1 Lomba Tahfidz Quran Tingkat Kecamatan',image:'img/prestasi-1.jpeg',category:'Akademik',date:'2026',description:'Siswa SD Negeri 3 Halong meraih juara 1 lomba Tahfidz Quran tingkat Kecamatan'},{id:29,title:'Juara 2 Lomba Mading 3D Tingkat Kota',image:'img/prestasi-2.jpeg',category:'Non-Akademik',date:'2026',description:'Siswa SD Negeri 3 Halong meraih juara 2 lomba mading 3D tingkat Kota Banjarmasin'},{id:30,title:'Juara 3 Lomba Storytelling Tingkat Provinsi',image:'img/prestasi-3.jpeg',category:'Non-Akademik',date:'2026',description:'Siswa SD Negeri 3 Halong meraih juara 3 lomba storytelling tingkat Provinsi'},{id:31,title:'Penghargaan Sekolah Sehat Tingkat Nasional',image:'img/prestasi-4.jpeg',category:'Penghargaan',date:'2026',description:'SD Negeri 3 Halong menerima penghargaan Sekolah Sehat tingkat Nasional'},{id:32,title:'Juara 1 Lomba Cerdas Cermat PAI Tingkat Kota',image:'img/prestasi-5.jpeg',category:'Akademik',date:'2026',description:'Tim cerdas cermat PAI SD Negeri 3 Halong meraih juara 1 tingkat Kota'},{id:33,title:'Juara 1 Lomba Baris Berbaris Tingkat Kecamatan',image:'img/prestasi-6.jpeg',category:'Non-Akademik',date:'2026',description:'Regu baris berbaris SD Negeri 3 Halong meraih juara 1 tingkat Kecamatan'},{id:34,title:'Juara Harapan 1 Lomba Dai Cilik Tingkat Kota',image:'img/prestasi-wa-1.jpeg',category:'Non-Akademik',date:'2026',description:'Siswa meraih juara harapan 1 lomba dai cilik tingkat Kota Banjarmasin'},{id:35,title:'Penghargaan Sekolah Inovasi Pendidikan',image:'img/prestasi-wa-2.jpeg',category:'Penghargaan',date:'2026',description:'SD Negeri 3 Halong meraih penghargaan Inovasi Pendidikan'},{id:36,title:'Juara 1 Lomba Tari Kreasi Daerah',image:'img/prestasi-wa-3.jpeg',category:'Non-Akademik',date:'2026',description:'Siswi meraih juara 1 lomba tari kreasi daerah tingkat Kota Banjarmasin'},{id:37,title:'Juara 2 Lomba Vokal Grup Tingkat Kota',image:'img/prestasi-wa-4.jpeg',category:'Non-Akademik',date:'2026',description:'Siswi meraih juara 2 lomba vokal grup tingkat Kota Banjarmasin'},{id:38,title:'Juara 3 Lomba Atletik Lari Cepat',image:'img/prestasi-wa-5.jpeg',category:'Olahraga',date:'2026',description:'Siswa meraih juara 3 lomba atletik lari cepat O2SN Kota Banjarmasin'},{id:39,title:'Penghargaan Adiwiyata Tingkat Nasional',image:'img/prestasi-wa-6.jpeg',category:'Penghargaan',date:'2026',description:'Penghargaan Adiwiyata tingkat Nasional dari Kementerian LH'},{id:40,title:'Penghargaan Sekolah Inklusi Tingkat Nasional',image:'img/prestasi-wa-7.jpeg',category:'Penghargaan',date:'2026',description:'Penghargaan Sekolah Inklusi tingkat Nasional'},{id:41,title:'Penghargaan PELWATA GPM Tahun 2008',image:'img/prestasi-wa-8.jpeg',category:'Penghargaan',date:'2008',description:'Dokumentasi trophy penghargaan PELWATA GPM tahun 2008'},{id:42,title:'Trophy Kenang-kenangan HUT PELWATA',image:'img/prestasi-wa-9.jpeg',category:'Penghargaan',date:'2008',description:'Trophy kenang-kenangan HUT PELWATA GPM'},{id:43,title:'Dokumentasi Trophy HUT PELWATA GPM',image:'img/prestasi-wa-10.jpeg',category:'Penghargaan',date:'2008',description:'Dokumentasi trophy HUT PELWATA GPM tahun 2008'},{id:44,title:'Penghargaan HUT PELWATA GPM 2008',image:'img/prestasi-wa-11.jpeg',category:'Penghargaan',date:'2008',description:'Penghargaan HUT PELWATA GPM tahun 2008'}];
 
     // ========== SUCCESS/ERROR MESSAGE ==========
     function showSuccess(msg) {
@@ -417,6 +422,31 @@
       document.getElementById('successMsgText').textContent = msg;
       el.classList.add('show');
       setTimeout(() => el.classList.remove('show'), 8000);
+    }
+
+    // ========== KOMPRESI GAMBAR (canvas-based) ==========
+    function compressImage(file, maxW, maxH, quality) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement('canvas');
+            var w = img.width, h = img.height;
+            if (w > maxW) { h = h * maxW / w; w = maxW; }
+            if (h > maxH) { w = w * maxH / h; h = maxH; }
+            canvas.width = Math.round(w);
+            canvas.height = Math.round(h);
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = function() { reject(new Error('Gagal decode gambar')); };
+          img.src = e.target.result;
+        };
+        reader.onerror = function() { reject(new Error('Gagal baca file')); };
+        reader.readAsDataURL(file);
+      });
     }
 
     // ========== PRESTASI UPLOAD ==========
@@ -519,14 +549,20 @@
       const existing = JSON.parse(localStorage.getItem(PRESTASI_KEY) || '[]');
       console.log('[Prestasi] Existing data:', existing.length, 'items');
       let loaded = 0;
-      let hasError = false;
 
-      prestasiFiles.forEach((file) => {
-        const r = new FileReader();
-        r.onload = (e) => {
+      var toProcess = prestasiFiles.length;
+      var failedCount = 0;
+      // Disable button + loading text
+      var saveBtn = document.querySelector('#tabPrestasi .btn-primary');
+      var origBtnText = saveBtn.innerHTML;
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengompresi...';
+      saveBtn.disabled = true;
+
+      prestasiFiles.forEach(function(file) {
+        compressImage(file, 800, 800, 0.8).then(function(dataUrl) {
           existing.push({
             id: 'prestasi_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            dataUrl: e.target.result,
+            dataUrl: dataUrl,
             title: title,
             category: document.getElementById('prestasiCategory').value,
             date: document.getElementById('prestasiDate').value.trim() || '2026',
@@ -534,23 +570,29 @@
             createdAt: new Date().toISOString()
           });
           loaded++;
-          console.log('[Prestasi] File loaded:', loaded, 'of', prestasiFiles.length);
-          if (loaded === prestasiFiles.length) {
-            console.log('[Prestasi] Saving to localStorage, key:', PRESTASI_KEY);
-            if (saveToStorage(PRESTASI_KEY, existing)) {
-              // Simpan juga ke window.name sebagai bridge (bertahan saat navigasi dalam tab yang sama)
-              try {
-                window.name = '__prestasi_data__' + JSON.stringify(existing);
-              } catch(e) {}
-              cancelPrestasiUpload();
-              loadUploadedPrestasi();
-              showSuccess('Prestasi berhasil disimpan! Klik \'Buka Halaman Prestasi\' untuk melihat hasilnya.');
+        }).catch(function() {
+          failedCount++;
+        }).then(function() {
+          // Both success and failure go here
+          if (loaded + failedCount === toProcess) {
+            saveBtn.innerHTML = origBtnText;
+            saveBtn.disabled = false;
+            if (loaded > 0) {
+              console.log('[Prestasi] Compressed:', loaded, 'success,', failedCount, 'failed');
+              console.log('[Prestasi] Saving to localStorage, key:', PRESTASI_KEY);
+              if (saveToStorage(PRESTASI_KEY, existing)) {
+                try { window.name = '__prestasi_data__' + JSON.stringify(existing); } catch(e) {}
+                cancelPrestasiUpload();
+                loadUploadedPrestasi();
+                var msg = loaded + ' prestasi berhasil disimpan (dikompresi 800px)';
+                if (failedCount > 0) msg += '. ' + failedCount + ' file gagal dikompresi.';
+                showSuccess(msg);
+              }
+            } else {
+              alert('Semua file gagal dikompresi. Coba gunakan file gambar lain.');
             }
           }
-        };
-        r.onerror = () => { if (!hasError) { hasError = true; alert('Gagal membaca file gambar. Coba gunakan file lain.'); } };
-        r.onabort = () => { if (!hasError) { hasError = true; alert('Pembacaan file dibatalkan.'); } };
-        r.readAsDataURL(file);
+        });
       });
     }
 
@@ -634,14 +676,19 @@
       const existing = JSON.parse(localStorage.getItem(DOKUMENTASI_KEY) || '[]');
       console.log('[Dokumentasi] Existing data:', existing.length, 'items');
       let loaded = 0;
-      let hasError = false;
 
-      dokumentasiFiles.forEach((file) => {
-        const r = new FileReader();
-        r.onload = (e) => {
+      var toProcess = dokumentasiFiles.length;
+      var failedCount = 0;
+      var saveBtn = document.querySelector('#tabDokumentasi .btn-primary');
+      var origBtnText = saveBtn.innerHTML;
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengompresi...';
+      saveBtn.disabled = true;
+
+      dokumentasiFiles.forEach(function(file) {
+        compressImage(file, 1200, 1200, 0.85).then(function(dataUrl) {
           existing.push({
             id: 'dokumentasi_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            dataUrl: e.target.result,
+            dataUrl: dataUrl,
             title: title,
             category: document.getElementById('dokumentasiCategory').value,
             description: document.getElementById('dokumentasiDesc').value.trim(),
@@ -649,18 +696,25 @@
             createdAt: new Date().toISOString()
           });
           loaded++;
-          console.log('[Dokumentasi] File loaded:', loaded, 'of', dokumentasiFiles.length);
-          if (loaded === dokumentasiFiles.length) {
-            console.log('[Dokumentasi] Saving to localStorage, key:', DOKUMENTASI_KEY);
-            if (saveToStorage(DOKUMENTASI_KEY, existing)) {
-              cancelDokumentasiUpload();
-              showSuccess('Dokumentasi berhasil disimpan! Foto akan tampil di halaman galeri.');
+        }).catch(function() {
+          failedCount++;
+        }).then(function() {
+          if (loaded + failedCount === toProcess) {
+            saveBtn.innerHTML = origBtnText;
+            saveBtn.disabled = false;
+            if (loaded > 0) {
+              console.log('[Dokumentasi] Compressed:', loaded, 'success,', failedCount, 'failed');
+              if (saveToStorage(DOKUMENTASI_KEY, existing)) {
+                cancelDokumentasiUpload();
+                var msg = loaded + ' dokumentasi berhasil disimpan (dikompresi 1200px)';
+                if (failedCount > 0) msg += '. ' + failedCount + ' file gagal.';
+                showSuccess(msg);
+              }
+            } else {
+              alert('Semua file gagal dikompresi. Coba gunakan file gambar lain.');
             }
           }
-        };
-        r.onerror = () => { if (!hasError) { hasError = true; alert('Gagal membaca file gambar. Coba gunakan file lain.'); } };
-        r.onabort = () => { if (!hasError) { hasError = true; alert('Pembacaan file dibatalkan.'); } };
-        r.readAsDataURL(file);
+        });
       });
     }
 
@@ -841,14 +895,19 @@
       const existing = JSON.parse(localStorage.getItem(BERITA_KEY) || '[]');
       console.log('[Berita] Existing data:', existing.length, 'items');
       let loaded = 0;
-      let hasError = false;
 
-      beritaFiles.forEach((file) => {
-        const r = new FileReader();
-        r.onload = (e) => {
+      var toProcess = beritaFiles.length;
+      var failedCount = 0;
+      var saveBtn = document.querySelector('#tabBerita .btn-primary');
+      var origBtnText = saveBtn.innerHTML;
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengompresi...';
+      saveBtn.disabled = true;
+
+      beritaFiles.forEach(function(file) {
+        compressImage(file, 800, 600, 0.8).then(function(dataUrl) {
           existing.push({
             id: 'berita_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            dataUrl: e.target.result,
+            dataUrl: dataUrl,
             title: title,
             category: document.getElementById('beritaCategory').value,
             date: document.getElementById('beritaDate').value.trim() || '2026',
@@ -856,22 +915,27 @@
             createdAt: new Date().toISOString()
           });
           loaded++;
-          console.log('[Berita] File loaded:', loaded, 'of', beritaFiles.length);
-          if (loaded === beritaFiles.length) {
-            console.log('[Berita] Saving to localStorage, key:', BERITA_KEY);
-            if (saveToStorage(BERITA_KEY, existing)) {
-              try {
-                window.name = '__berita_data__' + JSON.stringify(existing);
-              } catch(e) {}
-              cancelBeritaUpload();
-              loadUploadedBerita();
-              showSuccess('Berita berhasil disimpan! Klik \'Buka Halaman Berita\' untuk melihat hasilnya.');
+        }).catch(function() {
+          failedCount++;
+        }).then(function() {
+          if (loaded + failedCount === toProcess) {
+            saveBtn.innerHTML = origBtnText;
+            saveBtn.disabled = false;
+            if (loaded > 0) {
+              console.log('[Berita] Compressed:', loaded, 'success,', failedCount, 'failed');
+              if (saveToStorage(BERITA_KEY, existing)) {
+                try { window.name = '__berita_data__' + JSON.stringify(existing); } catch(e) {}
+                cancelBeritaUpload();
+                loadUploadedBerita();
+                var msg = loaded + ' berita berhasil disimpan (dikompresi 800px)';
+                if (failedCount > 0) msg += '. ' + failedCount + ' file gagal.';
+                showSuccess(msg);
+              }
+            } else {
+              alert('Semua file gagal dikompresi. Coba gunakan file gambar lain.');
             }
           }
-        };
-        r.onerror = () => { if (!hasError) { hasError = true; alert('Gagal membaca file gambar. Coba gunakan file lain.'); } };
-        r.onabort = () => { if (!hasError) { hasError = true; alert('Pembacaan file dibatalkan.'); } };
-        r.readAsDataURL(file);
+        });
       });
     }
 
@@ -974,6 +1038,19 @@
     }
 
     // ========== DIAGNOSTIC ==========
+    // ========== GET HIDDEN STATIC IDs ==========
+    function getHiddenPrestasiIds() {
+      try {
+        var raw = localStorage.getItem(HIDDEN_PRES_KEY);
+        if (raw) return JSON.parse(raw) || [];
+      } catch(e) {}
+      return [];
+    }
+
+    function saveHiddenPrestasiIds(ids) {
+      try { localStorage.setItem(HIDDEN_PRES_KEY, JSON.stringify(ids)); } catch(e) {}
+    }
+
     // ========== MANAJEMEN PRESTASI TERUPLOAD ==========
     function loadUploadedPrestasi() {
       const section = document.getElementById('uploadedPrestasiSection');
@@ -983,55 +1060,98 @@
       const deleteAllBtn = document.getElementById('deleteAllBtn');
 
       try {
-        const raw = localStorage.getItem(PRESTASI_KEY);
-        if (!raw) {
-          section.style.display = 'none';
-          return;
+        // === MERGE data statis + upload ===
+        var hiddenIds = getHiddenPrestasiIds();
+        var merged = [];
+
+        // 1) Data statis dari PRESTASI_DATA
+        for (var si = 0; si < PRESTASI_DATA.length; si++) {
+          var s = PRESTASI_DATA[si];
+          merged.push({
+            _type: 'static',
+            _staticId: 's_' + s.id,
+            title: s.title || 'Prestasi',
+            image: s.image || '',
+            category: s.category || 'Penghargaan',
+            date: s.date || '2026',
+            description: s.description || '',
+            _hidden: hiddenIds.indexOf('s_' + s.id) >= 0
+          });
         }
-        const data = JSON.parse(raw);
-        if (!data.length) {
+
+        // 2) Data upload dari localStorage
+        var uploadedRaw = localStorage.getItem(PRESTASI_KEY);
+        var uploaded = [];
+        if (uploadedRaw) {
+          try { uploaded = JSON.parse(uploadedRaw) || []; } catch(e) {}
+        }
+        for (var ui = 0; ui < uploaded.length; ui++) {
+          var u = uploaded[ui];
+          merged.push({
+            _type: 'upload',
+            _uploadIdx: ui,
+            title: u.title || 'Prestasi',
+            image: u.dataUrl || '',
+            category: u.category || 'Penghargaan',
+            date: u.date || '2026',
+            description: u.description || '',
+            createdAt: u.createdAt
+          });
+        }
+
+        if (!merged.length) {
           section.style.display = 'none';
           return;
         }
 
         section.style.display = 'block';
-        countEl.textContent = data.length + ' item';
-        deleteAllBtn.style.display = 'inline-flex';
+        var totalCount = merged.length;
+        var hiddenCount = hiddenIds.length;
+        countEl.textContent = totalCount + ' item (statis) + ' + (uploaded.length) + ' item (upload)';
+        deleteAllBtn.style.display = uploaded.length > 0 ? 'inline-flex' : 'none';
+        document.getElementById('restoreAllBtn').style.display = hiddenCount > 0 ? 'inline-flex' : 'none';
         empty.style.display = 'none';
 
-        list.innerHTML = data.map((item, idx) => {
-          const catColors = {
+        list.innerHTML = merged.map(function(item) {
+          var catColors = {
             'Akademik': '#2563eb',
             'Olahraga': '#16a34a',
             'Non-Akademik': '#9333ea',
             'Penghargaan': '#d97706'
           };
-          const catColor = catColors[item.category] || '#64748b';
-          const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-';
+          var catColor = catColors[item.category] || '#64748b';
+          var isUpload = item._type === 'upload';
+          var isHidden = item._hidden;
+          var dateStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-';
+          var hasImg = item.image && (item.image.indexOf('data:')===0 || item.image.indexOf('http')===0 || item.image.indexOf('img/')===0);
+          var badge = isUpload
+            ? '<span style="position:absolute;top:8px;left:8px;background:rgba(16,185,129,.92);color:#fff;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;z-index:2;"><i class="fas fa-cloud-upload-alt"></i> Upload</span>'
+            : '<span style="position:absolute;top:8px;left:8px;background:rgba(30,64,175,.85);color:#fff;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;z-index:2;"><i class="fas fa-database"></i> Statis</span>';
+          var hiddenStyle = isHidden ? 'opacity:.4;filter:grayscale(1);' : '';
 
-          return `
-            <div style="background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04); transition: .3s; position: relative;">
-              <div style="height: 140px; background: var(--bg-alt); overflow: hidden; position: relative;">
-                <img src="${item.dataUrl}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover;">
-                <span style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.5); color: #fff; padding: 2px 10px; border-radius: 4px; font-size: .7rem; font-weight: 600;">
-                  ${item.date || '-'}
-                </span>
-              </div>
-              <div style="padding: 12px 14px 14px;">
-                <span style="display: inline-block; background: ${catColor}15; color: ${catColor}; padding: 2px 10px; border-radius: 4px; font-size: .7rem; font-weight: 600; margin-bottom: 6px;">
-                  <i class="fas fa-tag"></i> ${item.category}
-                </span>
-                <h4 style="font-size: .85rem; font-weight: 700; margin-bottom: 4px; line-height: 1.4;">${item.title}</h4>
-                <p style="font-size: .78rem; color: var(--text-light); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px;">${item.description || '-'}</p>
-                <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 10px;">
-                  <span style="font-size: .72rem; color: var(--text-lighter);"><i class="far fa-clock"></i> ${dateStr}</span>
-                  <button onclick="deletePrestasiItem(${idx})" style="background: #fee2e2; color: #dc2626; border: none; padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 600; cursor: pointer; transition: .2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
-                    <i class="fas fa-trash-alt"></i> Hapus
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;
+          return '<div style="background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid rgba(0,0,0,.04);transition:.3s;position:relative;' + hiddenStyle + '">'
+            + '<div style="height:140px;background:var(--bg-alt);overflow:hidden;position:relative;">'
+            + (hasImg ? '<img src="'+item.image+'" alt="'+item.title+'" style="width:100%;height:100%;object-fit:cover;">' : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;color:rgba(0,0,0,.1);"><i class="fas fa-trophy"></i></div>')
+            + badge
+            + '<span style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.5);color:#fff;padding:2px 10px;border-radius:4px;font-size:.7rem;font-weight:600;z-index:2;">' + (item.date || '-') + '</span>'
+            + '</div>'
+            + '<div style="padding:12px 14px 14px;">'
+            + '<span style="display:inline-block;background:'+catColor+'15;color:'+catColor+';padding:2px 10px;border-radius:4px;font-size:.7rem;font-weight:600;margin-bottom:6px;"><i class="fas fa-tag"></i> ' + item.category + '</span>'
+            + '<h4 style="font-size:.85rem;font-weight:700;margin-bottom:4px;line-height:1.4;">' + item.title + '</h4>'
+            + '<p style="font-size:.78rem;color:var(--text-light);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px;">' + (item.description || '-') + '</p>'
+            + '<div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f1f5f9;padding-top:10px;">'
+            + '<span style="font-size:.72rem;color:var(--text-lighter);"><i class="far fa-clock"></i> ' + dateStr + '</span>'
+            + '<div style="display:flex;gap:6px;">'
+            + (isHidden
+              ? '<button onclick="restoreStaticPrestasi(\'' + item._staticId + '\')" style="background:#dbeafe;color:#2563eb;border:none;padding:6px 12px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;"><i class="fas fa-undo"></i> Pulihkan</button>'
+              : (isUpload
+                ? '<button onclick="deletePrestasiItem(' + item._uploadIdx + ')" style="background:#fee2e2;color:#dc2626;border:none;padding:6px 12px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;"><i class="fas fa-trash-alt"></i> Hapus</button>'
+                : '<button onclick="deleteStaticPrestasi(\'' + item._staticId + '\')" style="background:#fee2e2;color:#dc2626;border:none;padding:6px 12px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;"><i class="fas fa-eye-slash"></i> Sembunyikan</button>')
+              )
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</div>';
         }).join('');
       } catch(e) {
         section.style.display = 'none';
@@ -1059,6 +1179,35 @@
       localStorage.removeItem(PRESTASI_KEY);
       loadUploadedPrestasi();
       showSuccess('Semua prestasi berhasil dihapus!');
+    }
+
+    function deleteStaticPrestasi(staticId) {
+      if (!confirm('Sembunyikan prestasi ini dari tampilan? Anda bisa memulihkannya nanti.')) return;
+      var hiddenIds = getHiddenPrestasiIds();
+      if (hiddenIds.indexOf(staticId) < 0) {
+        hiddenIds.push(staticId);
+      }
+      saveHiddenPrestasiIds(hiddenIds);
+      loadUploadedPrestasi();
+      showSuccess('Prestasi disembunyikan!');
+    }
+
+    function restoreStaticPrestasi(staticId) {
+      var hiddenIds = getHiddenPrestasiIds();
+      var idx = hiddenIds.indexOf(staticId);
+      if (idx >= 0) {
+        hiddenIds.splice(idx, 1);
+      }
+      saveHiddenPrestasiIds(hiddenIds);
+      loadUploadedPrestasi();
+      showSuccess('Prestasi dipulihkan!');
+    }
+
+    function restoreAllStaticPrestasi() {
+      if (!confirm('Pulihkan SEMUA prestasi statis yang disembunyikan?')) return;
+      localStorage.removeItem(HIDDEN_PRES_KEY);
+      loadUploadedPrestasi();
+      showSuccess('Semua prestasi statis dipulihkan!');
     }
 
     // ========== EXPORT DATA + WINDOW.NAME BRIDGE ==========
